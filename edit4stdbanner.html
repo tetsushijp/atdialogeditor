@@ -1,87 +1,82 @@
 <html>
+  <head>
+    <meta charset="utf-8" />
 
-<head>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.6.0/mdb.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.6.0/mdb.min.css" rel="stylesheet" />
 
-  <style>
-    body {
-      margin: 20px;
-    }
+    <style>
+      body {
+        margin: 20px;
+      }
 
-    #preview {
-      border: 0px solid;
-      width: 50%;
-      height: 500px;
-    }
+      #preview {
+        border: 0px solid;
+        width: 50%;
+        height: 500px;
+      }
 
-    #setting {
-      margin: 20px;
-    }
-  </style>
-</head>
+      #setting {
+        margin: 20px;
+      }
+    </style>
+  </head>
 
-<body>
-  <h1> Dialog Editor for スタンダードバナー</h1>
-  <input type="button" id="show" value="show">
-  <hr>
-  <!--//**
+  <body>
+    <h1>Dialog Editor for スタンダードバナー</h1>
+    <input type="button" id="show" value="show" />
+    <hr />
+    <!--//**
     - templateを切り替えられるようにする
     **//-->
 
-  <div style="display: flex;">
-    <!------------------------ ------------->
-    <div id="preview">
-    </div>
-    <div id="setting">
-      <form>
-        <table>
-          <tr>
-            <td>画像URL(#bannerImg)</td>
-            <td><input id="image_url" type="text" name="img_url" size="60"
-                value="http://vizl.chu.jp/www/poc/banner_sample.png"></td>
-          </tr>
-          <tr>
-            <td>リンクURL(#bannerLink)</td>
-            <td><input id="link_url" type="text" name="link_url" size="60"
-                value="https://business.adobe.com/jp/products/target/adobe-target.html"></td>
-          </tr>
-          <tr>
-            <td colspan="2">追加CSS(#ATbanner)</td>
-          </tr>
-          <tr>
-            <td colspan="2"><textarea id="banner_css" cols="80" rows="5"></textarea></td>
-          </tr>
-          <tr>
-            <td colspan="2">
-              <input type="button" value=" コード出力 " id="ok">
-            </td>
-          </tr>
-          <tr>
-            <td colspan="2"><hr></td>
-          </tr>
-          <tr>
-            <td colspan="2">コード</td>
-          </tr>
-          <tr>
-            <td colspan="2"><textarea id="bannerSource" cols="80" rows="10"></textarea></td>
-          </tr>
-        </table>
-      </form>
-      <!--- ソース -->
-      <div>
+    <div style="display: flex">
+      <!------------------------ ------------->
+      <div id="preview"></div>
+      <div id="setting">
+        <form>
+          <table>
+            <tr>
+              <td>画像URL(#bannerImg)</td>
+              <td><input id="image_url" type="text" name="img_url" size="60" value="http://vizl.chu.jp/www/poc/banner_sample.png" /></td>
+            </tr>
+            <tr>
+              <td>リンクURL(#bannerLink)</td>
+              <td><input id="link_url" type="text" name="link_url" size="60" value="https://business.adobe.com/jp/products/target/adobe-target.html" /></td>
+            </tr>
+            <tr>
+              <td colspan="2">追加CSS(#ATbanner)</td>
+            </tr>
+            <tr>
+              <td colspan="2"><textarea id="banner_css" cols="80" rows="5"></textarea></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <input type="button" value=" コード出力 " id="ok" />
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2"><hr /></td>
+            </tr>
+            <tr>
+              <td colspan="2">コード</td>
+            </tr>
+            <tr>
+              <td colspan="2"><textarea id="bannerSource" cols="80" rows="10"></textarea></td>
+            </tr>
+          </table>
+        </form>
+        <!--- ソース -->
+        <div></div>
       </div>
-
     </div>
 
-  </div>
-
-
-  <script>
-    // 初期化
-    function initBanner() {
-      var baseTempl = '\
+    <script>
+      // 初期化
+      function initBanner() {
+        var baseTempl =
+          '\
       <div id="ATbanner" style="position:relative;">\
       <i class="fas fa-lg fa-times-circle" style="position:absolute; top:0px; right:-5px;"></i>\
       <a id="bannerLink" href="https://business.adobe.com/jp/products/target/adobe-target.html" target="_blank">\
@@ -89,39 +84,38 @@
       </a>\
       </div>\
       ';
-      baseTempl+="<style>"+getBannerStyle()+"</style>";
+        baseTempl += "<style>" + getBannerStyle() + "</style>";
 
-      document.getElementById('preview').innerHTML = baseTempl;
-    }
-    initBanner();
+        document.getElementById("preview").innerHTML = baseTempl;
+      }
+      initBanner();
 
+      document.getElementById("image_url").addEventListener("change", function (e) {
+        var imageURL = window.document.forms[0].image_url.value;
+        document.getElementById("bannerImg").src = imageURL;
+      });
+      document.getElementById("link_url").addEventListener("change", function (e) {
+        var linkURL = window.document.forms[0].link_url.value;
+        document.getElementById("bannerLink").href = linkURL;
+      });
+      // ================= =================  OK ================= =================
+      document.getElementById("ok").addEventListener("click", function (e) {
+        outputscript = getShowDialogFunc() + ";setTimeout(showDialog, 1000);";
+        outputscript = outputscript + "function getBannerHTML() { return '" + getBannerHTML() + "'}";
+        outputscript = outputscript + "function getBannerStyle() {return '" + getBannerStyle() + "'}";
+        tmp = 'var css=document.createElement("link");css.setAttribute("rel","stylesheet");css.setAttribute("type","text/css");';
+        tmp = tmp + 'css.setAttribute("href","https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css");';
+        tmp = tmp + 'document.getElementsByTagName("head")[0].appendChild(css);';
+        outputscript = outputscript + tmp;
+        document.getElementById("bannerSource").value = "<" + "script>" + outputscript + "</" + "script>";
+      });
 
-    document.getElementById("image_url").addEventListener('change', function (e) {
-      var imageURL = window.document.forms[0].image_url.value;
-      document.getElementById('bannerImg').src = imageURL;
-    });
-    document.getElementById("link_url").addEventListener('change', function (e) {
-      var linkURL = window.document.forms[0].link_url.value;
-      document.getElementById('bannerLink').href = linkURL;
-    });
-    // ================= =================  OK ================= ================= 
-    document.getElementById("ok").addEventListener('click', function (e) {
-      outputscript = getShowDialogFunc() + ";setTimeout(showDialog, 1000);";
-      outputscript = outputscript + 'function getBannerHTML() { return \'' + getBannerHTML() + '\'}';
-      outputscript = outputscript + 'function getBannerStyle() {return \'' + getBannerStyle() + '\'}';
-      tmp = 'var css=document.createElement("link");css.setAttribute("rel","stylesheet");css.setAttribute("type","text/css");';
-      tmp = tmp + 'css.setAttribute("href","https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css");';
-      tmp = tmp + 'document.getElementsByTagName("head")[0].appendChild(css);';
-      outputscript = outputscript + tmp;
-      document.getElementById('bannerSource').value = "<" + "script>" + outputscript + "</" + "script>";
-    });
+      document.getElementById("show").addEventListener("click", function (e) {
+        setTimeout(showDialog, 100);
+      });
 
-    document.getElementById("show").addEventListener('click', function (e) {
-      setTimeout(showDialog, 100);
-    });
-
-    function getShowDialogFunc() {
-      return '\
+      function getShowDialogFunc() {
+        return '\
 function showDialog() {\
   var dialogBaseElm = document.createElement("div");\
   var dialogContentElm = document.createElement("div");\
@@ -131,51 +125,47 @@ function showDialog() {\
   dialogContentElm.innerHTML = getBannerHTML();\
   document.body.appendChild(dialogBaseElm);\
 }';
-    }
-  //   var st = document.createElement("style");st.innerText = getBannerStyle();\
-  // document.head.appendChild(st);\
+      }
+      //   var st = document.createElement("style");st.innerText = getBannerStyle();\
+      // document.head.appendChild(st);\
 
-    eval(getShowDialogFunc());
-    // setTimeout(showDialog, 1000);
+      eval(getShowDialogFunc());
+      // setTimeout(showDialog, 1000);
 
-    function getBannerHTML() {
-      var tmp = document.getElementById('preview').innerHTML;
-      // 改行とescape処理
-      tmp = tmp.trim();
-      tmp = tmp.replace(/\r?\n/g, "");
-      return tmp;
-    }
-    function getBannerStyle() {
-      var tmp = '#ATbanner {box-shadow: 0 0 16px gray;padding:10px;border-radius:10px;width: 400px; background:white;}';
-      return tmp;
-    }
-
-  </script>
-  <script>
-    // var bannerCDTargetDate = new Date("2021-11-02 14:00");
-    // var l = 20;
-    // function showCountDown() {
-    //   var diff2Dates = (bannerCDTargetDate - new Date());
-    //   var dDays = diff2Dates / (1000 * 60 * 60 * 24);  // 日数
-    //   diff2Dates = diff2Dates % (1000 * 60 * 60 * 24);
-    //   var dHour = diff2Dates / (1000 * 60 * 60);   // 時間
-    //   diff2Dates = diff2Dates % (1000 * 60 * 60);
-    //   var dMin = diff2Dates / (1000 * 60);    // 分
-    //   diff2Dates = diff2Dates % (1000 * 60);
-    //   var dSec = diff2Dates / 1000; // 秒
-    //   var msg2 = Math.floor(dDays) + "日"
-    //     + Math.floor(dHour) + "時間"
-    //     + Math.floor(dMin) + "分"
-    //     + Math.floor(dSec) + "秒";
-    //   console.log("あと" + msg2);
-    //   document.getElementById("bannerCD").innerText = "あと" + msg2;
-    //   l--;
-    //   if (l > 0) setTimeout(showCountDown, 1000);
-    // }
-    // showCountDown();
-
-  </script>
-
-</body>
-
+      function getBannerHTML() {
+        var tmp = document.getElementById("preview").innerHTML;
+        // 改行とescape処理
+        tmp = tmp.trim();
+        tmp = tmp.replace(/\r?\n/g, "");
+        return tmp;
+      }
+      function getBannerStyle() {
+        var tmp = "#ATbanner {box-shadow: 0 0 16px gray;padding:10px;border-radius:10px;width: 400px; background:white;}";
+        return tmp;
+      }
+    </script>
+    <script>
+      // var bannerCDTargetDate = new Date("2021-11-02 14:00");
+      // var l = 20;
+      // function showCountDown() {
+      //   var diff2Dates = (bannerCDTargetDate - new Date());
+      //   var dDays = diff2Dates / (1000 * 60 * 60 * 24);  // 日数
+      //   diff2Dates = diff2Dates % (1000 * 60 * 60 * 24);
+      //   var dHour = diff2Dates / (1000 * 60 * 60);   // 時間
+      //   diff2Dates = diff2Dates % (1000 * 60 * 60);
+      //   var dMin = diff2Dates / (1000 * 60);    // 分
+      //   diff2Dates = diff2Dates % (1000 * 60);
+      //   var dSec = diff2Dates / 1000; // 秒
+      //   var msg2 = Math.floor(dDays) + "日"
+      //     + Math.floor(dHour) + "時間"
+      //     + Math.floor(dMin) + "分"
+      //     + Math.floor(dSec) + "秒";
+      //   console.log("あと" + msg2);
+      //   document.getElementById("bannerCD").innerText = "あと" + msg2;
+      //   l--;
+      //   if (l > 0) setTimeout(showCountDown, 1000);
+      // }
+      // showCountDown();
+    </script>
+  </body>
 </html>
