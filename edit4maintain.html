@@ -24,7 +24,7 @@
   </head>
 
   <body>
-    <h1>Dialog Editor for テキスト接客</h1>
+    <h1>Dialog Editor for メンテナンス中</h1>
     <input type="button" id="show" value="show" />
     <hr />
     <!--//**
@@ -37,38 +37,35 @@
       <div id="setting">
         <form>
           <table>
-            <!-- <tr>
-            <td>画像URL(#bannerImg)</td>
-            <td><input id="image_url" type="text" name="img_url" size="60"
-                value="http://vizl.chu.jp/www/poc/banner_sample.png"></td>
-          </tr> -->
             <tr>
-              <td>テキスト(#bannerText)</td>
-              <td><input id="banner_text" type="text" name="banner_text" size="60" value="人気のiPhone13がプライスダウン!" /></td>
+              <td>タイトル(#bannerTitle)</td>
+              <td><input id="banner_title" type="text" name="banner_title" size="60" value="メンテナンス中" /></td>
             </tr>
             <tr>
-              <td>ボタン1(#bannerBTN1)</td>
-              <td><input id="banner_btn1" type="text" name="banner_btn1" size="10" value="新規" /></td>
+              <td>メッセージ(#bannerMessage)</td>
+              <td>
+                <input
+                  id="banner_message"
+                  type="text"
+                  name="banner_message"
+                  size="80"
+                  value="現在メンテナンスのためお申し込みができません。復旧までしばらくお待ちください。"
+                />
+              </td>
             </tr>
             <tr>
-              <td>ボタン1 URL(#bannerBTN1URL)</td>
-              <td><input id="banner_btn1_url" type="text" name="banner_btn1_url" size="60" value="#btn1" /></td>
+              <td>画像URL(#bannerImg)</td>
+              <td>
+                <input id="image_url" type="text" name="img_url" size="80" value="https://img-cf.karte.io/image/5d808da7b1af630908ebd04c::futenyan.png#" />
+              </td>
             </tr>
             <tr>
-              <td>ボタン2(#bannerBTN2)</td>
-              <td><input id="banner_btn2" type="text" name="banner_btn2" size="10" value="のりかえ" /></td>
+              <td>ボタン(#bannerBTN)</td>
+              <td><input id="banner_btn" type="text" name="banner_btn" size="40" value="公式サイトトップへ" /></td>
             </tr>
             <tr>
-              <td>ボタン2 URL(#bannerBTN2URL)</td>
-              <td><input id="banner_btn2_url" type="text" name="banner_btn2_url" size="60" value="#btn2" /></td>
-            </tr>
-            <tr>
-              <td>ボタン3(#bannerBTN3)</td>
-              <td><input id="banner_btn3" type="text" name="banner_btn3" size="10" value="機種変更" /></td>
-            </tr>
-            <tr>
-              <td>ボタン3 URL(#bannerBTN3URL)</td>
-              <td><input id="banner_btn3_url" type="text" name="banner_btn3_url" size="60" value="#btn3" /></td>
+              <td>ボタン URL(#bannerBTNURL)</td>
+              <td><input id="banner_btn_url" type="text" name="banner_btn_url" size="60" value="#btn1" /></td>
             </tr>
             <tr>
               <td colspan="2">追加CSS(#ATbanner)</td>
@@ -102,16 +99,13 @@
       function initBanner() {
         var baseTempl =
           '\
-      <div id="ATbanner" style="position:relative;">\
+      <div id="ATbanner" style="position:relative;padding:50px;">\
       <i class="fas fa-lg fa-times-circle" style="position:absolute; top:0px; right:-5px;"></i>\
-      <h3 id="bannerText" style="text-align:center;">人気のXperia8がプライスダウン!</h3>\
-      <a id="bannerLink" href="https://business.adobe.com/jp/products/target/adobe-target.html" target="_blank">\
-      <div id="btnBox" style="display:flex;justify-content:space-between;">\
-      <a id="bannerBTN1" class="textBTN" href="#">新規</a>\
-      <a id="bannerBTN2" class="textBTN" href="#">のりかえ</a>\
-      <a id="bannerBTN3" class="textBTN" href="#">機種変更</a>\
+      <div style="display:flex;">\
+      <div><h3 id="bannerTitle" style="">メンテナンス中</h3><div id="bannerMessage">現在メンテナンスのためお申し込みができません。</div></div>\
+      <img id="bannerImg" style="width:100px;height: fit-content;" src="http://vizl.chu.jp/www/poc/image-yoko.png">\
       </div>\
-      </a>\
+      <div style="margin-top:24px;text-align:center;"><a id="bannerBTN" class="textBTN" href="#">新規</a></div>\
       </div>\
       ';
         baseTempl += "<style>" + getBannerStyle() + "</style>";
@@ -120,38 +114,25 @@
       }
       initBanner();
 
-      document.getElementById("banner_text").addEventListener("change", function (e) {
-        var bannerText = window.document.forms[0].banner_text.value;
-        document.getElementById("bannerText").innerHTML = bannerText;
+      document.getElementById("banner_title").addEventListener("change", function (e) {
+        document.getElementById("bannerTitle").innerHTML = window.document.forms[0].banner_title.value;
+      });
+      document.getElementById("banner_message").addEventListener("change", function (e) {
+        document.getElementById("bannerMessage").innerHTML = window.document.forms[0].banner_message.value;
+      });
+
+      document.getElementById("image_url").addEventListener("change", function (e) {
+        var imageURL = window.document.forms[0].image_url.value;
+        document.getElementById("bannerImg").src = imageURL;
       });
       // Button 1 ========================
-      document.getElementById("banner_btn1").addEventListener("change", function (e) {
-        var BTNText = window.document.forms[0].banner_btn1.value;
-        document.getElementById("bannerBTN1").innerHTML = BTNText;
+      document.getElementById("banner_btn").addEventListener("change", function (e) {
+        var BTNText = window.document.forms[0].banner_btn.value;
+        document.getElementById("bannerBTN").innerHTML = BTNText;
       });
-      document.getElementById("banner_btn1_url").addEventListener("change", function (e) {
-        var BTNURL = window.document.forms[0].banner_btn1_url.value;
-        document.getElementById("bannerBTN1").href = BTNURL;
-      });
-
-      // Button 2 ========================
-      document.getElementById("banner_btn2").addEventListener("change", function (e) {
-        var BTNText = window.document.forms[0].banner_btn2.value;
-        document.getElementById("bannerBTN2").innerHTML = BTNText;
-      });
-      document.getElementById("banner_btn2_url").addEventListener("change", function (e) {
-        var BTNURL = window.document.forms[0].banner_btn2_url.value;
-        document.getElementById("bannerBTN2").href = BTNURL;
-      });
-
-      // Button 3 ========================
-      document.getElementById("banner_btn3").addEventListener("change", function (e) {
-        var BTNText = window.document.forms[0].banner_btn3.value;
-        document.getElementById("bannerBTN3").innerHTML = BTNText;
-      });
-      document.getElementById("banner_btn3_url").addEventListener("change", function (e) {
-        var BTNURL = window.document.forms[0].banner_btn3_url.value;
-        document.getElementById("bannerBTN3").href = BTNURL;
+      document.getElementById("banner_btn_url").addEventListener("change", function (e) {
+        var BTNURL = window.document.forms[0].banner_btn_url.value;
+        document.getElementById("bannerBTN").href = BTNURL;
       });
 
       // ================= =================  OK ================= =================
@@ -173,12 +154,14 @@
       function getShowDialogFunc() {
         return '\
 function showDialog() {\
+  var blackoutElm = document.createElement("div");blackoutElm.id="blackoutElm";blackoutElm.style="z-index:105;position: absolute;top:0px;bottom: 0px;right: 0px;left: 0px;background: black;opacity: 0.5;";\
   var dialogBaseElm = document.createElement("div");\
   var dialogContentElm = document.createElement("div");\
   dialogBaseElm.appendChild(dialogContentElm);\
-  dialogBaseElm.addEventListener("click",function() {document.body.removeChild(this);});\
-  dialogBaseElm.style = "z-index:110; position:fixed; left:30px; bottom:30px; display:flex;";\
+  dialogBaseElm.addEventListener("click",function() {document.body.removeChild(this);document.body.removeChild(document.getElementById("blackoutElm"));});\
+  dialogBaseElm.style = "z-index:110; position:fixed; left:50%; top:50%; margin-left:-250px; margin-top:-100px; display:flex;";\
   dialogContentElm.innerHTML = getBannerHTML();\
+  document.body.appendChild(blackoutElm);\
   document.body.appendChild(dialogBaseElm);\
 }';
       }
@@ -196,11 +179,8 @@ function showDialog() {\
         return tmp;
       }
       function getBannerStyle() {
-        var tmp = "#ATbanner {box-shadow: 0 0 16px gray;padding:25px;border-radius:10px;width: 600px; background:white;}";
+        var tmp = "#ATbanner {box-shadow: 0 0 16px gray;padding:10px;border-radius:10px;width: 500px; background:white;}";
         tmp += ".textBTN {width:100%; text-align:center; background-color:black; color: white; padding: 0.64rem 2.14rem; border-radius:10px; margin:0.375rem;}";
-        tmp +=
-          ".textBTN:hover {text-decoration: none; color: white;transition:all 0.2s easy-in-out;box-shadow: 0 5px 11px 0 rgb(0 0 0 / 18%), 0 4px 15px 0 rgb(0 0 0 / 15%);}";
-        tmp += "#bannerText{font-size:1.75rem;}";
         return tmp;
       }
     </script>
