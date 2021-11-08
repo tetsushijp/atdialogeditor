@@ -1,0 +1,239 @@
+<html>
+
+<head>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.6.0/mdb.min.css" rel="stylesheet" />
+
+  <style>
+    body {
+      margin: 20px;
+    }
+
+    #preview {
+      border: 0px solid;
+      width: 50%;
+      height: 500px;
+    }
+
+    #setting {
+      margin: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1> Dialog Editor for テキスト接客</h1>
+  <input type="button" id="show" value="show">
+  <hr>
+  <!--//**
+    - templateを切り替えられるようにする
+    **//-->
+
+  <div style="display: flex;">
+    <!------------------------ ------------->
+    <div id="preview">
+    </div>
+    <div id="setting">
+      <form>
+        <table>
+          <!-- <tr>
+            <td>画像URL(#bannerImg)</td>
+            <td><input id="image_url" type="text" name="img_url" size="60"
+                value="http://vizl.chu.jp/www/poc/banner_sample.png"></td>
+          </tr> -->
+          <tr>
+            <td>テキスト(#bannerText)</td>
+            <td><input id="banner_text" type="text" name="banner_text" size="60"
+                value="人気のXperia8がプライスダウン!"></td>
+          </tr>
+          <tr>
+            <td>ボタン1(#bannerBTN1)</td>
+            <td><input id="banner_btn1" type="text" name="banner_btn1" size="10" value="新規"></td>
+          </tr>
+          <tr>
+            <td>ボタン1 URL(#bannerBTN1URL)</td>
+            <td><input id="banner_btn1_url" type="text" name="banner_btn1_url" size="60" value="#btn1"></td>
+          </tr>
+          <tr>
+            <td>ボタン2(#bannerBTN2)</td>
+            <td><input id="banner_btn2" type="text" name="banner_btn2" size="10" value="のりかえ"></td>
+          </tr>
+          <tr>
+            <td>ボタン2 URL(#bannerBTN2URL)</td>
+            <td><input id="banner_btn2_url" type="text" name="banner_btn2_url" size="60" value="#btn2"></td>
+          </tr>
+          <tr>
+            <td>ボタン3(#bannerBTN3)</td>
+            <td><input id="banner_btn3" type="text" name="banner_btn3" size="10" value="機種変更"></td>
+          </tr>
+          <tr>
+            <td>ボタン3 URL(#bannerBTN3URL)</td>
+            <td><input id="banner_btn3_url" type="text" name="banner_btn3_url" size="60" value="#btn3"></td>
+          </tr>
+          <tr>
+            <td colspan="2">追加CSS(#ATbanner)</td>
+          </tr>
+          <tr>
+            <td colspan="2"><textarea id="banner_css" cols="80" rows="5"></textarea></td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <input type="button" value=" コード出力 " id="ok">
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2"><hr></td>
+          </tr>
+          <tr>
+            <td colspan="2">コード</td>
+          </tr>
+          <tr>
+            <td colspan="2"><textarea id="bannerSource" cols="80" rows="10"></textarea></td>
+          </tr>
+        </table>
+      </form>
+      <!--- ソース -->
+      <div>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <script>
+    // 初期化
+    function initBanner() {
+      var baseTempl = '\
+      <div id="ATbanner" style="position:relative;">\
+      <i class="fas fa-lg fa-times-circle" style="position:absolute; top:0px; right:-5px;"></i>\
+      <h3 id="bannerText" style="text-align:center;">人気のXperia8がプライスダウン!</h3>\
+      <a id="bannerLink" href="https://business.adobe.com/jp/products/target/adobe-target.html" target="_blank">\
+      <div id="btnBox" style="display:flex;justify-content:space-between;">\
+      <a id="bannerBTN1" class="textBTN" href="#">新規</a>\
+      <a id="bannerBTN2" class="textBTN" href="#">のりかえ</a>\
+      <a id="bannerBTN3" class="textBTN" href="#">機種変更</a>\
+      </div>\
+      </a>\
+      </div>\
+      ';
+      baseTempl+="<style>"+getBannerStyle()+"</style>";
+
+      document.getElementById('preview').innerHTML = baseTempl;
+    }
+    initBanner();
+
+    document.getElementById("banner_text").addEventListener('change', function (e) {
+      var bannerText = window.document.forms[0].banner_text.value;
+      document.getElementById('bannerText').innerHTML = bannerText;
+    });
+    // Button 1 ========================
+    document.getElementById("banner_btn1").addEventListener('change', function (e) {
+      var BTNText = window.document.forms[0].banner_btn1.value;
+      document.getElementById('bannerBTN1').innerHTML = BTNText;
+    });
+    document.getElementById("banner_btn1_url").addEventListener('change', function (e) {
+      var BTNURL = window.document.forms[0].banner_btn1_url.value;
+      document.getElementById('bannerBTN1').href = BTNURL;
+    });
+    
+    // Button 2 ========================
+    document.getElementById("banner_btn2").addEventListener('change', function (e) {
+      var BTNText = window.document.forms[0].banner_btn2.value;
+      document.getElementById('bannerBTN2').innerHTML = BTNText;
+    });
+    document.getElementById("banner_btn2_url").addEventListener('change', function (e) {
+      var BTNURL = window.document.forms[0].banner_btn2_url.value;
+      document.getElementById('bannerBTN2').href = BTNURL;
+    });
+
+    // Button 3 ========================
+    document.getElementById("banner_btn3").addEventListener('change', function (e) {
+      var BTNText = window.document.forms[0].banner_btn3.value;
+      document.getElementById('bannerBTN3').innerHTML = BTNText;
+    });
+    document.getElementById("banner_btn3_url").addEventListener('change', function (e) {
+      var BTNURL = window.document.forms[0].banner_btn3_url.value;
+      document.getElementById('bannerBTN3').href = BTNURL;
+    });
+    
+
+    // ================= =================  OK ================= ================= 
+    document.getElementById("ok").addEventListener('click', function (e) {
+      outputscript = getShowDialogFunc() + ";setTimeout(showDialog, 1000);";
+      outputscript = outputscript + 'function getBannerHTML() { return \'' + getBannerHTML() + '\'}';
+      outputscript = outputscript + 'function getBannerStyle() {return \'' + getBannerStyle() + '\'}';
+      tmp = 'var css=document.createElement("link");css.setAttribute("rel","stylesheet");css.setAttribute("type","text/css");';
+      tmp = tmp + 'css.setAttribute("href","https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css");';
+      tmp = tmp + 'document.getElementsByTagName("head")[0].appendChild(css);';
+      outputscript = outputscript + tmp;
+      document.getElementById('bannerSource').value = "<" + "script>" + outputscript + "</" + "script>";
+    });
+
+    document.getElementById("show").addEventListener('click', function (e) {
+      setTimeout(showDialog, 100);
+    });
+
+    function getShowDialogFunc() {
+      return '\
+function showDialog() {\
+  var dialogBaseElm = document.createElement("div");\
+  var dialogContentElm = document.createElement("div");\
+  dialogBaseElm.appendChild(dialogContentElm);\
+  dialogBaseElm.addEventListener("click",function() {document.body.removeChild(this);});\
+  dialogBaseElm.style = "z-index:110; position:fixed; left:30px; bottom:30px; display:flex;";\
+  dialogContentElm.innerHTML = getBannerHTML();\
+  document.body.appendChild(dialogBaseElm);\
+}';
+    }
+  //   var st = document.createElement("style");st.innerText = getBannerStyle();\
+  // document.head.appendChild(st);\
+
+    eval(getShowDialogFunc());
+    // setTimeout(showDialog, 1000);
+
+    function getBannerHTML() {
+      var tmp = document.getElementById('preview').innerHTML;
+      // 改行とescape処理
+      tmp = tmp.trim();
+      tmp = tmp.replace(/\r?\n/g, "");
+      return tmp;
+    }
+    function getBannerStyle() {
+      var tmp = '#ATbanner {box-shadow: 0 0 16px gray;padding:25px;border-radius:10px;width: 600px; background:white;}';
+      tmp+=".textBTN {width:100%; text-align:center; background-color:black; color: white; padding: 0.64rem 2.14rem; border-radius:10px; margin:0.375rem;}";
+      tmp+=".textBTN:hover {text-decoration: none; color: white;transition:all 0.2s easy-in-out;box-shadow: 0 5px 11px 0 rgb(0 0 0 / 18%), 0 4px 15px 0 rgb(0 0 0 / 15%);}";
+      tmp+="#bannerText{font-size:1.75rem;}"
+      return tmp;
+    }
+
+  </script>
+  <script>
+    // var bannerCDTargetDate = new Date("2021-11-02 14:00");
+    // var l = 20;
+    // function showCountDown() {
+    //   var diff2Dates = (bannerCDTargetDate - new Date());
+    //   var dDays = diff2Dates / (1000 * 60 * 60 * 24);  // 日数
+    //   diff2Dates = diff2Dates % (1000 * 60 * 60 * 24);
+    //   var dHour = diff2Dates / (1000 * 60 * 60);   // 時間
+    //   diff2Dates = diff2Dates % (1000 * 60 * 60);
+    //   var dMin = diff2Dates / (1000 * 60);    // 分
+    //   diff2Dates = diff2Dates % (1000 * 60);
+    //   var dSec = diff2Dates / 1000; // 秒
+    //   var msg2 = Math.floor(dDays) + "日"
+    //     + Math.floor(dHour) + "時間"
+    //     + Math.floor(dMin) + "分"
+    //     + Math.floor(dSec) + "秒";
+    //   console.log("あと" + msg2);
+    //   document.getElementById("bannerCD").innerText = "あと" + msg2;
+    //   l--;
+    //   if (l > 0) setTimeout(showCountDown, 1000);
+    // }
+    // showCountDown();
+
+  </script>
+
+</body>
+
+</html>
