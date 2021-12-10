@@ -100,7 +100,6 @@
         var baseTempl =
           '\
       <div id="ATbanner" style="position:relative;padding:50px;">\
-      <i class="fas fa-lg fa-times-circle" style="position:absolute; top:0px; right:-5px;"></i>\
       <div style="display:flex;">\
       <div><h3 id="bannerTitle" style="">メンテナンス中</h3><div id="bannerMessage">現在メンテナンスのためお申し込みができません。</div></div>\
       <img id="bannerImg" style="width:100px;height: fit-content;" src="http://vizl.chu.jp/www/poc/image-yoko.png">\
@@ -158,7 +157,6 @@ function showDialog() {\
   var dialogBaseElm = document.createElement("div");\
   var dialogContentElm = document.createElement("div");\
   dialogBaseElm.appendChild(dialogContentElm);\
-  dialogBaseElm.addEventListener("click",function() {document.body.removeChild(this);document.body.removeChild(document.getElementById("blackoutElm"));});\
   dialogBaseElm.style = "z-index:110; position:fixed; left:50%; top:50%; margin-left:-250px; margin-top:-100px; display:flex;";\
   dialogContentElm.innerHTML = getBannerHTML();\
   document.body.appendChild(blackoutElm);\
