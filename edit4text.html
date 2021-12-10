@@ -98,28 +98,8 @@
     </div>
 
     <script>
-      // 初期化
-      function initBanner() {
-        var baseTempl =
-          '\
-      <div id="ATbanner" style="position:relative;">\
-      <i class="fas fa-lg fa-times-circle" style="position:absolute; top:0px; right:-5px;"></i>\
-      <h3 id="bannerText" style="text-align:center;">人気のXperia8がプライスダウン!</h3>\
-      <a id="bannerLink" href="https://business.adobe.com/jp/products/target/adobe-target.html" target="_blank">\
-      <div id="btnBox" style="display:flex;justify-content:space-between;">\
-      <a id="bannerBTN1" class="textBTN" href="#">新規</a>\
-      <a id="bannerBTN2" class="textBTN" href="#">のりかえ</a>\
-      <a id="bannerBTN3" class="textBTN" href="#">機種変更</a>\
-      </div>\
-      </a>\
-      </div>\
-      ';
-        baseTempl += "<style>" + getBannerStyle() + "</style>";
-
-        document.getElementById("preview").innerHTML = baseTempl;
-      }
-      initBanner();
-
+      // ################################################################################################################
+      // ########## editor control ######################################################################################
       document.getElementById("banner_text").addEventListener("change", function (e) {
         var bannerText = window.document.forms[0].banner_text.value;
         document.getElementById("bannerText").innerHTML = bannerText;
@@ -158,11 +138,11 @@
       document.getElementById("ok").addEventListener("click", function (e) {
         outputscript = getShowDialogFunc() + ";setTimeout(showDialog, 1000);";
         outputscript = outputscript + "function getBannerHTML() { return '" + getBannerHTML() + "'}";
-        outputscript = outputscript + "function getBannerStyle() {return '" + getBannerStyle() + "'}";
-        tmp = 'var css=document.createElement("link");css.setAttribute("rel","stylesheet");css.setAttribute("type","text/css");';
-        tmp = tmp + 'css.setAttribute("href","https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css");';
-        tmp = tmp + 'document.getElementsByTagName("head")[0].appendChild(css);';
-        outputscript = outputscript + tmp;
+        //        outputscript = outputscript + "function getBannerStyle() {return '" + getBannerStyle() + "'}";
+        fontlib = 'var css=document.createElement("link");css.setAttribute("rel","stylesheet");css.setAttribute("type","text/css");';
+        fontlib = fontlib + 'css.setAttribute("href","https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css");';
+        fontlib = fontlib + 'document.getElementsByTagName("head")[0].appendChild(css);';
+        outputscript = outputscript + fontlib;
         document.getElementById("bannerSource").value = "<" + "script>" + outputscript + "</" + "script>";
       });
 
@@ -170,6 +150,41 @@
         setTimeout(showDialog, 100);
       });
 
+      // ################################################################################################################
+      // ########################### Dialog構築部分 ######################################################################
+      // 初期化
+      function initBanner() {
+        var baseTempl =
+          '\
+      <div id="ATbanner" style="position:relative;">\
+      <i class="fas fa-lg fa-times-circle" style="position:absolute; top:0px; right:-5px;"></i>\
+      <h3 id="bannerText" style="text-align:center;">人気のXperia8がプライスダウン!</h3>\
+      <a id="bannerLink" href="https://business.adobe.com/jp/products/target/adobe-target.html" target="_blank">\
+      <div id="btnBox" style="display:flex;justify-content:space-between;">\
+      <a id="bannerBTN1" class="textBTN" href="#">新規</a>\
+      <a id="bannerBTN2" class="textBTN" href="#">のりかえ</a>\
+      <a id="bannerBTN3" class="textBTN" href="#">機種変更</a>\
+      </div>\
+      </a>\
+      </div>\
+      <style>\
+        #ATbanner {box-shadow: 0 0 16px gray;padding:25px;border-radius:10px;width: 600px; background:white;}\
+        .textBTN {width:100%; text-align:center; background-color:black; color: white; padding: 0.64rem 2.14rem; border-radius:10px; margin:0.375rem;}\
+        .textBTN:hover {text-decoration: none; color: white;transition:all 0.2s easy-in-out;box-shadow: 0 5px 11px 0 rgb(0 0 0 / 18%), 0 4px 15px 0 rgb(0 0 0 / 15%);}\
+        #bannerText{font-size:1.75rem;}\
+      </style>\
+      ';
+        document.getElementById("preview").innerHTML = baseTempl;
+      }
+      initBanner(); // Editor上のBannerを表示
+
+      // 実際にPreviewされているHTMLから表示用の文字列を作成 / ATとEditorどちらでも動くようにshowDialog()の中から呼ばれる
+      function getBannerHTML() {
+        var previewHTML = document.getElementById("preview").innerHTML;
+        return previewHTML.trim().replace(/\r?\n/g, ""); // 改行とescape処理
+      }
+
+      // Dialog Editorの中でもAdobe Targetの中でも同じコードが動作するように、文字列からFunctionを作成
       function getShowDialogFunc() {
         return '\
 function showDialog() {\
@@ -182,27 +197,8 @@ function showDialog() {\
   document.body.appendChild(dialogBaseElm);\
 }';
       }
-      //   var st = document.createElement("style");st.innerText = getBannerStyle();\
-      // document.head.appendChild(st);\
-
+      // Dialog Editorの中でもAdobe Targetの中でも同じコードが動作するように、文字列からFunctionを作成 EditorからはShowボタンでshowDialog()が呼ばれる ATの中ではSetTimeoutで呼ばれる
       eval(getShowDialogFunc());
-      // setTimeout(showDialog, 1000);
-
-      function getBannerHTML() {
-        var tmp = document.getElementById("preview").innerHTML;
-        // 改行とescape処理
-        tmp = tmp.trim();
-        tmp = tmp.replace(/\r?\n/g, "");
-        return tmp;
-      }
-      function getBannerStyle() {
-        var tmp = "#ATbanner {box-shadow: 0 0 16px gray;padding:25px;border-radius:10px;width: 600px; background:white;}";
-        tmp += ".textBTN {width:100%; text-align:center; background-color:black; color: white; padding: 0.64rem 2.14rem; border-radius:10px; margin:0.375rem;}";
-        tmp +=
-          ".textBTN:hover {text-decoration: none; color: white;transition:all 0.2s easy-in-out;box-shadow: 0 5px 11px 0 rgb(0 0 0 / 18%), 0 4px 15px 0 rgb(0 0 0 / 15%);}";
-        tmp += "#bannerText{font-size:1.75rem;}";
-        return tmp;
-      }
     </script>
   </body>
 </html>

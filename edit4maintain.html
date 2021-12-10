@@ -138,7 +138,7 @@
       document.getElementById("ok").addEventListener("click", function (e) {
         outputscript = getShowDialogFunc() + ";setTimeout(showDialog, 1000);";
         outputscript = outputscript + "function getBannerHTML() { return '" + getBannerHTML() + "'}";
-        outputscript = outputscript + "function getBannerStyle() {return '" + getBannerStyle() + "'}";
+        //        outputscript = outputscript + "function getBannerStyle() {return '" + getBannerStyle() + "'}";
         tmp = 'var css=document.createElement("link");css.setAttribute("rel","stylesheet");css.setAttribute("type","text/css");';
         tmp = tmp + 'css.setAttribute("href","https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css");';
         tmp = tmp + 'document.getElementsByTagName("head")[0].appendChild(css);';
