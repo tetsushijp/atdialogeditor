@@ -138,7 +138,6 @@
       document.getElementById("ok").addEventListener("click", function (e) {
         outputscript = getShowDialogFunc() + ";setTimeout(showDialog, 1000);";
         outputscript = outputscript + "function getBannerHTML() { return '" + getBannerHTML() + "'}";
-        //        outputscript = outputscript + "function getBannerStyle() {return '" + getBannerStyle() + "'}";
         fontlib = 'var css=document.createElement("link");css.setAttribute("rel","stylesheet");css.setAttribute("type","text/css");';
         fontlib = fontlib + 'css.setAttribute("href","https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css");';
         fontlib = fontlib + 'document.getElementsByTagName("head")[0].appendChild(css);';

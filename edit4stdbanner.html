@@ -73,23 +73,8 @@
     </div>
 
     <script>
-      // 初期化
-      function initBanner() {
-        var baseTempl =
-          '\
-      <div id="ATbanner" style="position:relative;">\
-      <i class="fas fa-lg fa-times-circle" style="position:absolute; top:0px; right:-5px;"></i>\
-      <a id="bannerLink" href="https://business.adobe.com/jp/products/target/adobe-target.html" target="_blank">\
-      <img id="bannerImg" width="100%;" max-height="200px" src="http://vizl.chu.jp/www/poc/image-yoko.png">\
-      </a>\
-      </div>\
-      ';
-        baseTempl += "<style>" + getBannerStyle() + "</style>";
-
-        document.getElementById("preview").innerHTML = baseTempl;
-      }
-      initBanner();
-
+      // ################################################################################################################
+      // ########################### Editor Contorl ######################################################################
       document.getElementById("image_url").addEventListener("change", function (e) {
         var imageURL = window.document.forms[0].image_url.value;
         document.getElementById("bannerImg").src = imageURL;
@@ -102,17 +87,37 @@
       document.getElementById("ok").addEventListener("click", function (e) {
         outputscript = getShowDialogFunc() + ";setTimeout(showDialog, 1000);";
         outputscript = outputscript + "function getBannerHTML() { return '" + getBannerHTML() + "'}";
-        outputscript = outputscript + "function getBannerStyle() {return '" + getBannerStyle() + "'}";
-        tmp = 'var css=document.createElement("link");css.setAttribute("rel","stylesheet");css.setAttribute("type","text/css");';
-        tmp = tmp + 'css.setAttribute("href","https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css");';
-        tmp = tmp + 'document.getElementsByTagName("head")[0].appendChild(css);';
-        outputscript = outputscript + tmp;
+        // outputscript = outputscript + "function getBannerStyle() {return '" + getBannerStyle() + "'}";
+        fontlib = 'var css=document.createElement("link");css.setAttribute("rel","stylesheet");css.setAttribute("type","text/css");';
+        fontlib = fontlib + 'css.setAttribute("href","https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css");';
+        fontlib = fontlib + 'document.getElementsByTagName("head")[0].appendChild(css);';
+        outputscript = outputscript + fontlib;
         document.getElementById("bannerSource").value = "<" + "script>" + outputscript + "</" + "script>";
       });
 
       document.getElementById("show").addEventListener("click", function (e) {
         setTimeout(showDialog, 100);
       });
+
+      // ################################################################################################################
+      // ########################### Dialog構築部分 ######################################################################
+      // 初期化
+      function initBanner() {
+        var baseTempl =
+          '\
+      <div id="ATbanner" style="position:relative;">\
+      <i class="fas fa-lg fa-times-circle" style="position:absolute; top:0px; right:-5px;"></i>\
+      <a id="bannerLink" href="https://business.adobe.com/jp/products/target/adobe-target.html" target="_blank">\
+      <img id="bannerImg" width="100%;" max-height="200px" src="http://vizl.chu.jp/www/poc/image-yoko.png">\
+      </a>\
+      </div>\
+      <style>\
+        #ATbanner {box-shadow: 0 0 16px gray;padding:10px;border-radius:10px;width: 400px; background:white;}\
+      </style>\
+      ';
+        document.getElementById("preview").innerHTML = baseTempl;
+      }
+      initBanner();
 
       function getShowDialogFunc() {
         return '\
@@ -126,46 +131,13 @@ function showDialog() {\
   document.body.appendChild(dialogBaseElm);\
 }';
       }
-      //   var st = document.createElement("style");st.innerText = getBannerStyle();\
-      // document.head.appendChild(st);\
-
       eval(getShowDialogFunc());
-      // setTimeout(showDialog, 1000);
 
+      // 実際にPreviewされているHTMLから表示用の文字列を作成 / ATとEditorどちらでも動くようにshowDialog()の中から呼ばれる
       function getBannerHTML() {
-        var tmp = document.getElementById("preview").innerHTML;
-        // 改行とescape処理
-        tmp = tmp.trim();
-        tmp = tmp.replace(/\r?\n/g, "");
-        return tmp;
+        var previewHTML = document.getElementById("preview").innerHTML;
+        return previewHTML.trim().replace(/\r?\n/g, ""); // 改行とescape処理
       }
-      function getBannerStyle() {
-        var tmp = "#ATbanner {box-shadow: 0 0 16px gray;padding:10px;border-radius:10px;width: 400px; background:white;}";
-        return tmp;
-      }
-    </script>
-    <script>
-      // var bannerCDTargetDate = new Date("2021-11-02 14:00");
-      // var l = 20;
-      // function showCountDown() {
-      //   var diff2Dates = (bannerCDTargetDate - new Date());
-      //   var dDays = diff2Dates / (1000 * 60 * 60 * 24);  // 日数
-      //   diff2Dates = diff2Dates % (1000 * 60 * 60 * 24);
-      //   var dHour = diff2Dates / (1000 * 60 * 60);   // 時間
-      //   diff2Dates = diff2Dates % (1000 * 60 * 60);
-      //   var dMin = diff2Dates / (1000 * 60);    // 分
-      //   diff2Dates = diff2Dates % (1000 * 60);
-      //   var dSec = diff2Dates / 1000; // 秒
-      //   var msg2 = Math.floor(dDays) + "日"
-      //     + Math.floor(dHour) + "時間"
-      //     + Math.floor(dMin) + "分"
-      //     + Math.floor(dSec) + "秒";
-      //   console.log("あと" + msg2);
-      //   document.getElementById("bannerCD").innerText = "あと" + msg2;
-      //   l--;
-      //   if (l > 0) setTimeout(showCountDown, 1000);
-      // }
-      // showCountDown();
     </script>
   </body>
 </html>
