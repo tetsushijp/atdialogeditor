@@ -87,7 +87,6 @@
       document.getElementById("ok").addEventListener("click", function (e) {
         outputscript = getShowDialogFunc() + ";setTimeout(showDialog, 1000);";
         outputscript = outputscript + "function getBannerHTML() { return '" + getBannerHTML() + "'}";
-        // outputscript = outputscript + "function getBannerStyle() {return '" + getBannerStyle() + "'}";
         fontlib = 'var css=document.createElement("link");css.setAttribute("rel","stylesheet");css.setAttribute("type","text/css");';
         fontlib = fontlib + 'css.setAttribute("href","https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css");';
         fontlib = fontlib + 'document.getElementsByTagName("head")[0].appendChild(css);';
@@ -113,6 +112,8 @@
       </div>\
       <style>\
         #ATbanner {box-shadow: 0 0 16px gray;padding:10px;border-radius:10px;width: 400px; background:white;}\
+        #ATDialogBase{z-index:110; position:fixed; left:30px; bottom:30px; display:flex;}\
+        @media screen and (max-width:768px) {#ATbanner{width:90%;} } \
       </style>\
       ';
         document.getElementById("preview").innerHTML = baseTempl;
@@ -126,7 +127,7 @@ function showDialog() {\
   var dialogContentElm = document.createElement("div");\
   dialogBaseElm.appendChild(dialogContentElm);\
   dialogBaseElm.addEventListener("click",function() {document.body.removeChild(this);});\
-  dialogBaseElm.style = "z-index:110; position:fixed; left:30px; bottom:30px; display:flex;";\
+  dialogBaseElm.id ="ATDialogBase";\
   dialogContentElm.innerHTML = getBannerHTML();\
   document.body.appendChild(dialogBaseElm);\
 }';
