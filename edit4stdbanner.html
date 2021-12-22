@@ -46,10 +46,15 @@
               <td><input id="link_url" type="text" name="link_url" size="60" value="https://business.adobe.com/jp/products/target/adobe-target.html" /></td>
             </tr>
             <tr>
-              <td colspan="2">追加CSS(#ATbanner)</td>
+              <td colspan="2">
+                <label><input type="checkbox" id="detail" /> テンプレート編集 </label>
+              </td>
             </tr>
             <tr>
-              <td colspan="2"><textarea id="banner_css" cols="80" rows="5"></textarea></td>
+              <td colspan="2"><textarea id="banner_template" cols="120" rows="16"></textarea></td>
+            </tr>
+            <tr>
+              <td colspan="2"><hr /></td>
             </tr>
             <tr>
               <td colspan="2">
@@ -57,13 +62,7 @@
               </td>
             </tr>
             <tr>
-              <td colspan="2"><hr /></td>
-            </tr>
-            <tr>
-              <td colspan="2">コード</td>
-            </tr>
-            <tr>
-              <td colspan="2"><textarea id="bannerSource" cols="80" rows="10"></textarea></td>
+              <td colspan="2"><textarea id="bannerSource" cols="120" rows="16"></textarea></td>
             </tr>
           </table>
         </form>
@@ -76,13 +75,27 @@
       // ################################################################################################################
       // ########################### Editor Contorl ######################################################################
       document.getElementById("image_url").addEventListener("change", function (e) {
-        var imageURL = window.document.forms[0].image_url.value;
-        document.getElementById("bannerImg").src = imageURL;
+        // var imageURL = window.document.forms[0].image_url.value;
+        document.getElementById("bannerImg").src = window.document.forms[0].image_url.value;
       });
       document.getElementById("link_url").addEventListener("change", function (e) {
-        var linkURL = window.document.forms[0].link_url.value;
-        document.getElementById("bannerLink").href = linkURL;
+        // var linkURL = window.document.forms[0].link_url.value;
+        document.getElementById("bannerLink").href = window.document.forms[0].link_url.value;
       });
+      document.getElementById("banner_template").addEventListener("change", function (e) {
+        var templateHTML = window.document.forms[0].banner_template.value;
+        document.getElementById("preview").innerHTML = templateHTML;
+        // 既存のフォームの値を反映
+        document.getElementById("bannerImg").src = window.document.forms[0].image_url.value;
+        document.getElementById("bannerLink").href = window.document.forms[0].link_url.value;
+      });
+      document.getElementById("banner_template").style.display = "none";
+      document.getElementById("detail").addEventListener("change", function (e) {
+        var detail_check = window.document.forms[0].detail.checked ? "block" : "none";
+        console.log("detail_check: " + detail_check);
+        document.getElementById("banner_template").style.display = detail_check;
+      });
+
       // ================= =================  OK ================= =================
       document.getElementById("ok").addEventListener("click", function (e) {
         outputscript = getShowDialogFunc() + ";setTimeout(showDialog, 1000);";
@@ -104,19 +117,20 @@
       function initBanner() {
         var baseTempl =
           '\
-      <div id="ATbanner" style="position:relative;">\
-      <i class="fas fa-lg fa-times-circle" style="position:absolute; top:0px; right:-5px;"></i>\
-      <a id="bannerLink" href="https://business.adobe.com/jp/products/target/adobe-target.html" target="_blank">\
-      <img id="bannerImg" width="100%;" max-height="200px" src="http://vizl.chu.jp/www/poc/image-yoko.png">\
-      </a>\
-      </div>\
-      <style>\
-        #ATbanner {box-shadow: 0 0 16px gray;padding:10px;border-radius:10px;width: 400px; background:white;}\
-        #ATDialogBase{z-index:110; position:fixed; left:30px; bottom:30px; display:flex;}\
-        @media screen and (max-width:768px) {#ATbanner{width:90%;} } \
-      </style>\
+<div id="ATbanner" style="position:relative;">\
+  <i class="fas fa-lg fa-times-circle" style="position:absolute; top:0px; right:-5px;"></i>\
+  <a id="bannerLink" href="https://business.adobe.com/jp/products/target/adobe-target.html" target="_blank">\
+    <img id="bannerImg" width="100%;" max-height="200px" src="http://vizl.chu.jp/www/poc/image-yoko.png">\
+  </a>\
+</div>\
+<style>\
+#ATbanner {box-shadow: 0 0 16px gray;padding:10px;border-radius:10px;width: 400px; background:white;}\n\
+#ATDialogBase{z-index:110; position:fixed; left:30px; bottom:30px; display:flex;}\n\
+@media screen and (max-width:768px) {#ATbanner{width:90%;} } \n\
+</style>\
       ';
         document.getElementById("preview").innerHTML = baseTempl;
+        document.getElementById("banner_template").innerHTML = baseTempl.replace(/\>/g, ">\n");
       }
       initBanner();
 
