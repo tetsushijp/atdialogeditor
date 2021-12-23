@@ -27,9 +27,6 @@
     <h1>Dialog Editor for スタンダードバナー</h1>
     <input type="button" id="show" value="show" />
     <hr />
-    <!--//**
-    - templateを切り替えられるようにする
-    **//-->
 
     <div style="display: flex">
       <!------------------------ ------------->
@@ -37,6 +34,13 @@
       <div id="setting">
         <form>
           <table>
+            <tr>
+              <td>表示スクロール位置</td>
+              <td>
+                <input id="showScrollY" type="text" name="showScrollY" size="5" value="0" /> -
+                <input id="hideScrollY" type="text" name="hideScrollY" size="5" value="100" />
+              </td>
+            </tr>
             <tr>
               <td>画像URL(#bannerImg)</td>
               <td><input id="image_url" type="text" name="img_url" size="60" value="http://vizl.chu.jp/www/poc/banner_sample.png" /></td>
@@ -74,6 +78,13 @@
     <script>
       // ################################################################################################################
       // ########################### Editor Contorl ######################################################################
+      document.getElementById("showScrollY").addEventListener("change", function (e) {
+        eval(getShowDialogFunc());
+      });
+      document.getElementById("hideScrollY").addEventListener("change", function (e) {
+        eval(getShowDialogFunc());
+      });
+
       document.getElementById("image_url").addEventListener("change", function (e) {
         // var imageURL = window.document.forms[0].image_url.value;
         document.getElementById("bannerImg").src = window.document.forms[0].image_url.value;
@@ -85,9 +96,7 @@
       document.getElementById("banner_template").addEventListener("change", function (e) {
         var templateHTML = window.document.forms[0].banner_template.value;
         document.getElementById("preview").innerHTML = templateHTML;
-        // 既存のフォームの値を反映
-        document.getElementById("bannerImg").src = window.document.forms[0].image_url.value;
-        document.getElementById("bannerLink").href = window.document.forms[0].link_url.value;
+        formvalue_update();
       });
       document.getElementById("banner_template").style.display = "none";
       document.getElementById("detail").addEventListener("change", function (e) {
@@ -96,9 +105,9 @@
         document.getElementById("banner_template").style.display = detail_check;
       });
 
-      // ================= =================  OK ================= =================
+      // ================= =================  OK コード出力 ================= =================
       document.getElementById("ok").addEventListener("click", function (e) {
-        outputscript = getShowDialogFunc() + ";setTimeout(showDialog, 1000);";
+        outputscript = getShowDialogFunc() + ";setTimeout(scrollShowHideCheck, 500);window.addEventListener('scroll', function () {scrollShowHideCheck();});";
         outputscript = outputscript + "function getBannerHTML() { return '" + getBannerHTML() + "'}";
         fontlib = 'var css=document.createElement("link");css.setAttribute("rel","stylesheet");css.setAttribute("type","text/css");';
         fontlib = fontlib + 'css.setAttribute("href","https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css");';
@@ -108,9 +117,18 @@
       });
 
       document.getElementById("show").addEventListener("click", function (e) {
-        setTimeout(showDialog, 100);
+        //setTimeout(showDialog, 100);
+        eval(getShowDialogFunc());
+        setTimeout(scrollShowHideCheck, 100);
+        window.addEventListener("scroll", function () {
+          scrollShowHideCheck();
+        });
       });
-
+      function formvalue_update() {
+        // 既存のフォームの値を反映
+        document.getElementById("bannerImg").src = window.document.forms[0].image_url.value;
+        document.getElementById("bannerLink").href = window.document.forms[0].link_url.value;
+      }
       // ################################################################################################################
       // ########################### Dialog構築部分 ######################################################################
       // 初期化
@@ -131,11 +149,13 @@
       ';
         document.getElementById("preview").innerHTML = baseTempl;
         document.getElementById("banner_template").innerHTML = baseTempl.replace(/\>/g, ">\n");
+        formvalue_update();
       }
       initBanner();
 
       function getShowDialogFunc() {
-        return '\
+        return (
+          '\
 function showDialog() {\
   var dialogBaseElm = document.createElement("div");\
   var dialogContentElm = document.createElement("div");\
@@ -144,9 +164,34 @@ function showDialog() {\
   dialogBaseElm.id ="ATDialogBase";\
   dialogContentElm.innerHTML = getBannerHTML();\
   document.body.appendChild(dialogBaseElm);\
-}';
+}\
+showScrollPercent = ' +
+          window.document.forms[0].showScrollY.value +
+          ";\
+hideScrollPercent = " +
+          window.document.forms[0].hideScrollY.value +
+          ';\
+showFlg = false;\
+function scrollShowHideCheck() {\
+  scrollPercent = (window.pageYOffset / (window.document.body.clientHeight - window.innerHeight)) * 100;\
+  if ((scrollPercent==Infinity)||(scrollPercent < 0)) {\
+    scrollYMax = window.document.body.scrollHeight - window.document.body.clientHeight;\
+    scrollPercent = scrollYMax > 0 ? (window.scrollY / scrollYMax) * 100 : 100;\
+    scrollPercent = scrollPercent > 100 ? 100 : scrollPercent;\
+  }\
+  if (!showFlg && scrollPercent >= showScrollPercent && scrollPercent <= hideScrollPercent) {\
+    showDialog();\
+    showFlg = true;\
+  }\
+  if (showFlg && (scrollPercent > hideScrollPercent || scrollPercent < showScrollPercent)) {\
+    showFlg = false;\
+    document.body.removeChild(document.getElementById("ATDialogBase"));\
+  }\
+}\
+'
+        );
       }
-      eval(getShowDialogFunc());
+      // eval(getShowDialogFunc());
 
       // 実際にPreviewされているHTMLから表示用の文字列を作成 / ATとEditorどちらでも動くようにshowDialog()の中から呼ばれる
       function getBannerHTML() {
