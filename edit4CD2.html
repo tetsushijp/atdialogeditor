@@ -1,0 +1,248 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.6.0/mdb.min.css" rel="stylesheet" />
+
+    <style>
+      body {
+        margin: 20px;
+      }
+
+      #preview {
+        border: 0px solid;
+        width: 50%;
+        height: 500px;
+      }
+
+      #setting {
+        margin: 20px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Dialog Editor for カウントダウン</h1>
+    <input type="button" id="show" value="show" />
+    <hr />
+
+    <div style="display: flex">
+      <!------------------------ ------------->
+      <div id="preview"></div>
+      <div id="setting">
+        <form>
+          <table>
+            <tr>
+              <td>表示スクロール位置</td>
+              <td>
+                <input id="showScrollY" type="text" name="showScrollY" size="5" value="0" /> -
+                <input id="hideScrollY" type="text" name="hideScrollY" size="5" value="100" />
+              </td>
+            </tr>
+            <tr>
+              <td>画像URL(#bannerImg)</td>
+              <td><input id="image_url" type="text" name="img_url" size="60" value="http://vizl.chu.jp/www/poc/banner_CD.png" /></td>
+            </tr>
+            <tr>
+              <td>リンクURL(#bannerLink)</td>
+              <td><input id="link_url" type="text" name="link_url" size="60" value="https://business.adobe.com/jp/products/target/adobe-target.html" /></td>
+            </tr>
+            <tr>
+              <td>カウントダウンDate(#bannerCD)</td>
+              <td><input id="banner_CD_date" type="text" name="banner_CD_date" value="2022/01/24 23:00" /></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <label><input type="checkbox" id="detail" /> テンプレート編集 </label>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2"><textarea id="banner_template" cols="120" rows="16"></textarea></td>
+            </tr>
+            <tr>
+              <td colspan="2"><hr /></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <input type="button" value=" コード出力 " id="ok" />
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2"><textarea id="bannerSource" cols="120" rows="16"></textarea></td>
+            </tr>
+          </table>
+        </form>
+        <!--- ソース -->
+        <div></div>
+      </div>
+    </div>
+
+    <script>
+      // ################################################################################################################
+      // ########################### Editor Contorl ######################################################################
+      document.getElementById("showScrollY").addEventListener("change", function (e) {
+        eval(getShowDialogFunc());
+      });
+      document.getElementById("hideScrollY").addEventListener("change", function (e) {
+        eval(getShowDialogFunc());
+      });
+      // ===================================================================
+      document.getElementById("image_url").addEventListener("change", function (e) {
+        var imageURL = window.document.forms[0].image_url.value;
+        document.getElementById("bannerImg").src = imageURL;
+      });
+      document.getElementById("link_url").addEventListener("change", function (e) {
+        var linkURL = window.document.forms[0].link_url.value;
+        document.getElementById("bannerLink").href = linkURL;
+      });
+      document.getElementById("banner_CD_date").addEventListener("change", function (e) {
+        bannerCDTargetDate = new Date(document.getElementById("banner_CD_date").value);
+      });
+      // ========================
+      document.getElementById("banner_template").addEventListener("change", function (e) {
+        var templateHTML = window.document.forms[0].banner_template.value;
+        document.getElementById("preview").innerHTML = templateHTML;
+        formvalue_update();
+      });
+      document.getElementById("banner_template").style.display = "none";
+      document.getElementById("detail").addEventListener("change", function (e) {
+        var detail_check = window.document.forms[0].detail.checked ? "block" : "none";
+        console.log("detail_check: " + detail_check);
+        document.getElementById("banner_template").style.display = detail_check;
+      });
+
+      // ================= =================  OK コード出力 ================= =================
+      document.getElementById("ok").addEventListener("click", function (e) {
+        outputscript = getShowDialogFunc() + ";setTimeout(scrollShowHideCheck, 500);window.addEventListener('scroll', function () {scrollShowHideCheck();});";
+        outputscript = outputscript + "function getBannerHTML() { return '" + getBannerHTML() + "'}";
+        fontlib = 'var css=document.createElement("link");css.setAttribute("rel","stylesheet");css.setAttribute("type","text/css");';
+        fontlib = fontlib + 'css.setAttribute("href","https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css");';
+        fontlib = fontlib + 'document.getElementsByTagName("head")[0].appendChild(css);';
+        outputscript = outputscript + fontlib;
+        outputscript = outputscript + getCDFunc();
+        document.getElementById("bannerSource").value = "<" + "script>" + outputscript + "</" + "script>";
+      });
+
+      document.getElementById("show").addEventListener("click", function (e) {
+        //setTimeout(showDialog, 100);
+        eval(getShowDialogFunc());
+        setTimeout(scrollShowHideCheck, 100);
+        window.addEventListener("scroll", function () {
+          scrollShowHideCheck();
+        });
+      });
+      function formvalue_update() {
+        // 既存のフォームの値を反映
+        var imageURL = window.document.forms[0].image_url.value;
+        document.getElementById("bannerImg").src = window.document.forms[0].image_url.value;
+        var linkURL = window.document.forms[0].link_url.value;
+        document.getElementById("bannerLink").href = window.document.forms[0].link_url.value;
+        bannerCDTargetDate = new Date(document.getElementById("banner_CD_date").value);
+
+      }
+      // ################################################################################################################
+      // ########################### Dialog構築部分 ######################################################################
+      // 初期化
+      function initBanner() {
+        var baseTempl =
+'\
+<div id="ATbanner" style="position:relative;">\
+<i class="fas fa-lg fa-times-circle" style="position:absolute; top:0px; right:-5px;"></i>\
+<a id="bannerLink" href="https://business.adobe.com/jp/products/target/adobe-target.html" target="_blank">\
+<img id="bannerImg" width="100%;" max-height="200px" src="http://vizl.chu.jp/www/poc/image-yoko.png">\
+</a>\
+<div id="bannerCD">あとXX時間X分XX秒\n</div>\
+</div>\
+<style>\
+  #ATbanner {box-shadow: 0 0 16px gray;padding:10px;border-radius:0px;width: 500px; background:red;}\n\
+  #ATDialogBase{z-index:110; position:fixed; left:30px; bottom:30px; display:flex;}\n\
+  #bannerCD {text-align:center; color:white; font-size:24px;margin-top:10px;}\n\
+</style>\
+';
+        document.getElementById("preview").innerHTML = baseTempl;
+        document.getElementById("banner_template").innerHTML = baseTempl.replace(/\>/g, ">\n");
+        formvalue_update();
+      }
+      initBanner();
+
+      function getShowDialogFunc() {
+        return (
+          '\
+function showDialog() {\
+  var dialogBaseElm = document.createElement("div");\
+  var dialogContentElm = document.createElement("div");\
+  dialogBaseElm.appendChild(dialogContentElm);\
+  dialogBaseElm.addEventListener("click",function() {document.body.removeChild(this);});\
+  dialogBaseElm.id ="ATDialogBase";\
+  dialogContentElm.innerHTML = getBannerHTML();\
+  document.body.appendChild(dialogBaseElm);\
+}\
+showScrollPercent = ' +
+          window.document.forms[0].showScrollY.value +
+          ";\
+hideScrollPercent = " +
+          window.document.forms[0].hideScrollY.value +
+          ';\
+showFlg = false;\
+function scrollShowHideCheck() {\
+  scrollPercent = (window.pageYOffset / (window.document.body.clientHeight - window.innerHeight)) * 100;\
+  if ((scrollPercent==Infinity)||(scrollPercent < 0)) {\
+    scrollYMax = window.document.body.scrollHeight - window.document.body.clientHeight;\
+    scrollPercent = scrollYMax > 0 ? (window.scrollY / scrollYMax) * 100 : 100;\
+    scrollPercent = scrollPercent > 100 ? 100 : scrollPercent;\
+  }\
+  if (!showFlg && scrollPercent >= showScrollPercent && scrollPercent <= hideScrollPercent) {\
+    showDialog();\
+    showFlg = true;\
+  }\
+  if (showFlg && (scrollPercent > hideScrollPercent || scrollPercent < showScrollPercent)) {\
+    showFlg = false;\
+    document.body.removeChild(document.getElementById("ATDialogBase"));\
+  }\
+}\
+'
+        );
+      }
+      // eval(getShowDialogFunc());
+
+      // カウントダウン実行用のJS構築 Editor DialogからもAdobe Targetからも同一コードが動作するように文字列から作成できるように。
+      function getCDFunc() {
+        return (
+          '\
+var bannerCDTargetDate = new Date("' +
+          document.getElementById("banner_CD_date").value +
+          '");\
+var CDloop = 10;\
+function showCountDown() {\
+  var diff2Dates = (bannerCDTargetDate - new Date());\
+  var dDays = diff2Dates / (1000 * 60 * 60 * 24);\
+  diff2Dates = diff2Dates % (1000 * 60 * 60 * 24);\
+  var dHour = diff2Dates / (1000 * 60 * 60);\
+  diff2Dates = diff2Dates % (1000 * 60 * 60);\
+  var dMin = diff2Dates / (1000 * 60);\
+  diff2Dates = diff2Dates % (1000 * 60);\
+  var dSec = diff2Dates / 1000;\
+  var msg2 = Math.floor(dDays) + "日";\
+  var CDmsg = (Math.floor(dDays)*24+Math.floor(dHour)) + "時間"\
+    + Math.floor(dMin) + "分"\
+    + Math.floor(dSec) + "秒";\
+  if(showFlg) document.getElementById("bannerCD").innerText = "あと" + CDmsg;\
+  if(false)console.log("あと" + CDmsg);\
+  if (CDloop > 0) setTimeout(showCountDown, 1000);\
+}\
+setTimeout(showCountDown, 2000);\
+      '
+        );
+      }
+      eval(getCDFunc());
+
+      // 実際にPreviewされているHTMLから表示用の文字列を作成 / ATとEditorどちらでも動くようにshowDialog()の中から呼ばれる
+      function getBannerHTML() {
+        var previewHTML = document.getElementById("preview").innerHTML;
+        return previewHTML.trim().replace(/\r?\n/g, ""); // 改行とescape処理
+      }
+    </script>
+  </body>
+</html>
