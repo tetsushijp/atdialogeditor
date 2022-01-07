@@ -215,6 +215,7 @@ var bannerCDTargetDate = new Date("' +
           document.getElementById("banner_CD_date").value +
           '");\
 var CDloop = 10;\
+var showFlg=true;\
 function showCountDown() {\
   var diff2Dates = (bannerCDTargetDate - new Date());\
   var dDays = diff2Dates / (1000 * 60 * 60 * 24);\
