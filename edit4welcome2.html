@@ -53,13 +53,70 @@
               <td><input id="banner_text2" type="text" name="banner_text2" size="60" value="ようこそオンラインストアへ >>" /></td>
             </tr>
             <tr>
-              <td>Link1 URL(#bannerLink)</td>
-              <td><input id="banner_link_url1" type="text" name="banner_link_url" size="60" value="#btn1" /></td>
+              <td><hr></td>
+              <td><hr></td>
+            </tr>
+            <tr>
+              <td>画像URL1(#itemImg1)</td>
+              <td><input id="image_url1" type="text" name="img_url1" size="60" value="http://vizl.chu.jp/www/poc/banner_sample.png" /></td>
+            </tr>
+            <tr>
+              <td>アイテム1 テキスト1行目(#bannerText11)</td>
+              <td><input id="banner_text11" type="text" name="banner_text11" size="60" value="Welcome!" /></td>
+            </tr>
+            <tr>
+              <td>アイテム1 テキスト2行目(#bannerText12)</td>
+              <td><input id="banner_text12" type="text" name="banner_text12" size="60" value="ようこそオンラインストアへ >>" /></td>
+            </tr>
+            <tr>
+              <td>アイテム1 Link1 URL(#bannerLink1)</td>
+              <td><input id="banner_link_url1" type="text" name="banner_link_url1" size="60" value="#btn1" /></td>
             </tr>
             <tr>
               <td><hr></td>
               <td><hr></td>
             </tr>
+            <tr>
+              <td>画像URL2(#itemImg2)</td>
+              <td><input id="image_url2" type="text" name="img_url2" size="60" value="http://vizl.chu.jp/www/poc/banner_sample.png" /></td>
+            </tr>
+            <tr>
+              <td>アイテム2 テキスト1行目(#bannerText21)</td>
+              <td><input id="banner_text21" type="text" name="banner_text21" size="60" value="Welcome!" /></td>
+            </tr>
+            <tr>
+              <td>アイテム2 テキスト2行目(#bannerText22)</td>
+              <td><input id="banner_text22" type="text" name="banner_text22" size="60" value="ようこそオンラインストアへ >>" /></td>
+            </tr>
+            <tr>
+              <td>アイテム2 Link2 URL(#bannerLink2)</td>
+              <td><input id="banner_link_url2" type="text" name="banner_link_url2" size="60" value="#btn2" /></td>
+            </tr>
+            <tr>
+              <td><hr></td>
+              <td><hr></td>
+            </tr>
+            <tr>
+              <td>画像URL3(#itemImg3)</td>
+              <td><input id="image_url3" type="text" name="img_url3" size="60" value="http://vizl.chu.jp/www/poc/banner_sample.png" /></td>
+            </tr>
+            <tr>
+              <td>アイテム3 テキスト1行目(#bannerText31)</td>
+              <td><input id="banner_text31" type="text" name="banner_text31" size="60" value="Welcome!" /></td>
+            </tr>
+            <tr>
+              <td>アイテム3 テキスト2行目(#bannerText32)</td>
+              <td><input id="banner_text32" type="text" name="banner_text32" size="60" value="ようこそオンラインストアへ >>" /></td>
+            </tr>
+            <tr>
+              <td>アイテム3 Link URL(#bannerLink3)</td>
+              <td><input id="banner_link_url3" type="text" name="banner_link_url3" size="60" value="#btn3" /></td>
+            </tr>
+            <tr>
+              <td><hr></td>
+              <td><hr></td>
+            </tr>
+
             <tr>
               <td colspan="2">
                 <label><input type="checkbox" id="detail" /> テンプレート編集 </label>
@@ -102,14 +159,49 @@
       document.getElementById("banner_text2").addEventListener("change", function (e) {
         document.getElementById("bannerText2").innerHTML = window.document.forms[0].banner_text2.value;
       });
-      // document.getElementById("banner_link_url").addEventListener("change", function (e) {
-      //   document.getElementById("bannerLink").href = window.document.forms[0].banner_link_url.value;
-      // });
 
-      // document.getElementById("image_url").addEventListener("change", function (e) {
-      //   // var imageURL = window.document.forms[0].image_url.value;
-      //   document.getElementById("bannerImg").src = window.document.forms[0].image_url.value;
-      // });
+      document.getElementById("image_url1").addEventListener("change", function (e) {
+        document.getElementById("itemImg1").src = window.document.forms[0].image_url1.value;
+      });
+      document.getElementById("banner_text11").addEventListener("change", function (e) {
+        document.getElementById("bannerText11").innerHTML = window.document.forms[0].banner_text11.value;
+      });
+      document.getElementById("banner_text12").addEventListener("change", function (e) {
+        document.getElementById("bannerText12").innerHTML = window.document.forms[0].banner_text12.value;
+      });
+      document.getElementById("banner_link_url1").addEventListener("change", function (e) {
+        document.getElementById("bannerLink1").href = window.document.forms[0].banner_link_url1.value;
+      });
+
+      
+      document.getElementById("image_url2").addEventListener("change", function (e) {
+        document.getElementById("itemImg2").src = window.document.forms[0].image_url2.value;
+      });
+      document.getElementById("banner_text21").addEventListener("change", function (e) {
+        document.getElementById("bannerText21").innerHTML = window.document.forms[0].banner_text21.value;
+      });
+      document.getElementById("banner_text22").addEventListener("change", function (e) {
+        document.getElementById("bannerText22").innerHTML = window.document.forms[0].banner_text22.value;
+      });
+      document.getElementById("banner_link_url2").addEventListener("change", function (e) {
+        document.getElementById("bannerLink2").href = window.document.forms[0].banner_link_url2.value;
+      });
+
+
+
+      document.getElementById("image_url3").addEventListener("change", function (e) {
+        document.getElementById("itemImg3").src = window.document.forms[0].image_url3.value;
+      });
+      document.getElementById("banner_text31").addEventListener("change", function (e) {
+        document.getElementById("bannerText31").innerHTML = window.document.forms[0].banner_text31.value;
+      });
+      document.getElementById("banner_text32").addEventListener("change", function (e) {
+        document.getElementById("bannerText32").innerHTML = window.document.forms[0].banner_text32.value;
+      });
+      document.getElementById("banner_link_url3").addEventListener("change", function (e) {
+        document.getElementById("bannerLink3").href = window.document.forms[0].banner_link_url3.value;
+      });
+
       // document.getElementById("link_url").addEventListener("change", function (e) {
       //   // var linkURL = window.document.forms[0].link_url.value;
       //   document.getElementById("bannerLink").href = window.document.forms[0].link_url.value;
@@ -175,33 +267,33 @@
   <div> \
     <a id="bannerLink1" class="bannerLink" href="https://business.adobe.com/jp/products/target/adobe-target.html" target="_blank">\
     <div>\
-      <img src="https://img-cf.karte.io/image/5fc4bc1055afd10011892722::icon_firstkarte02.png" width="60px;" style="margin-right:10px;">\
+      <img id="itemImg1" src="https://img-cf.karte.io/image/5fc4bc1055afd10011892722::icon_firstkarte02.png" width="60px;" style="margin-right:10px;">\
     </div>\
     <div>\
-      <div id="bannerText1_1" class="bannerText1" >Welcome22</div>\
-      <div id="bannerText1_2" class="bannerText2" >ようこそオンラインストアへ 22>></div>\
+      <div id="bannerText11" class="bannerText1" >Welcome22</div>\
+      <div id="bannerText12" class="bannerText2" >ようこそオンラインストアへ 22>></div>\
     </div>\
     </a>\
   </div>\
   <div> \
     <a id="bannerLink2" class="bannerLink" href="https://business.adobe.com/jp/products/target/adobe-target.html" target="_blank" >\
     <div>\
-      <img src="https://img-cf.karte.io/image/5fc4bc1e4078c300119c58e8::icon_firstkarte03.png" width="60px;" style="margin-right:10px;">\
+      <img id="itemImg2" src="https://img-cf.karte.io/image/5fc4bc1e4078c300119c58e8::icon_firstkarte03.png" width="60px;" style="margin-right:10px;">\
     </div>\
     <div>\
-      <div id="bannerText2_1" class="bannerText1" >Welcome22</div>\
-      <div id="bannerText2_2" class="bannerText2" >ようこそオンラインストアへ 22>></div>\
+      <div id="bannerText21" class="bannerText1" >Welcome22</div>\
+      <div id="bannerText22" class="bannerText2" >ようこそオンラインストアへ 22>></div>\
     </div>\
     </a>\
   </div>\
   <div> \
     <a id="bannerLink3" class="bannerLink" class="bannerLink" href="https://business.adobe.com/jp/products/target/adobe-target.html" target="_blank">\
       <div>\
-      <img src="https://img-cf.karte.io/image/5fc4bc2e1429c800112fdbcf::icon_firstkarte01.png" width="60px;" style="margin-right:10px;">\
+      <img id="itemImg3" src="https://img-cf.karte.io/image/5fc4bc2e1429c800112fdbcf::icon_firstkarte01.png" width="60px;" style="margin-right:10px;">\
     </div>\
     <div>\
-      <div id="bannerText3_1" class="bannerText1" >Welcome22</div>\
-      <div id="bannerText3_2" class="bannerText2" >ようこそオンラインストアへ 22>></div>\
+      <div id="bannerText31" class="bannerText1" >Welcome22</div>\
+      <div id="bannerText32" class="bannerText2" >ようこそオンラインストアへ 22>></div>\
     </div>\
     </a>\
   </div>\
@@ -261,7 +353,7 @@ function scrollShowHideCheck() {\
     showDialog();\
     showFlg = true;\
   }\
-  if (showFlg && (scrollPercent > hideScrollPercent || scrollPercent < showScrollPercent)) {\
+  if (showFlg && ( Math.floor(scrollPercent) > hideScrollPercent ||  Math.floor(scrollPercent) < showScrollPercent)) {\
     showFlg = false;\
     document.body.removeChild(document.getElementById("ATDialogBase"));\
   }\

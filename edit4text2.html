@@ -251,7 +251,7 @@ function scrollShowHideCheck() {\
     showDialog();\
     showFlg = true;\
   }\
-  if (showFlg && (scrollPercent > hideScrollPercent || scrollPercent < showScrollPercent)) {\
+  if (showFlg && ( Math.floor(scrollPercent) > hideScrollPercent ||  Math.floor(scrollPercent) < showScrollPercent)) {\
     showFlg = false;\
     document.body.removeChild(document.getElementById("ATDialogBase"));\
   }\
