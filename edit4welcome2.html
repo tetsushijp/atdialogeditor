@@ -1,0 +1,282 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <!-- https://img-cf.karte.io/image/5fc4bc2e1429c800112fdbcf::icon_firstkarte01.png
+    https://img-cf.karte.io/image/5fc4bc1e4078c300119c58e8::icon_firstkarte03.png
+    https://img-cf.karte.io/image/5fc4bc1055afd10011892722::icon_firstkarte02.png -->
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.6.0/mdb.min.css" rel="stylesheet" />
+
+    <style>
+      body {
+        margin: 20px;
+      }
+
+      #preview {
+        border: 0px solid;
+        width: 50%;
+        height: 500px;
+      }
+
+      #setting {
+        margin: 20px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Dialog Editor for Welcome</h1>
+    <input type="button" id="show" value="show" />
+    <hr />
+
+    <div style="display: flex">
+      <!------------------------ ------------->
+      <div id="preview"></div>
+      <div id="setting">
+        <form>
+          <table>
+            <tr>
+              <td>表示スクロール位置</td>
+              <td>
+                <input id="showScrollY" type="text" name="showScrollY" size="5" value="0" /> -
+                <input id="hideScrollY" type="text" name="hideScrollY" size="5" value="100" />
+              </td>
+            </tr>
+            <tr>
+              <td>テキスト1行目(#bannerText1)</td>
+              <td><input id="banner_text1" type="text" name="banner_text1" size="60" value="Welcome!" /></td>
+            </tr>
+            <tr>
+              <td>テキスト2行目(#bannerText2)</td>
+              <td><input id="banner_text2" type="text" name="banner_text2" size="60" value="ようこそオンラインストアへ >>" /></td>
+            </tr>
+            <tr>
+              <td>Link1 URL(#bannerLink)</td>
+              <td><input id="banner_link_url1" type="text" name="banner_link_url" size="60" value="#btn1" /></td>
+            </tr>
+            <tr>
+              <td><hr></td>
+              <td><hr></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <label><input type="checkbox" id="detail" /> テンプレート編集 </label>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2"><textarea id="banner_template" cols="120" rows="16"></textarea></td>
+            </tr>
+            <tr>
+              <td colspan="2"><hr /></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <input type="button" value=" コード出力 " id="ok" />
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2"><textarea id="bannerSource" cols="120" rows="16"></textarea></td>
+            </tr>
+          </table>
+        </form>
+        <!--- ソース -->
+        <div></div>
+      </div>
+    </div>
+
+    <script>
+      // ################################################################################################################
+      // ########################### Editor Contorl ######################################################################
+      document.getElementById("showScrollY").addEventListener("change", function (e) {
+        eval(getShowDialogFunc());
+      });
+      document.getElementById("hideScrollY").addEventListener("change", function (e) {
+        eval(getShowDialogFunc());
+      });
+
+      document.getElementById("banner_text1").addEventListener("change", function (e) {
+        document.getElementById("bannerText1").innerHTML = window.document.forms[0].banner_text1.value;
+      });
+      document.getElementById("banner_text2").addEventListener("change", function (e) {
+        document.getElementById("bannerText2").innerHTML = window.document.forms[0].banner_text2.value;
+      });
+      // document.getElementById("banner_link_url").addEventListener("change", function (e) {
+      //   document.getElementById("bannerLink").href = window.document.forms[0].banner_link_url.value;
+      // });
+
+      // document.getElementById("image_url").addEventListener("change", function (e) {
+      //   // var imageURL = window.document.forms[0].image_url.value;
+      //   document.getElementById("bannerImg").src = window.document.forms[0].image_url.value;
+      // });
+      // document.getElementById("link_url").addEventListener("change", function (e) {
+      //   // var linkURL = window.document.forms[0].link_url.value;
+      //   document.getElementById("bannerLink").href = window.document.forms[0].link_url.value;
+      // });
+
+      document.getElementById("banner_template").addEventListener("change", function (e) {
+        var templateHTML = window.document.forms[0].banner_template.value;
+        document.getElementById("preview").innerHTML = templateHTML;
+        formvalue_update();
+      });
+      document.getElementById("banner_template").style.display = "none";
+      document.getElementById("detail").addEventListener("change", function (e) {
+        var detail_check = window.document.forms[0].detail.checked ? "block" : "none";
+        console.log("detail_check: " + detail_check);
+        document.getElementById("banner_template").style.display = detail_check;
+      });
+
+      // ================= =================  OK コード出力 ================= =================
+      document.getElementById("ok").addEventListener("click", function (e) {
+        document.getElementById("ATbanner2").style.display="none"; document.getElementById("ATbanner2").style.marginTop="0px";
+        outputscript = getShowDialogFunc() + ";setTimeout(scrollShowHideCheck, 500);window.addEventListener('scroll', function () {scrollShowHideCheck();});";
+        outputscript = outputscript + "function getBannerHTML() { return '" + getBannerHTML() + "'}";
+        fontlib = 'var css=document.createElement("link");css.setAttribute("rel","stylesheet");css.setAttribute("type","text/css");';
+        fontlib = fontlib + 'css.setAttribute("href","https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css");';
+        fontlib = fontlib + 'document.getElementsByTagName("head")[0].appendChild(css);';
+        outputscript = outputscript + fontlib;
+        document.getElementById("bannerSource").value = "<" + "script>" + outputscript + "</" + "script>";
+        document.getElementById("ATbanner2").style.display="block"; document.getElementById("ATbanner2").style.marginTop="20px";
+      });
+
+      document.getElementById("show").addEventListener("click", function (e) {
+        //setTimeout(showDialog, 100);
+        eval(getShowDialogFunc());
+        setTimeout(scrollShowHideCheck, 100);
+        window.addEventListener("scroll", function () {
+          scrollShowHideCheck();
+        });
+      });
+      function formvalue_update() {
+        // 既存のフォームの値を反映
+        document.getElementById("bannerText1").innerHTML = window.document.forms[0].banner_text1.value;
+        document.getElementById("bannerText2").innerHTML = window.document.forms[0].banner_text2.value;
+        //document.getElementById("bannerLink1").href = window.document.forms[0].banner_link_url.value;
+
+        // document.getElementById("bannerImg").src = window.document.forms[0].image_url.value;
+        // document.getElementById("bannerLink").href = window.document.forms[0].link_url.value;
+      }
+      // ################################################################################################################
+      // ########################### Dialog構築部分 ######################################################################
+      // 初期化
+      function initBanner() {
+        var baseTempl =
+          '\
+<div id="ATbanner" style="position:relative;">\
+  <i class="fas fa-lg fa-times-circle" style="position:absolute; top:0px; right:-5px;"></i>\
+  <a id="showNext" onclick="javascript:showNextDialog();" style="color:white;">\
+  <div id="bannerText1" style="text-align:center;">Welcome</div>\
+  <div id="bannerText2" style="text-align:center;">ようこそオンラインストアへ >></div>\
+  </a>\
+</div>\
+<div id="ATbanner2" style="position:relative;display:none;" onclick="javascript:showPrevDialog();">\
+  <i class="fas fa-lg fa-times-circle" style="position:absolute; top:0px; right:-5px;"></i>\
+  <div> \
+    <a id="bannerLink1" class="bannerLink" href="https://business.adobe.com/jp/products/target/adobe-target.html" target="_blank">\
+    <div>\
+      <img src="https://img-cf.karte.io/image/5fc4bc1055afd10011892722::icon_firstkarte02.png" width="60px;" style="margin-right:10px;">\
+    </div>\
+    <div>\
+      <div id="bannerText1_1" class="bannerText1" >Welcome22</div>\
+      <div id="bannerText1_2" class="bannerText2" >ようこそオンラインストアへ 22>></div>\
+    </div>\
+    </a>\
+  </div>\
+  <div> \
+    <a id="bannerLink2" class="bannerLink" href="https://business.adobe.com/jp/products/target/adobe-target.html" target="_blank" >\
+    <div>\
+      <img src="https://img-cf.karte.io/image/5fc4bc1e4078c300119c58e8::icon_firstkarte03.png" width="60px;" style="margin-right:10px;">\
+    </div>\
+    <div>\
+      <div id="bannerText2_1" class="bannerText1" >Welcome22</div>\
+      <div id="bannerText2_2" class="bannerText2" >ようこそオンラインストアへ 22>></div>\
+    </div>\
+    </a>\
+  </div>\
+  <div> \
+    <a id="bannerLink3" class="bannerLink" class="bannerLink" href="https://business.adobe.com/jp/products/target/adobe-target.html" target="_blank">\
+      <div>\
+      <img src="https://img-cf.karte.io/image/5fc4bc2e1429c800112fdbcf::icon_firstkarte01.png" width="60px;" style="margin-right:10px;">\
+    </div>\
+    <div>\
+      <div id="bannerText3_1" class="bannerText1" >Welcome22</div>\
+      <div id="bannerText3_2" class="bannerText2" >ようこそオンラインストアへ 22>></div>\
+    </div>\
+    </a>\
+  </div>\
+</div>\
+<style>\
+  #ATbanner {box-shadow: 0 0 16px gray;padding:25px;border-radius:1px;width: 300px; background:red;}\
+  #ATbanner2 {box-shadow: 0 0 16px gray;padding:2px;border-radius:1px;width: 400px; background:gray; padding-top:25px;}\
+  #ATDialogBase{z-index:110; position:fixed; left:30px; bottom:30px; display:flex;}\n\
+  .bannerLink {margin:2px; background-color:white; color:black; display:flex; padding:5px;}\
+  .bannerText1 {color:black; colro: black;}\
+  .bannerText2 {color:black; color:gray;}\
+  #bannerText{font-size:1.75rem;}\
+<style>\
+      ';
+      //#ATDialogBase{z-index:110; position:fixed; left:30px; bottom:30px; display:flex;}\n\
+
+        document.getElementById("preview").innerHTML = baseTempl;
+        document.getElementById("banner_template").innerHTML = baseTempl.replace(/\>/g, ">\n");
+        formvalue_update();
+      }
+      initBanner();
+
+      function getShowDialogFunc() {
+        return (
+          '\
+function showNextDialog() { console.log("hello");\
+  document.getElementById("ATbanner").style.display="none";\
+  document.getElementById("ATbanner2").style.display="block";\
+}\
+function showPrevDialog() { console.log("hello");\
+  document.getElementById("ATbanner").style.display="block";\
+  document.getElementById("ATbanner2").style.display="none";\
+}\
+function showDialog() {\
+  var dialogBaseElm = document.createElement("div");\
+  var dialogContentElm = document.createElement("div");\
+  dialogBaseElm.appendChild(dialogContentElm);\
+  dialogBaseElm.id ="ATDialogBase";\
+  dialogContentElm.innerHTML = getBannerHTML();\
+  document.body.appendChild(dialogBaseElm);\
+}\
+showScrollPercent = ' +
+          window.document.forms[0].showScrollY.value +
+          ";\
+hideScrollPercent = " +
+          window.document.forms[0].hideScrollY.value +
+          ';\
+showFlg = false;\
+function scrollShowHideCheck() {\
+  scrollPercent = (window.pageYOffset / (window.document.body.clientHeight - window.innerHeight)) * 100;\
+  if ((scrollPercent==Infinity)||(scrollPercent < 0)) {\
+    scrollYMax = window.document.body.scrollHeight - window.document.body.clientHeight;\
+    scrollPercent = scrollYMax > 0 ? (window.scrollY / scrollYMax) * 100 : 100;\
+    scrollPercent = scrollPercent > 100 ? 100 : scrollPercent;\
+  }\
+  if (!showFlg && scrollPercent >= showScrollPercent && scrollPercent <= hideScrollPercent) {\
+    showDialog();\
+    showFlg = true;\
+  }\
+  if (showFlg && (scrollPercent > hideScrollPercent || scrollPercent < showScrollPercent)) {\
+    showFlg = false;\
+    document.body.removeChild(document.getElementById("ATDialogBase"));\
+  }\
+}\
+'
+        );
+      }
+      eval(getShowDialogFunc());
+
+      // 実際にPreviewされているHTMLから表示用の文字列を作成 / ATとEditorどちらでも動くようにshowDialog()の中から呼ばれる
+      function getBannerHTML() {
+        var previewHTML = document.getElementById("preview").innerHTML;
+        return previewHTML.trim().replace(/\r?\n/g, ""); // 改行とescape処理
+      }
+      setTimeout(function(){  document.getElementById("ATbanner2").style.display="block"; document.getElementById("ATbanner2").style.marginTop="20px"},500);
+    </script>
+  </body>
+</html>
