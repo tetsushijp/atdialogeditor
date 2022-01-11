@@ -256,14 +256,14 @@
         var baseTempl =
           '\
 <div id="ATbanner" style="position:relative;">\
-  <i class="fas fa-lg fa-times-circle" style="position:absolute; top:0px; right:-5px;"></i>\
+  <i class="fas fa-lg fa-times-circle" style="position:absolute; top:0px; right:-5px;" onclick="javascript:closeDialog();"></i>\
   <a id="showNext" onclick="javascript:showNextDialog();" style="color:white;">\
   <div id="bannerText1" style="text-align:center;">Welcome</div>\
   <div id="bannerText2" style="text-align:center;">ようこそオンラインストアへ >></div>\
   </a>\
 </div>\
-<div id="ATbanner2" style="position:relative;display:none;" onclick="javascript:showPrevDialog();">\
-  <i class="fas fa-lg fa-times-circle" style="position:absolute; top:0px; right:-5px;"></i>\
+<div id="ATbanner2" style="position:relative;display:none;" >\
+  <i class="fas fa-lg fa-times-circle" style="position:absolute; top:0px; right:-5px;" onclick="javascript:showPrevDialog();"></i>\
   <div> \
     <a id="bannerLink1" class="bannerLink" href="https://business.adobe.com/jp/products/target/adobe-target.html" target="_blank">\
     <div>\
@@ -319,9 +319,14 @@
       function getShowDialogFunc() {
         return (
           '\
-function showNextDialog() { console.log("hello");\
+function showNextDialog() { \
   document.getElementById("ATbanner").style.display="none";\
   document.getElementById("ATbanner2").style.display="block";\
+}\
+function closeDialog() {console.log("close");\
+  showFlg = false;\
+  closeFlg = true;\
+  document.body.removeChild(document.getElementById("ATDialogBase"));\
 }\
 function showPrevDialog() { console.log("hello");\
   document.getElementById("ATbanner").style.display="block";\
@@ -342,6 +347,7 @@ hideScrollPercent = " +
           window.document.forms[0].hideScrollY.value +
           ';\
 showFlg = false;\
+closeFlg = false;\
 function scrollShowHideCheck() {\
   scrollPercent = (window.pageYOffset / (window.document.body.clientHeight - window.innerHeight)) * 100;\
   if ((scrollPercent==Infinity)||(scrollPercent < 0)) {\
@@ -349,11 +355,11 @@ function scrollShowHideCheck() {\
     scrollPercent = scrollYMax > 0 ? (window.scrollY / scrollYMax) * 100 : 100;\
     scrollPercent = scrollPercent > 100 ? 100 : scrollPercent;\
   }\
-  if (!showFlg && scrollPercent >= showScrollPercent && scrollPercent <= hideScrollPercent) {\
+  if (!closeFlg && !showFlg && scrollPercent >= showScrollPercent && scrollPercent <= hideScrollPercent) {\
     showDialog();\
     showFlg = true;\
   }\
-  if (showFlg && ( Math.floor(scrollPercent) > hideScrollPercent ||  Math.floor(scrollPercent) < showScrollPercent)) {\
+  if (!closeFlg && showFlg && ( Math.floor(scrollPercent) > hideScrollPercent ||  Math.floor(scrollPercent) < showScrollPercent)) {\
     showFlg = false;\
     document.body.removeChild(document.getElementById("ATDialogBase"));\
   }\
