@@ -28,7 +28,7 @@
 
   <body>
     <h1>Dialog Editor for Welcome</h1>
-    <input type="button" id="show" value="show" />
+    <!-- <input type="button" id="show" value="show" /> -->
     <hr />
 
     <div style="display: flex">
@@ -232,14 +232,14 @@
         document.getElementById("ATbanner2").style.display="block"; document.getElementById("ATbanner2").style.marginTop="20px";
       });
 
-      document.getElementById("show").addEventListener("click", function (e) {
-        //setTimeout(showDialog, 100);
-        eval(getShowDialogFunc());
-        setTimeout(scrollShowHideCheck, 100);
-        window.addEventListener("scroll", function () {
-          scrollShowHideCheck();
-        });
-      });
+      // document.getElementById("show").addEventListener("click", function (e) {
+      //   //setTimeout(showDialog, 100);
+      //   eval(getShowDialogFunc());
+      //   setTimeout(scrollShowHideCheck, 100);
+      //   window.addEventListener("scroll", function () {
+      //     scrollShowHideCheck();
+      //   });
+      // });
       function formvalue_update() {
         // 既存のフォームの値を反映
         document.getElementById("bannerText1").innerHTML = window.document.forms[0].banner_text1.value;
@@ -328,7 +328,7 @@ function closeDialog() {console.log("close");\
   closeFlg = true;\
   document.body.removeChild(document.getElementById("ATDialogBase"));\
 }\
-function showPrevDialog() { console.log("hello");\
+function showPrevDialog() { \
   document.getElementById("ATbanner").style.display="block";\
   document.getElementById("ATbanner2").style.display="none";\
 }\
