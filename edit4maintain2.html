@@ -1,0 +1,250 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.6.0/mdb.min.css" rel="stylesheet" />
+
+    <style>
+      body {
+        margin: 20px;
+      }
+
+      #preview {
+        border: 0px solid;
+        width: 50%;
+        height: 500px;
+      }
+
+      #setting {
+        margin: 20px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Dialog Editor for メンテナンス中</h1>
+    <input type="button" id="show" value="show" />
+    <hr />
+
+    <div style="display: flex">
+      <!------------------------ ------------->
+      <div id="preview"></div>
+      <div id="setting">
+        <form>
+          <table>
+            <tr>
+              <td>表示スクロール位置</td>
+              <td>
+                <input id="showScrollY" type="text" name="showScrollY" size="5" value="0" /> -
+                <input id="hideScrollY" type="text" name="hideScrollY" size="5" value="100" />
+              </td>
+            </tr>
+            <tr>
+              <td>タイトル(#bannerTitle)</td>
+              <td><input id="banner_title" type="text" name="banner_title" size="60" value="メンテナンス中" /></td>
+            </tr>
+            <tr>
+              <td>メッセージ(#bannerMessage)</td>
+              <td>
+                <input
+                  id="banner_message"
+                  type="text"
+                  name="banner_message"
+                  size="80"
+                  value="現在メンテナンスのためお申し込みができません。復旧までしばらくお待ちください。"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>画像URL(#bannerImg)</td>
+              <td>
+                <input id="image_url" type="text" name="img_url" size="80" value="https://img-cf.karte.io/image/5d808da7b1af630908ebd04c::futenyan.png#" />
+              </td>
+            </tr>
+            <tr>
+              <td>ボタン(#bannerBTN)</td>
+              <td><input id="banner_btn" type="text" name="banner_btn" size="40" value="公式サイトトップへ" /></td>
+            </tr>
+            <tr>
+              <td>ボタン URL(#bannerBTNURL)</td>
+              <td><input id="banner_btn_url" type="text" name="banner_btn_url" size="60" value="#btn1" /></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <label><input type="checkbox" id="detail" /> テンプレート編集 </label>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2"><textarea id="banner_template" cols="120" rows="16"></textarea></td>
+            </tr>
+            <tr>
+              <td colspan="2"><hr /></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <input type="button" value=" コード出力 " id="ok" />
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2"><textarea id="bannerSource" cols="120" rows="16"></textarea></td>
+            </tr>
+          </table>
+        </form>
+        <!--- ソース -->
+        <div></div>
+      </div>
+    </div>
+
+    <script>
+      // ################################################################################################################
+      // ########################### Editor Contorl ######################################################################
+      // document.getElementById("showScrollY").addEventListener("change", function (e) {
+      //   eval(getShowDialogFunc());
+      // });
+      // document.getElementById("hideScrollY").addEventListener("change", function (e) {
+      //   eval(getShowDialogFunc());
+      // });
+
+      document.getElementById("banner_title").addEventListener("change", function (e) {
+        document.getElementById("bannerTitle").innerHTML = window.document.forms[0].banner_title.value;
+      });
+      document.getElementById("banner_message").addEventListener("change", function (e) {
+        document.getElementById("bannerMessage").innerHTML = window.document.forms[0].banner_message.value;
+      });
+
+      document.getElementById("image_url").addEventListener("change", function (e) {
+        var imageURL = window.document.forms[0].image_url.value;
+        document.getElementById("bannerImg").src = imageURL;
+      });
+      // Button 1 ========================
+      document.getElementById("banner_btn").addEventListener("change", function (e) {
+        var BTNText = window.document.forms[0].banner_btn.value;
+        document.getElementById("bannerBTN").innerHTML = BTNText;
+      });
+      document.getElementById("banner_btn_url").addEventListener("change", function (e) {
+        var BTNURL = window.document.forms[0].banner_btn_url.value;
+        document.getElementById("bannerBTN").href = BTNURL;
+      });
+
+      document.getElementById("banner_template").addEventListener("change", function (e) {
+        var templateHTML = window.document.forms[0].banner_template.value;
+        document.getElementById("preview").innerHTML = templateHTML;
+        formvalue_update();
+      });
+      document.getElementById("banner_template").style.display = "none";
+      document.getElementById("detail").addEventListener("change", function (e) {
+        var detail_check = window.document.forms[0].detail.checked ? "block" : "none";
+        console.log("detail_check: " + detail_check);
+        document.getElementById("banner_template").style.display = detail_check;
+      });
+
+      // ================= =================  OK コード出力 ================= =================
+      document.getElementById("ok").addEventListener("click", function (e) {
+        outputscript = getShowDialogFunc() + ";setTimeout(scrollShowHideCheck, 500);window.addEventListener('scroll', function () {scrollShowHideCheck();});";
+        // outputscript = getShowDialogFunc() + ";setTimeout(scrollShowHideCheck, 500);window.addEventListener('scroll', function () {scrollShowHideCheck();});";
+        outputscript = outputscript + "function getBannerHTML() { return '" + getBannerHTML() + "'}";
+        fontlib = 'var css=document.createElement("link");css.setAttribute("rel","stylesheet");css.setAttribute("type","text/css");';
+        fontlib = fontlib + 'css.setAttribute("href","https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css");';
+        fontlib = fontlib + 'document.getElementsByTagName("head")[0].appendChild(css);';
+        outputscript = outputscript + fontlib;
+        document.getElementById("bannerSource").value = "<" + "script>" + outputscript + "</" + "script>";
+      });
+
+      document.getElementById("show").addEventListener("click", function (e) {
+        //setTimeout(showDialog, 100);
+        eval(getShowDialogFunc());
+        setTimeout(scrollShowHideCheck, 100);
+        window.addEventListener("scroll", function () {
+          scrollShowHideCheck();
+        });
+      });
+      function formvalue_update() {
+        // 既存のフォームの値を反映
+        document.getElementById("bannerTitle").innerHTML = window.document.forms[0].banner_title.value;
+        document.getElementById("bannerMessage").innerHTML = window.document.forms[0].banner_message.value;
+        var imageURL = window.document.forms[0].image_url.value;
+        document.getElementById("bannerImg").src = imageURL;
+        var BTNText = window.document.forms[0].banner_btn.value;
+        document.getElementById("bannerBTN").innerHTML = BTNText;
+        var BTNURL = window.document.forms[0].banner_btn_url.value;
+        document.getElementById("bannerBTN").href = BTNURL;
+
+      }
+      // ################################################################################################################
+      // ########################### Dialog構築部分 ######################################################################
+      // 初期化
+      function initBanner() {
+        var baseTempl =
+        '\
+      <div id="ATbanner" style="position:relative;padding:50px;">\
+      <div style="display:flex;">\
+      <div><h3 id="bannerTitle" style="">メンテナンス中</h3><div id="bannerMessage">現在メンテナンスのためお申し込みができません。</div></div>\
+      <img id="bannerImg" style="width:100px;height: fit-content;" src="http://vizl.chu.jp/www/poc/image-yoko.png">\
+      </div>\
+      <div style="margin-top:24px;text-align:center;"><a id="bannerBTN" class="textBTN" href="#">新規</a></div>\
+      </div>\
+      <style>\
+        #ATbanner {box-shadow: 0 0 16px gray;padding:10px;border-radius:10px;width: 500px; background:white;}\
+        #ATDialogBase{z-index:110; position:fixed; left:30px; bottom:30px; display:flex;}\n\
+        .textBTN {width:100%; text-align:center; background-color:black; color: white; padding: 0.64rem 2.14rem; border-radius:10px; margin:0.375rem;}\
+      </style>\
+      ';
+
+        document.getElementById("preview").innerHTML = baseTempl;
+        document.getElementById("banner_template").innerHTML = baseTempl.replace(/\>/g, ">\n");
+        formvalue_update();
+      }
+      initBanner();
+
+      function getShowDialogFunc() {
+        return (
+          '\
+function showDialog() {\
+  var blackoutElm = document.createElement("div");blackoutElm.id="blackoutElm";blackoutElm.style="z-index:105;position: absolute;top:0px;bottom: 0px;right: 0px;left: 0px;background: black;opacity: 0.5;";\
+  var dialogBaseElm = document.createElement("div");\
+  var dialogContentElm = document.createElement("div");\
+  dialogBaseElm.appendChild(dialogContentElm);\
+  dialogBaseElm.id ="ATDialogBase";\
+  dialogBaseElm.style = "z-index:110; position:fixed; left:50%; top:50%; margin-left:-250px; margin-top:-100px; display:flex;";\
+  dialogContentElm.innerHTML = getBannerHTML();\
+  document.body.appendChild(blackoutElm);\
+  document.body.appendChild(dialogBaseElm);\
+}\
+showScrollPercent = ' +
+          window.document.forms[0].showScrollY.value +
+          ";\
+hideScrollPercent = " +
+          window.document.forms[0].hideScrollY.value +
+          ';\
+showFlg = false;\
+function scrollShowHideCheck() {\
+  scrollPercent = (window.pageYOffset / (window.document.body.clientHeight - window.innerHeight)) * 100;\
+  if ((scrollPercent==Infinity)||(scrollPercent < 0)) {\
+    scrollYMax = window.document.body.scrollHeight - window.document.body.clientHeight;\
+    scrollPercent = scrollYMax > 0 ? (window.scrollY / scrollYMax) * 100 : 100;\
+    scrollPercent = scrollPercent > 100 ? 100 : scrollPercent;\
+  }\
+  if (!showFlg && scrollPercent >= showScrollPercent && scrollPercent <= hideScrollPercent) {\
+    showDialog();\
+    showFlg = true;\
+  }\
+  if (showFlg && (scrollPercent > hideScrollPercent || scrollPercent < showScrollPercent)) {\
+    showFlg = false;\
+    document.body.removeChild(document.getElementById("ATDialogBase"));\
+  }\
+}\
+'
+        );
+      }
+      // eval(getShowDialogFunc());
+
+      // 実際にPreviewされているHTMLから表示用の文字列を作成 / ATとEditorどちらでも動くようにshowDialog()の中から呼ばれる
+      function getBannerHTML() {
+        var previewHTML = document.getElementById("preview").innerHTML;
+        return previewHTML.trim().replace(/\r?\n/g, ""); // 改行とescape処理
+      }
+    </script>
+  </body>
+</html>
