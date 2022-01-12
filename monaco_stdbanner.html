@@ -5,6 +5,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.6.0/mdb.min.css" rel="stylesheet" />
+    <link rel="stylesheet" data-name="vs/editor/editor.main" href="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.20.0/min/vs/editor/editor.main.min.css">
 
     <style>
       body {
@@ -32,6 +33,8 @@
       <!------------------------ ------------->
       <div id="preview"></div>
       <div id="setting">
+        <!-- <div id="container" style="height:400px;border:1px solid black;"></div> -->
+
         <form>
           <table>
             <tr>
@@ -55,7 +58,8 @@
               </td>
             </tr>
             <tr>
-              <td colspan="2"><textarea id="banner_template" cols="120" rows="16"></textarea></td>
+              <!-- <td colspan="2"><textarea id="banner_template" cols="120" rows="16"></textarea></td> -->
+              <td colspan="2"><div id="banner_template" style="height:400px;border:1px solid black;"></div></td>
             </tr>
             <tr>
               <td colspan="2"><hr /></td>
@@ -74,7 +78,7 @@
         <div></div>
       </div>
     </div>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.26.1/min/vs/loader.min.js"></script>
     <script>
       // ################################################################################################################
       // ########################### Editor Contorl ######################################################################
@@ -93,16 +97,16 @@
         // var linkURL = window.document.forms[0].link_url.value;
         document.getElementById("bannerLink").href = window.document.forms[0].link_url.value;
       });
-      document.getElementById("banner_template").addEventListener("change", function (e) {
-        var templateHTML = window.document.forms[0].banner_template.value;
-        document.getElementById("preview").innerHTML = templateHTML;
-        formvalue_update();
-      });
-      document.getElementById("banner_template").style.display = "none";
+      // document.getElementById("banner_template").addEventListener("change", function (e) {
+      //   var templateHTML = window.document.forms[0].banner_template.value;
+      //   document.getElementById("preview").innerHTML = templateHTML;
+      //   formvalue_update();
+      // });
+      // document.getElementById("banner_template").style.display = "none";
       document.getElementById("detail").addEventListener("change", function (e) {
-        var detail_check = window.document.forms[0].detail.checked ? "block" : "none";
+        var detail_check = window.document.forms[0].detail.checked ? "visible" : "hidden";
         console.log("detail_check: " + detail_check);
-        document.getElementById("banner_template").style.display = detail_check;
+        document.getElementById("banner_template").style.visibility = detail_check;
       });
 
       // ================= =================  OK コード出力 ================= =================
@@ -132,23 +136,25 @@
       // ################################################################################################################
       // ########################### Dialog構築部分 ######################################################################
       // 初期化
+      var baseTempl;
       function initBanner() {
-        var baseTempl =
-          '\
-<div id="ATbanner" style="position:relative;">\
-  <i class="fas fa-lg fa-times-circle" style="position:absolute; top:0px; right:-5px;"></i>\
-  <a id="bannerLink" href="https://business.adobe.com/jp/products/target/adobe-target.html" target="_blank">\
-    <img id="bannerImg" width="100%;" max-height="200px" src="http://vizl.chu.jp/www/poc/image-yoko.png">\
-  </a>\
-</div>\
+        baseTempl =`
+<div id="ATbanner" style="position:relative;">
+  <i class="fas fa-lg fa-times-circle" style="position:absolute; top:0px; right:-5px;"></i>
+  <a id="bannerLink" href="https://business.adobe.com/jp/products/target/adobe-target.html" target="_blank">
+    <img id="bannerImg" width="100%;" max-height="200px" src="http://vizl.chu.jp/www/poc/image-yoko.png">
+  </a>
+</div>
 <style>\
 #ATbanner {box-shadow: 0 0 16px gray;padding:10px;border-radius:10px;width: 400px; background:white;}\n\
 #ATDialogBase{z-index:110; position:fixed; left:30px; bottom:30px; display:flex;}\n\
 @media screen and (max-width:768px) {#ATbanner{width:90%;} } \n\
-</style>\
-      ';
+</style>\        
+        `;
         document.getElementById("preview").innerHTML = baseTempl;
-        document.getElementById("banner_template").innerHTML = baseTempl.replace(/\>/g, ">\n");
+        if(editor) editor.getModel().setValue( baseTempl );
+        // if(editor) editor.getModel().setValue( baseTempl.replace(/\>/g, ">\n") );
+        // document.getElementById("banner_template").innerHTML = baseTempl.replace(/\>/g, ">\n");
         formvalue_update();
       }
       initBanner();
@@ -173,7 +179,7 @@ hideScrollPercent = " +
           ';\
 showFlg = false;\
 function scrollShowHideCheck() {\
-  scrollPercent = (window.pageYOffset==0)?0:(window.pageYOffset / (window.document.body.clientHeight - window.innerHeight)) * 100;\
+  scrollPercent = (window.pageYOffset / (window.document.body.clientHeight - window.innerHeight)) * 100;\
   if ((scrollPercent==Infinity)||(scrollPercent < 0)) {\
     scrollYMax = window.document.body.scrollHeight - window.document.body.clientHeight;\
     scrollPercent = scrollYMax > 0 ? (window.scrollY / scrollYMax) * 100 : 100;\
@@ -183,7 +189,7 @@ function scrollShowHideCheck() {\
     showDialog();\
     showFlg = true;\
   }\
-  if (showFlg && ( Math.floor(scrollPercent) > hideScrollPercent ||  Math.floor(scrollPercent) < showScrollPercent)) {\
+  if (showFlg && (scrollPercent > hideScrollPercent || scrollPercent < showScrollPercent)) {\
     showFlg = false;\
     document.body.removeChild(document.getElementById("ATDialogBase"));\
   }\
@@ -198,6 +204,30 @@ function scrollShowHideCheck() {\
         var previewHTML = document.getElementById("preview").innerHTML;
         return previewHTML.trim().replace(/\r?\n/g, ""); // 改行とescape処理
       }
+
+      var editor;
+      // require is provided by loader.min.js.
+      require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.26.1/min/vs' }});
+      require(["vs/editor/editor.main"], () => {
+        editor = monaco.editor.create(document.getElementById('banner_template'), {
+          value: `function x() {
+        console.log("Hello world!");
+      }`,
+          language: 'html',
+          theme: 'vs-dark',
+        });
+        editor.onDidBlurEditorText((e)=>{
+            console.log(" on blur");
+            document.getElementById("preview").innerHTML = editor.getValue();
+            // document.getElementById("preview").innerHTML = templateHTML;
+            formvalue_update();
+
+        });
+        editor.getModel().setValue( baseTempl.replace(/\>/g, ">\n") );
+
+      });
+
     </script>
+
   </body>
 </html>

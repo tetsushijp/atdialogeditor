@@ -221,7 +221,7 @@ hideScrollPercent = " +
           ';\
 showFlg = false;\
 function scrollShowHideCheck() {\
-  scrollPercent = (window.pageYOffset / (window.document.body.clientHeight - window.innerHeight)) * 100;\
+  scrollPercent = (window.pageYOffset==0)?0:(window.pageYOffset / (window.document.body.clientHeight - window.innerHeight)) * 100;\
   if ((scrollPercent==Infinity)||(scrollPercent < 0)) {\
     scrollYMax = window.document.body.scrollHeight - window.document.body.clientHeight;\
     scrollPercent = scrollYMax > 0 ? (window.scrollY / scrollYMax) * 100 : 100;\
