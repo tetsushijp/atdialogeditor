@@ -157,7 +157,7 @@
 </div>\
 <div style="display:flex;width:100%;justify-content: space-between;"><div>大変不満</div><div>大変満足</div></div>\
 </form>\
-<input type="button" value="回答を送信する" style="border-radius: 5px;background: #56af9f;color: white;padding: 5px 30px;box-shadow: 0 3px 10px rgb(0 0 0 / 30%);border-color:#56af9f; margin-top:20px;">\
+<input onclick="javascript:submitProc();" type="button" value="回答を送信する" style="border-radius: 5px;background: #56af9f;color: white;padding: 5px 30px;box-shadow: 0 3px 10px rgb(0 0 0 / 30%);border-color:#56af9f; margin-top:20px;">\
 </div>\
 <style>\
 #ATbanner {box-shadow: 0 0 16px gray;padding:45px;border-radius:2px;width: 350px; background:white;}\
@@ -184,11 +184,14 @@ function showDialog() {\
   dialogContentElm.innerHTML = getBannerHTML();\
   document.body.appendChild(dialogBaseElm);\
 }\
+function submitProc() {\
+console.log("onsubmig: "+document.forms["qform"].choice.forEach((cc,index)=>console.log(index+"-"+cc.checked)));\
+}\
 showScrollPercent = ' +
-          window.document.forms[0].showScrollY.value +
+          window.document.forms["settingform"].showScrollY.value +
           ";\
 hideScrollPercent = " +
-          window.document.forms[0].hideScrollY.value +
+          window.document.forms["settingform"].hideScrollY.value +
           ';\
 showFlg = false;\
 function scrollShowHideCheck() {\
@@ -210,7 +213,7 @@ function scrollShowHideCheck() {\
 '
         );
       }
-      // eval(getShowDialogFunc());
+      eval(getShowDialogFunc());
 
       // 実際にPreviewされているHTMLから表示用の文字列を作成 / ATとEditorどちらでも動くようにshowDialog()の中から呼ばれる
       function getBannerHTML() {
