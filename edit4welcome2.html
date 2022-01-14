@@ -1,6 +1,8 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <script src="https://assets.adobedtm.com/253f5bd08be2/5032e2df9891/launch-bc3421bc8941-development.min.js" async></script>
+
     <!-- https://img-cf.karte.io/image/5fc4bc2e1429c800112fdbcf::icon_firstkarte01.png
     https://img-cf.karte.io/image/5fc4bc1e4078c300119c58e8::icon_firstkarte03.png
     https://img-cf.karte.io/image/5fc4bc1055afd10011892722::icon_firstkarte02.png -->
@@ -53,8 +55,8 @@
               <td><input id="banner_text2" type="text" name="banner_text2" size="60" value="ようこそオンラインストアへ >>" /></td>
             </tr>
             <tr>
-              <td><hr></td>
-              <td><hr></td>
+              <td><hr /></td>
+              <td><hr /></td>
             </tr>
             <tr>
               <td>画像URL1(#itemImg1)</td>
@@ -73,8 +75,8 @@
               <td><input id="banner_link_url1" type="text" name="banner_link_url1" size="60" value="#btn1" /></td>
             </tr>
             <tr>
-              <td><hr></td>
-              <td><hr></td>
+              <td><hr /></td>
+              <td><hr /></td>
             </tr>
             <tr>
               <td>画像URL2(#itemImg2)</td>
@@ -93,8 +95,8 @@
               <td><input id="banner_link_url2" type="text" name="banner_link_url2" size="60" value="#btn2" /></td>
             </tr>
             <tr>
-              <td><hr></td>
-              <td><hr></td>
+              <td><hr /></td>
+              <td><hr /></td>
             </tr>
             <tr>
               <td>画像URL3(#itemImg3)</td>
@@ -113,8 +115,8 @@
               <td><input id="banner_link_url3" type="text" name="banner_link_url3" size="60" value="#btn3" /></td>
             </tr>
             <tr>
-              <td><hr></td>
-              <td><hr></td>
+              <td><hr /></td>
+              <td><hr /></td>
             </tr>
 
             <tr>
@@ -173,7 +175,6 @@
         document.getElementById("bannerLink1").href = window.document.forms[0].banner_link_url1.value;
       });
 
-      
       document.getElementById("image_url2").addEventListener("change", function (e) {
         document.getElementById("itemImg2").src = window.document.forms[0].image_url2.value;
       });
@@ -186,8 +187,6 @@
       document.getElementById("banner_link_url2").addEventListener("change", function (e) {
         document.getElementById("bannerLink2").href = window.document.forms[0].banner_link_url2.value;
       });
-
-
 
       document.getElementById("image_url3").addEventListener("change", function (e) {
         document.getElementById("itemImg3").src = window.document.forms[0].image_url3.value;
@@ -221,7 +220,8 @@
 
       // ================= =================  OK コード出力 ================= =================
       document.getElementById("ok").addEventListener("click", function (e) {
-        document.getElementById("ATbanner2").style.display="none"; document.getElementById("ATbanner2").style.marginTop="0px";
+        document.getElementById("ATbanner2").style.display = "none";
+        document.getElementById("ATbanner2").style.marginTop = "0px";
         outputscript = getShowDialogFunc() + ";setTimeout(scrollShowHideCheck, 500);window.addEventListener('scroll', function () {scrollShowHideCheck();});";
         outputscript = outputscript + "function getBannerHTML() { return '" + getBannerHTML() + "'}";
         fontlib = 'var css=document.createElement("link");css.setAttribute("rel","stylesheet");css.setAttribute("type","text/css");';
@@ -229,7 +229,8 @@
         fontlib = fontlib + 'document.getElementsByTagName("head")[0].appendChild(css);';
         outputscript = outputscript + fontlib;
         document.getElementById("bannerSource").value = "<" + "script>" + outputscript + "</" + "script>";
-        document.getElementById("ATbanner2").style.display="block"; document.getElementById("ATbanner2").style.marginTop="20px";
+        document.getElementById("ATbanner2").style.display = "block";
+        document.getElementById("ATbanner2").style.marginTop = "20px";
       });
 
       // document.getElementById("show").addEventListener("click", function (e) {
@@ -308,7 +309,7 @@
   #bannerText{font-size:1.75rem;}\
 <style>\
       ';
-      //#ATDialogBase{z-index:110; position:fixed; left:30px; bottom:30px; display:flex;}\n\
+        //#ATDialogBase{z-index:110; position:fixed; left:30px; bottom:30px; display:flex;}\n\
 
         document.getElementById("preview").innerHTML = baseTempl;
         document.getElementById("banner_template").innerHTML = baseTempl.replace(/\>/g, ">\n");
@@ -375,7 +376,10 @@ function scrollShowHideCheck() {\
         var previewHTML = document.getElementById("preview").innerHTML;
         return previewHTML.trim().replace(/\r?\n/g, ""); // 改行とescape処理
       }
-      setTimeout(function(){  document.getElementById("ATbanner2").style.display="block"; document.getElementById("ATbanner2").style.marginTop="20px"},500);
+      setTimeout(function () {
+        document.getElementById("ATbanner2").style.display = "block";
+        document.getElementById("ATbanner2").style.marginTop = "20px";
+      }, 500);
     </script>
   </body>
 </html>
