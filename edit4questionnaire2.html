@@ -44,6 +44,10 @@
               </td>
             </tr>
             <tr>
+              <td>アンケートID(#qEnqID)</td>
+              <td><input id="q_enqID" type="text" name="q_enqID" size="30" value="enq_123" /></td>
+            </tr>
+            <tr>
               <td>テキスト1行目(#qText1)</td>
               <td><input id="q_text1" type="text" name="q_text1" size="60" value="アンケートにご協力お願いします" /></td>
             </tr>
@@ -87,6 +91,9 @@
         eval(getShowDialogFunc());
       });
 
+      document.getElementById("q_enqID").addEventListener("change", function (e) {
+        document.getElementById("qEnqID").innerHTML = window.document.forms["settingform"].q_enqID.value;
+      });
       document.getElementById("q_text1").addEventListener("change", function (e) {
         document.getElementById("qText1").innerHTML = window.document.forms["settingform"].q_text1.value;
       });
@@ -137,6 +144,7 @@
           '\
 <div id="ATbanner" style="position:relative;">\
 <i class="fas fa-lg fa-times-circle" style="position:absolute; top:0px; right:-5px;" onclick="javascript:closeDialog();"></i>\
+<div id="qEnqID" style="color:gray;font-size:small;paddin-bottom:10px;">enqID 999</div>\
 <div id="qText1" style="color:gray;font-size:small;paddin-bottom:10px;">アンケートにご協力をお願いします</div>\
 <div id="qText2" style="color:black;">本ページの分かりやすさはいかがですか？(5段階)</div>\
 <form id="qform">\
