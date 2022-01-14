@@ -31,7 +31,7 @@
       TODO:
       - 一度答えたアンケートには回答させない。enq_idで判定するためのロジックを追加する。  
     </pre>
-    <!-- <input type="button" id="show" value="show" /> -->
+    <input type="button" id="show" value="show" />
     <hr />
 
     <div style="display: flex">
@@ -127,14 +127,14 @@
         document.getElementById("bannerSource").value = "<" + "script>" + outputscript + "</" + "script>";
       });
 
-      // document.getElementById("show").addEventListener("click", function (e) {
-      //   //setTimeout(showDialog, 100);
-      //   eval(getShowDialogFunc());
-      //   setTimeout(scrollShowHideCheck, 100);
-      //   window.addEventListener("scroll", function () {
-      //     scrollShowHideCheck();
-      //   });
-      // });
+      document.getElementById("show").addEventListener("click", function (e) {
+        //setTimeout(showDialog, 100);
+        eval(getShowDialogFunc());
+        setTimeout(scrollShowHideCheck, 100);
+        window.addEventListener("scroll", function () {
+          scrollShowHideCheck();
+        });
+      });
       function formvalue_update() {
         // 既存のフォームの値を反映
         document.getElementById("qText1").innerHTML = window.document.forms["settingform"].q_text1.value;
@@ -204,10 +204,21 @@ function closeDialog() {console.log("close");\
   document.body.removeChild(document.getElementById("ATDialogBase"));\
 }\
 function submitProc() {\
+var ckname="__aEnqHist__";\
+var enqHist=[];\
+document.cookie.split(";").forEach(d=>{d=d.split("=");console.log(d[0]);if(d[0].trim()==ckname)enqHist=JSON.parse(d[1])});\
+var enqIdIndex=new Object(); enqHist.forEach(d=>{enqIdIndex[d]=true;});\
+var __enqId=document.getElementById("qEnqID").innerText;\
+if(enqIdIndex[__enqId]) {alert("すでに回答済み");}\
+console.log("setcookie----:"+__enqId);\
+enqHist.push(__enqId);\
+document.cookie=ckname+"="+JSON.stringify(enqHist)+";expires="+((new Date()).setTime((new Date()).getTime()+1000*3600*24*30))+";";\
+console.log("end set cookie");\
 document.forms["qform"].choice.forEach((cc,index)=>console.log(index+"-"+cc.checked));\
 var choiceResult="";\
 document.forms["qform"].choice.forEach((cc,index)=>{if(cc.checked)choiceResult=index;});\
 console.log("##### Result choice :"+choiceResult);\
+closeDialog();\
 }\
 showScrollPercent = ' +
           window.document.forms["settingform"].showScrollY.value +
