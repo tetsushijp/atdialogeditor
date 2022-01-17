@@ -116,7 +116,8 @@
 
       // ================= =================  OK コード出力 ================= =================
       document.getElementById("ok").addEventListener("click", function (e) {
-        outputscript = getShowDialogFunc() + ";showDialog();setTimeout(scrollShowHideCheck, 500);window.addEventListener('scroll', function () {scrollShowHideCheck();});";
+        outputscript = getShowDialogFunc() + ";setTimeout(scrollShowHideCheck, 500);window.addEventListener('scroll', function () {scrollShowHideCheck();});";
+        // outputscript = getShowDialogFunc() + ";showDialog();setTimeout(scrollShowHideCheck, 500);window.addEventListener('scroll', function () {scrollShowHideCheck();});";
         outputscript = outputscript + "function getBannerHTML() { return '" + getBannerHTML() + "'}";
         fontlib = 'var css=document.createElement("link");css.setAttribute("rel","stylesheet");css.setAttribute("type","text/css");';
         fontlib = fontlib + 'css.setAttribute("href","https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css");';
@@ -195,6 +196,7 @@ function scrollShowHideCheck() {\
   }\
   if (!showFlg && scrollPercent >= showScrollPercent && scrollPercent <= hideScrollPercent) {\
     showDialog();\
+    initFlg=true;\
     showFlg = true;\
   }\
   if (showFlg && ( Math.floor(scrollPercent) > hideScrollPercent ||  Math.floor(scrollPercent) < showScrollPercent)) {\
@@ -216,6 +218,7 @@ var bannerCDTargetDate = new Date("' +
           '");\
 var CDloop = 10;\
 var showFlg=true;\
+var initFlg = false;\
 function showCountDown() {\
   var diff2Dates = (bannerCDTargetDate - new Date());\
   var dDays = diff2Dates / (1000 * 60 * 60 * 24);\
@@ -229,11 +232,11 @@ function showCountDown() {\
   var CDmsg = (Math.floor(dDays)*24+Math.floor(dHour)) + "時間"\
     + Math.floor(dMin) + "分"\
     + Math.floor(dSec) + "秒";\
-  if(showFlg) document.getElementById("bannerCD").innerText = "あと" + CDmsg;\
+  if(showFlg&&initFlg) document.getElementById("bannerCD").innerText = "あと" + CDmsg;\
   if(false)console.log("あと" + CDmsg);\
   if (CDloop > 0) setTimeout(showCountDown, 1000);\
 }\
-setTimeout(showCountDown, 2000);\
+setTimeout(showCountDown, 1000);\
       '
         );
       }
