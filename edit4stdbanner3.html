@@ -1,0 +1,272 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <script
+      src="https://assets.adobedtm.com/253f5bd08be2/5032e2df9891/launch-bc3421bc8941-development.min.js"
+      async
+    ></script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.6.0/mdb.min.css" rel="stylesheet" />
+    <script type="text/javascript" src="colorpicker/js/jquery-1.9.1.js"></script>
+    <link rel="stylesheet" href="colorpicker/css/custom-spectrum.css" />
+    <script src="colorpicker/js/spectrum.js"></script>
+
+    <style>
+      body {
+        margin: 20px;
+      }
+
+      #preview {
+        border: 0px solid;
+        width: 50%;
+        height: 500px;
+      }
+
+      #setting {
+        margin: 20px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Dialog Editor for スタンダードバナー</h1>
+    <input type="button" id="show" value="show" />
+    <hr />
+
+    <div style="display: flex">
+      <!------------------------ ------------->
+      <div id="preview"></div>
+      <div id="setting">
+        <form>
+          <table>
+            <tr>
+              <td>表示スクロール位置</td>
+              <td>
+                <input id="showScrollY" type="text" name="showScrollY" size="5" value="0" /> -
+                <input id="hideScrollY" type="text" name="hideScrollY" size="5" value="100" />
+              </td>
+            </tr>
+            <tr>
+              <td>画像URL(#bannerImg)</td>
+              <td>
+                <input
+                  id="image_url"
+                  type="text"
+                  name="img_url"
+                  size="60"
+                  value="https://www.ymobile.jp/common_c/images/bnr/bnr_oyakowari22_b.png"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>リンクURL(#bannerLink)</td>
+              <td>
+                <input
+                  id="link_url"
+                  type="text"
+                  name="link_url"
+                  size="60"
+                  value="https://www.ymobile.jp/sp/ymoyakowari/"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>背景色</td>
+              <td>
+                <input type="text" id="bk_color" name="bk_color" />
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <label><input type="checkbox" id="detail" /> テンプレート編集 </label>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2"><textarea id="banner_template" cols="120" rows="16"></textarea></td>
+            </tr>
+            <tr>
+              <td colspan="2"><hr /></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <input type="button" value=" コード出力 " id="ok" />
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2"><textarea id="bannerSource" cols="120" rows="16"></textarea></td>
+            </tr>
+          </table>
+        </form>
+        <!--- ソース -->
+        <div></div>
+      </div>
+    </div>
+
+    <script>
+      // ################################################################################################################
+      // ########################### Editor Contorl ######################################################################
+      document.getElementById("showScrollY").addEventListener("change", function (e) {
+        eval(getShowDialogFunc());
+      });
+      document.getElementById("hideScrollY").addEventListener("change", function (e) {
+        eval(getShowDialogFunc());
+      });
+
+      document.getElementById("image_url").addEventListener("change", function (e) {
+        // var imageURL = window.document.forms[0].image_url.value;
+        document.getElementById("bannerImg").src = window.document.forms[0].image_url.value;
+      });
+      document.getElementById("link_url").addEventListener("change", function (e) {
+        // var linkURL = window.document.forms[0].link_url.value;
+        document.getElementById("bannerLink").href = window.document.forms[0].link_url.value;
+      });
+      document.getElementById("bk_color").addEventListener("change", function (e) {});
+
+      document.getElementById("banner_template").addEventListener("change", function (e) {
+        var templateHTML = window.document.forms[0].banner_template.value;
+        document.getElementById("preview").innerHTML = templateHTML;
+        formvalue_update();
+      });
+      document.getElementById("banner_template").style.display = "none";
+      document.getElementById("detail").addEventListener("change", function (e) {
+        var detail_check = window.document.forms[0].detail.checked ? "block" : "none";
+        console.log("detail_check: " + detail_check);
+        document.getElementById("banner_template").style.display = detail_check;
+      });
+
+      // ================= =================  OK コード出力 ================= =================
+      document.getElementById("ok").addEventListener("click", function (e) {
+        outputscript =
+          getShowDialogFunc() +
+          ";setTimeout(scrollShowHideCheck, 500);window.addEventListener('scroll', function () {scrollShowHideCheck();});";
+        outputscript = outputscript + "function getBannerHTML() { return '" + getBannerHTML() + "'}";
+        fontlib =
+          'var css=document.createElement("link");css.setAttribute("rel","stylesheet");css.setAttribute("type","text/css");';
+        fontlib =
+          fontlib +
+          'css.setAttribute("href","https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css");';
+        fontlib = fontlib + 'document.getElementsByTagName("head")[0].appendChild(css);';
+        outputscript = outputscript + fontlib;
+        document.getElementById("bannerSource").value = "<" + "script>" + outputscript + "</" + "script>";
+      });
+
+      document.getElementById("show").addEventListener("click", function (e) {
+        //setTimeout(showDialog, 100);
+        eval(getShowDialogFunc());
+        setTimeout(scrollShowHideCheck, 100);
+        window.addEventListener("scroll", function () {
+          scrollShowHideCheck();
+        });
+      });
+      function formvalue_update() {
+        // 既存のフォームの値を反映
+        document.getElementById("bannerImg").src = window.document.forms[0].image_url.value;
+        document.getElementById("bannerLink").href = window.document.forms[0].link_url.value;
+        // document.getElementById("ATbanner").style.backgroundColor = window.document.forms[0].bk_color.value;
+      }
+      // ################################################################################################################
+      // ########################### Dialog構築部分 ######################################################################
+      // 初期化
+      function initBanner() {
+        var baseTempl =
+          '\
+<div id="ATbanner" style="position:relative;">\
+  <i class="fas fa-lg fa-times-circle" style="position:absolute; top:0px; right:-5px;"></i>\
+  <a id="bannerLink" href="https://business.adobe.com/jp/products/target/adobe-target.html" target="_blank">\
+    <img id="bannerImg" width="100%;" max-height="200px" src="http://vizl.chu.jp/www/poc/image-yoko.png">\
+  </a>\
+</div>\
+<style>\
+#ATbanner {box-shadow: 0 0 16px gray;padding:10px;border-radius:10px;width: 400px; background:' +
+          window.document.forms[0].bk_color.value +
+          ";}\n\
+#ATDialogBase{z-index:110; position:fixed; left:30px; bottom:30px; display:flex;}\n\
+@media screen and (max-width:768px) {#ATbanner{width:90%;} } \n\
+</style>\
+      ";
+        document.getElementById("preview").innerHTML = baseTempl;
+        document.getElementById("banner_template").innerHTML = baseTempl.replace(/\>/g, ">\n");
+        formvalue_update();
+      }
+      initBanner();
+
+      function getShowDialogFunc() {
+        return (
+          '\
+function showDialog() {\
+  var dialogBaseElm = document.createElement("div");\
+  var dialogContentElm = document.createElement("div");\
+  dialogBaseElm.appendChild(dialogContentElm);\
+  dialogBaseElm.addEventListener("click",function() {document.body.removeChild(this);});\
+  dialogBaseElm.id ="ATDialogBase";\
+  dialogContentElm.innerHTML = getBannerHTML();\
+  document.body.appendChild(dialogBaseElm);\
+}\
+showScrollPercent = ' +
+          window.document.forms[0].showScrollY.value +
+          ";\
+hideScrollPercent = " +
+          window.document.forms[0].hideScrollY.value +
+          ';\
+showFlg = false;\
+function scrollShowHideCheck() {\
+  scrollPercent = (window.pageYOffset==0)?0:(window.pageYOffset / (window.document.body.clientHeight - window.innerHeight)) * 100;\
+  if ((scrollPercent==Infinity)||(scrollPercent < 0)) {\
+    scrollYMax = window.document.body.scrollHeight - window.document.body.clientHeight;\
+    scrollPercent = scrollYMax > 0 ? (window.scrollY / scrollYMax) * 100 : 100;\
+    scrollPercent = scrollPercent > 100 ? 100 : scrollPercent;\
+  }\
+  if (!showFlg && scrollPercent >= showScrollPercent && scrollPercent <= hideScrollPercent) {\
+    showDialog();\
+    showFlg = true;\
+  }\
+  if (showFlg && ( Math.floor(scrollPercent) > hideScrollPercent ||  Math.floor(scrollPercent) < showScrollPercent)) {\
+    showFlg = false;\
+    document.body.removeChild(document.getElementById("ATDialogBase"));\
+  }\
+}\
+'
+        );
+      }
+      // eval(getShowDialogFunc());
+
+      // 実際にPreviewされているHTMLから表示用の文字列を作成 / ATとEditorどちらでも動くようにshowDialog()の中から呼ばれる
+      function getBannerHTML() {
+        var previewHTML = document.getElementById("preview").innerHTML;
+        return previewHTML.trim().replace(/\r?\n/g, ""); // 改行とescape処理
+      }
+    </script>
+    <script>
+      $(document).ready(function () {
+        $("#bk_color").spectrum({
+          flat: false,
+          showAlpha: false,
+          showPalette: true,
+          palette: [
+            ["black", "white", "blanchedalmond"],
+            ["rgb(255, 128, 0);", "hsv 100 70 50", "lightyellow"],
+          ],
+          showInitial: true,
+          chooseText: "選択",
+          cancelText: "キャンセル",
+          showPaletteOnly: false,
+          showSelectionPalette: true,
+          preferredFormat: "hex",
+          move: function (color) {
+            $("#ATbanner").css("background-color", color);
+          },
+          change: function (color) {
+            // console.log("color:" + color.toHexString());
+            initBanner();
+            document.getElementById("preview").innerHTML = window.document.forms[0].banner_template.value;
+            formvalue_update();
+          },
+          color: "#fff",
+          showInput: true,
+        });
+      });
+    </script>
+  </body>
+</html>
