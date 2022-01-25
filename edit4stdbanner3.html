@@ -1,10 +1,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <script
-      src="https://assets.adobedtm.com/253f5bd08be2/5032e2df9891/launch-bc3421bc8941-development.min.js"
-      async
-    ></script>
+    <script src="https://assets.adobedtm.com/253f5bd08be2/5032e2df9891/launch-bc3421bc8941-development.min.js" async></script>
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.6.0/mdb.min.css" rel="stylesheet" />
     <script type="text/javascript" src="colorpicker/js/jquery-1.9.1.js"></script>
@@ -40,48 +37,15 @@
         <form>
           <table>
             <tr>
-              <td>表示スクロール位置</td>
-              <td>
-                <input id="showScrollY" type="text" name="showScrollY" size="6" value="0" /> % -
-                <input id="hideScrollY" type="text" name="hideScrollY" size="6" value="100" /> %
-              </td>
-            </tr>
-            <tr>
-              <td></td>
-              <td>&</td>
-            </tr>
-            <tr>
-              <td>表示開始-終了時間(ミリ秒)</td>
-              <td>
-                <input id="showStartTime" type="text" name="showStartTime" size="6" value="500" /> ms -
-                <input id="showEndTime" type="text" name="showEndTime" size="6" value="" /> ms
-              </td>
-            </tr>
-            <tr>
-              <td colspan="2"><hr /></td>
-            </tr>
-            <tr>
               <td>画像URL(#bannerImg)</td>
               <td>
-                <input
-                  id="image_url"
-                  type="text"
-                  name="img_url"
-                  size="60"
-                  value="https://www.ymobile.jp/common_c/images/bnr/bnr_oyakowari22_b.png"
-                />
+                <input id="image_url" type="text" name="img_url" size="60" value="https://www.ymobile.jp/common_c/images/bnr/bnr_oyakowari22_b.png" />
               </td>
             </tr>
             <tr>
               <td>リンクURL(#bannerLink)</td>
               <td>
-                <input
-                  id="link_url"
-                  type="text"
-                  name="link_url"
-                  size="60"
-                  value="https://www.ymobile.jp/sp/ymoyakowari/"
-                />
+                <input id="link_url" type="text" name="link_url" size="60" value="https://www.ymobile.jp/sp/ymoyakowari/" />
               </td>
             </tr>
             <tr>
@@ -89,6 +53,92 @@
               <td>
                 <input type="text" id="bk_color" name="bk_color" value="#FFF" />
               </td>
+            </tr>
+            <tr>
+              <td colspan="2"><hr /></td>
+            </tr>
+            <tr>
+              <td>表示スクロール位置</td>
+              <td><input id="showScrollY" type="text" name="showScrollY" size="6" value="0" /> % - <input id="hideScrollY" type="text" name="hideScrollY" size="6" value="100" /> %</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>&</td>
+            </tr>
+            <tr>
+              <td>表示開始-終了時間(ミリ秒)</td>
+              <td><input id="showStartTime" type="text" name="showStartTime" size="6" value="500" /> ms - <input id="showEndTime" type="text" name="showEndTime" size="6" value="" /> ms</td>
+            </tr>
+            <tr>
+              <td colspan="2"><hr /></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <label>PCの表示位置 </label>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <style>
+                  .banner-position {
+                    display: flex;
+                    width: 460px;
+                    flex-wrap: wrap;
+                    background-color: #eee;
+                  }
+                  .position-item {
+                    width: 80px;
+                    height: 50px;
+                    background-color: #aaa;
+                    margin: 20px;
+                    border-radius: 8px;
+                  }
+                  .position-item:hover {
+                    background-color: pink;
+                  }
+                  input:checked + label {
+                    background-color: red;
+                  }
+                  .radiobtn {
+                    display: none;
+                  }
+                </style>
+                <div class="banner-position">
+                  <input class="radiobtn" type="radio" id="SPlt" name="posLRTB" value="lt" /><label for="SPlt" class="position-item"></label>
+                  <input class="radiobtn" type="radio" id="SPct" name="posLRTB" value="ct" /><label for="SPct" class="position-item"></label>
+                  <input class="radiobtn" type="radio" id="SPrt" name="posLRTB" value="rt" /><label for="SPrt" class="position-item"></label>
+                  <input class="radiobtn" type="radio" id="SPlc" name="posLRTB" value="lc" /><label for="SPlc" class="position-item"></label>
+                  <input class="radiobtn" type="radio" id="SPcc" name="posLRTB" value="cc" /><label for="SPcc" class="position-item"></label>
+                  <input class="radiobtn" type="radio" id="SPrc" name="posLRTB" value="rc" /><label for="SPrc" class="position-item"></label>
+                  <input class="radiobtn" type="radio" id="SPlb" name="posLRTB" value="lb" checked /><label for="SPlb" class="position-item"></label>
+                  <input class="radiobtn" type="radio" id="SPcb" name="posLRTB" value="cb" /><label for="SPcb" class="position-item"></label>
+                  <input class="radiobtn" type="radio" id="SPrb" name="posLRTB" value="rb" /><label for="SPrb" class="position-item"></label>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <br />
+                <label>スマホの表示位置 </label>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <div class="banner-position">
+                  <input class="radiobtn" type="radio" id="lt" name="SPposLRTB" value="lt" /><label for="lt" class="position-item"></label>
+                  <input class="radiobtn" type="radio" id="ct" name="SPposLRTB" value="ct" /><label for="ct" class="position-item"></label>
+                  <input class="radiobtn" type="radio" id="rt" name="SPposLRTB" value="rt" /><label for="rt" class="position-item"></label>
+                  <input class="radiobtn" type="radio" id="lc" name="SPposLRTB" value="lc" /><label for="lc" class="position-item"></label>
+                  <input class="radiobtn" type="radio" id="cc" name="SPposLRTB" value="cc" /><label for="cc" class="position-item"></label>
+                  <input class="radiobtn" type="radio" id="rc" name="SPposLRTB" value="rc" /><label for="rc" class="position-item"></label>
+                  <input class="radiobtn" type="radio" id="lb" name="SPposLRTB" value="lb" checked /><label for="lb" class="position-item"></label>
+                  <input class="radiobtn" type="radio" id="cb" name="SPposLRTB" value="cb" /><label for="cb" class="position-item"></label>
+                  <input class="radiobtn" type="radio" id="rb" name="SPposLRTB" value="rb" /><label for="rb" class="position-item"></label>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2"><hr /></td>
             </tr>
             <tr>
               <td colspan="2">
@@ -125,6 +175,22 @@
       document.getElementById("hideScrollY").addEventListener("change", function (e) {
         eval(getShowDialogFunc());
       });
+      var positionCSS = {
+        lt: "left:30px;top:30px;",
+        ct: "left:50%;margin-left:-200px;top:30px;",
+        rt: "right:30px;top:30px;",
+        lc: "left:30px;top:50%; margin-top:-80px;",
+        cc: "left:50%;margin-left:-200px;top:50%;margin-top:-80px;",
+        rc: "right:30px;top:50%; margin-top:-80px;",
+        lb: "left:30px;bottom:30px;",
+        cb: "left:50%;margin-left:-200px;bottom:30px;",
+        rb: "right:30px;bottom:30px;",
+      };
+      $(".position-item").on("click", function () {
+        var pcposition = $('input:radio[name="posLRTB"]:checked').val();
+        // left:30px; bottom:30px;
+        console.log(pcposition);
+      });
 
       document.getElementById("image_url").addEventListener("change", function (e) {
         // var imageURL = window.document.forms[0].image_url.value;
@@ -150,17 +216,18 @@
 
       // ================= =================  OK コード出力 ================= =================
       document.getElementById("ok").addEventListener("click", function (e) {
+        initBanner();
         var _startTime = window.document.forms[0].showStartTime.value;
         outputscript = getShowDialogFunc() + ";setTimeout(scrollShowHideCheck, " + _startTime + ");";
         outputscript += "var _endTime = '" + window.document.forms[0].showEndTime.value + "';";
-        outputscript +=
-          "if(_endTime){setTimeout(function(){document.body.removeChild(document.getElementById('ATDialogBase'));}, _endTime);}";
+        outputscript += "if(_endTime){setTimeout(function(){document.body.removeChild(document.getElementById('ATDialogBase'));}, _endTime);}";
         outputscript += "window.addEventListener('scroll', function () {scrollShowHideCheck();});";
         outputscript += "function getBannerHTML() { return '" + getBannerHTML() + "'}";
         document.getElementById("bannerSource").value = "<" + "script>" + outputscript + "</" + "script>";
       });
       // showのロジックはOKコードと同期させる必要あり todo:実装をもう少しスマートに、、
       document.getElementById("show").addEventListener("click", function (e) {
+        initBanner();
         eval(getShowDialogFunc());
         setTimeout(scrollShowHideCheck, window.document.forms[0].showStartTime.value);
         var _endTime = "" + window.document.forms[0].showEndTime.value;
@@ -184,6 +251,8 @@
       // ########################### Dialog構築部分 ######################################################################
       // 初期化
       function initBanner() {
+        var positionCSSString = positionCSS[$('input:radio[name="posLRTB"]:checked').val()];
+        console.log("***** " + positionCSSString);
         var baseTempl =
           '\
       <div id="ATbanner" style="position:relative;">\
@@ -196,7 +265,9 @@
       #ATbanner {box-shadow: 0 0 16px gray;padding:10px;border-radius:10px;width: 400px; background:' +
           window.document.forms[0].bk_color.value +
           ";}\n\
-      #ATDialogBase{z-index:110; position:fixed; left:30px; bottom:30px; display:flex;}\n\
+      #ATDialogBase{z-index:110; position:fixed; " +
+          positionCSSString +
+          " display:flex;}\n\
       @media screen and (max-width:768px) {#ATbanner{width:90%;} } \n\
       </style>\
             ";
