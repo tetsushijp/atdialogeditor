@@ -175,17 +175,6 @@
       document.getElementById("hideScrollY").addEventListener("change", function (e) {
         eval(getShowDialogFunc());
       });
-      var positionCSS = {
-        lt: "left:30px;top:30px;",
-        ct: "left:50%;margin-left:-180px;top:30px;",
-        rt: "right:30px;top:30px;",
-        lc: "left:30px;top:50%; margin-top:-80px;",
-        cc: "left:50%;margin-left:-180px;top:50%;margin-top:-80px;",
-        rc: "right:30px;top:50%; margin-top:-80px;",
-        lb: "left:30px;bottom:30px;",
-        cb: "left:50%;margin-left:-180px;bottom:30px;",
-        rb: "right:30px;bottom:30px;",
-      };
       $(".position-item").on("click", function () {
         var PCposition = $('input:radio[name="posLRTB"]:checked').val();
         var SPposition = $('input:radio[name="SPposLRTB"]:checked').val();
@@ -251,10 +240,32 @@
       }
       // ################################################################################################################
       // ########################### Dialog構築部分 ######################################################################
+      var positionCSS = {
+        lt: "left:30px;top:30px;",
+        ct: "left:50%;margin-left:-200px;top:30px;",
+        rt: "right:30px;top:30px;",
+        lc: "left:30px;top:50%; margin-top:-80px;",
+        cc: "left:50%;margin-left:-200px;top:50%;margin-top:-80px;",
+        rc: "right:30px;top:50%; margin-top:-80px;",
+        lb: "left:30px;bottom:30px;",
+        cb: "left:50%;margin-left:-200px;bottom:30px;",
+        rb: "right:30px;bottom:30px;",
+      };
+      var SPpositionCSS = {
+        lt: "left:30px;top:30px;",
+        ct: "left:50%;margin-left:-180px;top:30px;",
+        rt: "right:30px;top:30px;",
+        lc: "left:30px;top:50%; margin-top:-80px;",
+        cc: "left:50%;margin-left:-180px;top:50%;margin-top:-80px;",
+        rc: "right:30px;top:50%; margin-top:-80px;",
+        lb: "left:30px;bottom:30px;",
+        cb: "left:50%;margin-left:-180px;bottom:30px;",
+        rb: "right:30px;bottom:30px;",
+      };
       // 初期化
       function initBanner() {
         var positionCSSString = positionCSS[$('input:radio[name="posLRTB"]:checked').val()];
-        var SPpositionCSSString = positionCSS[$('input:radio[name="SPposLRTB"]:checked').val()];
+        var SPpositionCSSString = SPpositionCSS[$('input:radio[name="SPposLRTB"]:checked').val()];
         console.log("***** " + positionCSSString + " -- SP:" + SPpositionCSSString);
         var baseTempl =
           '\
@@ -265,18 +276,20 @@
         </a>\
       </div>\
       <style>\
-      #ATbanner {box-shadow: 0 0 16px gray;padding:10px;border-radius:10px;width: 360px; background:' +
+      #ATbanner {box-shadow: 0 0 16px gray;padding:10px;border-radius:10px; background:' +
           window.document.forms[0].bk_color.value +
           ";}\n\
       @media screen and (min-width:769px) {\n\
       #ATDialogBase{z-index:110; position:fixed; " +
           positionCSSString +
           " display:flex;}\n\
+#ATbanner {width: 400px;}\n\
       }\n\
       @media screen and (max-width:768px) {\n\
       #ATDialogBase{z-index:110; position:fixed; " +
           SPpositionCSSString +
           " display:flex;}\n\
+#ATbanner {width: 360px;}\n\
       } \n\
       </style>\
                   ";
