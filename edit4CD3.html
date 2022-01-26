@@ -51,6 +51,12 @@
               <td><input id="banner_CD_date" type="text" name="banner_CD_date" value="2022/02/24 23:00" /></td>
             </tr>
             <tr>
+              <td>文字色</td>
+              <td>
+                <input type="text" id="ft_color" name="ft_color" value="#FFF" />
+              </td>
+            </tr>
+            <tr>
               <td>背景色</td>
               <td>
                 <input type="text" id="bk_color" name="bk_color" value="#F00" />
@@ -253,6 +259,7 @@
         document.getElementById("bannerLink").href = window.document.forms[0].link_url.value;
         bannerCDTargetDate = new Date(document.getElementById("banner_CD_date").value);
         document.getElementById("ATbanner").style.backgroundColor = window.document.forms[0].bk_color.value;
+        document.getElementById("bannerCD").style.color = window.document.forms[0].ft_color.value;
       }
       // ################################################################################################################
       // ########################### Dialog構築部分 ######################################################################
@@ -399,6 +406,36 @@
     </script>
     <script>
       $(document).ready(function () {
+        $("#ft_color").spectrum({
+          flat: false,
+          showAlpha: false,
+          showPalette: true,
+          palette: [
+            ["black", "white", "blanchedalmond"],
+            ["rgb(255, 128, 0);", "hsv 100 70 50", "lightyellow"],
+          ],
+          showInitial: true,
+          chooseText: "選択",
+          cancelText: "キャンセル",
+          showPaletteOnly: false,
+          showSelectionPalette: true,
+          preferredFormat: "hex",
+          move: function (color) {
+            $("#bannerCD").css("color", color);
+          },
+          change: function (color) {
+            // console.log("color:" + color.toHexString());
+            initBanner();
+            document.getElementById("preview").innerHTML = window.document.forms[0].banner_template.value;
+            formvalue_update();
+          },
+          color: "#fff",
+          showInput: true,
+        });
+      });
+    </script>
+    <script>
+      $(document).ready(function () {
         $("#bk_color").spectrum({
           flat: false,
           showAlpha: false,
@@ -422,7 +459,7 @@
             document.getElementById("preview").innerHTML = window.document.forms[0].banner_template.value;
             formvalue_update();
           },
-          color: "#fff",
+          color: "#f00",
           showInput: true,
         });
       });
