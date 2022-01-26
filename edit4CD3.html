@@ -250,6 +250,7 @@
         window.addEventListener("scroll", function () {
           scrollShowHideCheck();
         });
+        showCountDown();
       });
       function formvalue_update() {
         // 既存のフォームの値を反映
@@ -298,7 +299,7 @@
       <a id="bannerLink" href="https://business.adobe.com/jp/products/target/adobe-target.html" target="_blank">\
       <img id="bannerImg" width="100%;" max-height="200px" src="http://vizl.chu.jp/www/poc/image-yoko.png">\
       </a>\
-      <div id="bannerCD">あとXX時間X分XX秒\n</div>\
+      <div id="bannerCD">あと--時間--分--秒\n</div>\
       </div>\
       <style>\
       #ATbanner {box-shadow: 0 0 16px gray;padding:10px;border-radius:10px;width: 500px; background:' +
@@ -372,7 +373,6 @@
       var bannerCDTargetDate = new Date("' +
           document.getElementById("banner_CD_date").value +
           '");\
-      var CDloop = 10;\
       var showFlg=true;\
       var initFlg = false;\
       function showCountDown() {\
@@ -385,12 +385,12 @@
         diff2Dates = diff2Dates % (1000 * 60);\
         var dSec = diff2Dates / 1000;\
         var msg2 = Math.floor(dDays) + "日";\
-        var CDmsg = (Math.floor(dDays)*24+Math.floor(dHour)) + "時間"\
-          + Math.floor(dMin) + "分"\
-          + Math.floor(dSec) + "秒";\
-        if(showFlg&&initFlg) document.getElementById("bannerCD").innerText = "あと" + CDmsg;\
-        if(false)console.log("あと" + CDmsg);\
-        if (CDloop > 0) setTimeout(showCountDown, 1000);\
+        var CDmsg = "あと" + (Math.floor(dDays)*24+Math.floor(dHour)) + "時間"+ Math.floor(dMin) + "分" + Math.floor(dSec) + "秒";\
+        if(dDays*24>48) CDmsg="あと" + Math.floor(dDays)+"日と"+Math.floor(dHour)+"時間"+Math.floor(dMin) + "分" + Math.floor(dSec) + "秒";\
+        if(diff2Dates<=0) CDmsg="終了しました";\
+        if(showFlg&&initFlg) document.getElementById("bannerCD").innerText = CDmsg;\
+        if(false)console.log("あと" + diff2Dates);\
+        if (diff2Dates > 0) setTimeout(showCountDown, 1000);\
       }\
       setTimeout(showCountDown, 1000);\
             '
