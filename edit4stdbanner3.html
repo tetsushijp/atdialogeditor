@@ -82,7 +82,7 @@
                 <style>
                   .banner-position {
                     display: flex;
-                    width: 460px;
+                    width: 360px;
                     flex-wrap: wrap;
                     background-color: #eee;
                   }
@@ -131,8 +131,8 @@
                   <input class="radiobtn" type="radio" id="lc" name="SPposLRTB" value="lc" /><label for="lc" class="position-item"></label>
                   <input class="radiobtn" type="radio" id="cc" name="SPposLRTB" value="cc" /><label for="cc" class="position-item"></label>
                   <input class="radiobtn" type="radio" id="rc" name="SPposLRTB" value="rc" /><label for="rc" class="position-item"></label>
-                  <input class="radiobtn" type="radio" id="lb" name="SPposLRTB" value="lb" checked /><label for="lb" class="position-item"></label>
-                  <input class="radiobtn" type="radio" id="cb" name="SPposLRTB" value="cb" /><label for="cb" class="position-item"></label>
+                  <input class="radiobtn" type="radio" id="lb" name="SPposLRTB" value="lb" /><label for="lb" class="position-item"></label>
+                  <input class="radiobtn" type="radio" id="cb" name="SPposLRTB" value="cb" checked /><label for="cb" class="position-item"></label>
                   <input class="radiobtn" type="radio" id="rb" name="SPposLRTB" value="rb" /><label for="rb" class="position-item"></label>
                 </div>
               </td>
@@ -177,19 +177,21 @@
       });
       var positionCSS = {
         lt: "left:30px;top:30px;",
-        ct: "left:50%;margin-left:-200px;top:30px;",
+        ct: "left:50%;margin-left:-180px;top:30px;",
         rt: "right:30px;top:30px;",
         lc: "left:30px;top:50%; margin-top:-80px;",
-        cc: "left:50%;margin-left:-200px;top:50%;margin-top:-80px;",
+        cc: "left:50%;margin-left:-180px;top:50%;margin-top:-80px;",
         rc: "right:30px;top:50%; margin-top:-80px;",
         lb: "left:30px;bottom:30px;",
-        cb: "left:50%;margin-left:-200px;bottom:30px;",
+        cb: "left:50%;margin-left:-180px;bottom:30px;",
         rb: "right:30px;bottom:30px;",
       };
       $(".position-item").on("click", function () {
-        var pcposition = $('input:radio[name="posLRTB"]:checked').val();
+        var PCposition = $('input:radio[name="posLRTB"]:checked').val();
+        var SPposition = $('input:radio[name="SPposLRTB"]:checked').val();
         // left:30px; bottom:30px;
-        console.log(pcposition);
+        console.log("pc:" + PCposition + " SP:" + SPposition);
+        initBanner();
       });
 
       document.getElementById("image_url").addEventListener("change", function (e) {
@@ -252,7 +254,8 @@
       // 初期化
       function initBanner() {
         var positionCSSString = positionCSS[$('input:radio[name="posLRTB"]:checked').val()];
-        console.log("***** " + positionCSSString);
+        var SPpositionCSSString = positionCSS[$('input:radio[name="SPposLRTB"]:checked').val()];
+        console.log("***** " + positionCSSString + " -- SP:" + SPpositionCSSString);
         var baseTempl =
           '\
       <div id="ATbanner" style="position:relative;">\
@@ -262,15 +265,21 @@
         </a>\
       </div>\
       <style>\
-      #ATbanner {box-shadow: 0 0 16px gray;padding:10px;border-radius:10px;width: 400px; background:' +
+      #ATbanner {box-shadow: 0 0 16px gray;padding:10px;border-radius:10px;width: 360px; background:' +
           window.document.forms[0].bk_color.value +
           ";}\n\
+      @media screen and (min-width:769px) {\n\
       #ATDialogBase{z-index:110; position:fixed; " +
           positionCSSString +
           " display:flex;}\n\
-      @media screen and (max-width:768px) {#ATbanner{width:90%;} } \n\
+      }\n\
+      @media screen and (max-width:768px) {\n\
+      #ATDialogBase{z-index:110; position:fixed; " +
+          SPpositionCSSString +
+          " display:flex;}\n\
+      } \n\
       </style>\
-            ";
+                  ";
         document.getElementById("preview").innerHTML = baseTempl;
         document.getElementById("banner_template").innerHTML = baseTempl.replace(/\>/g, ">\n");
         formvalue_update();
@@ -280,39 +289,39 @@
       function getShowDialogFunc() {
         return (
           '\
-      function showDialog() {\
-        var dialogBaseElm = document.createElement("div");\
-        var dialogContentElm = document.createElement("div");\
-        dialogBaseElm.appendChild(dialogContentElm);\
-        dialogBaseElm.addEventListener("click",function() {document.body.removeChild(this);});\
-        dialogBaseElm.id ="ATDialogBase";\
-        dialogContentElm.innerHTML = getBannerHTML();\
-        document.body.appendChild(dialogBaseElm);\
-      }\
-      showScrollPercent = ' +
+            function showDialog() {\
+              var dialogBaseElm = document.createElement("div");\
+              var dialogContentElm = document.createElement("div");\
+              dialogBaseElm.appendChild(dialogContentElm);\
+              dialogBaseElm.addEventListener("click",function() {document.body.removeChild(this);});\
+              dialogBaseElm.id ="ATDialogBase";\
+              dialogContentElm.innerHTML = getBannerHTML();\
+              document.body.appendChild(dialogBaseElm);\
+            }\
+            showScrollPercent = ' +
           window.document.forms[0].showScrollY.value +
           ";\
-      hideScrollPercent = " +
+            hideScrollPercent = " +
           window.document.forms[0].hideScrollY.value +
           ';\
-      showFlg = false;\
-      function scrollShowHideCheck() {\
-        scrollPercent = (window.pageYOffset==0)?0:(window.pageYOffset / (window.document.body.clientHeight - window.innerHeight)) * 100;\
-        if ((scrollPercent==Infinity)||(scrollPercent < 0)) {\
-          scrollYMax = window.document.body.scrollHeight - window.document.body.clientHeight;\
-          scrollPercent = scrollYMax > 0 ? (window.scrollY / scrollYMax) * 100 : 100;\
-          scrollPercent = scrollPercent > 100 ? 100 : scrollPercent;\
-        }\
-        if (!showFlg && scrollPercent >= showScrollPercent && scrollPercent <= hideScrollPercent) {\
-          showDialog();\
-          showFlg = true;\
-        }\
-        if (showFlg && ( Math.floor(scrollPercent) > hideScrollPercent ||  Math.floor(scrollPercent) < showScrollPercent)) {\
-          showFlg = false;\
-          document.body.removeChild(document.getElementById("ATDialogBase"));\
-        }\
-      }\
-      '
+            showFlg = false;\
+            function scrollShowHideCheck() {\
+              scrollPercent = (window.pageYOffset==0)?0:(window.pageYOffset / (window.document.body.clientHeight - window.innerHeight)) * 100;\
+              if ((scrollPercent==Infinity)||(scrollPercent < 0)) {\
+                scrollYMax = window.document.body.scrollHeight - window.document.body.clientHeight;\
+                scrollPercent = scrollYMax > 0 ? (window.scrollY / scrollYMax) * 100 : 100;\
+                scrollPercent = scrollPercent > 100 ? 100 : scrollPercent;\
+              }\
+              if (!showFlg && scrollPercent >= showScrollPercent && scrollPercent <= hideScrollPercent) {\
+                showDialog();\
+                showFlg = true;\
+              }\
+              if (showFlg && ( Math.floor(scrollPercent) > hideScrollPercent ||  Math.floor(scrollPercent) < showScrollPercent)) {\
+                showFlg = false;\
+                document.body.removeChild(document.getElementById("ATDialogBase"));\
+              }\
+            }\
+            '
         );
       }
       // eval(getShowDialogFunc());
