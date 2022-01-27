@@ -1,0 +1,684 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <script src="https://assets.adobedtm.com/253f5bd08be2/5032e2df9891/launch-bc3421bc8941-development.min.js" async></script>
+
+    <!-- https://img-cf.karte.io/image/5fc4bc2e1429c800112fdbcf::icon_firstkarte01.png
+    https://img-cf.karte.io/image/5fc4bc1e4078c300119c58e8::icon_firstkarte03.png
+    https://img-cf.karte.io/image/5fc4bc1055afd10011892722::icon_firstkarte02.png -->
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.6.0/mdb.min.css" rel="stylesheet" />
+    <script type="text/javascript" src="colorpicker/js/jquery-1.9.1.js"></script>
+    <link rel="stylesheet" href="colorpicker/css/custom-spectrum.css" />
+    <script src="colorpicker/js/spectrum.js"></script>
+
+    <style>
+      body {
+        margin: 20px;
+      }
+
+      #preview {
+        border: 0px solid;
+        width: 50%;
+        height: 500px;
+      }
+
+      #setting {
+        margin: 20px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Dialog Editor for Welcome</h1>
+    <!-- <input type="button" id="show" value="show" /> -->
+    <hr />
+
+    <div style="display: flex">
+      <!------------------------ ------------->
+      <div id="preview"></div>
+      <div id="setting">
+        <form>
+          <table>
+            <tr>
+              <td colspan="2"><strong>初期バナー</strong></td>
+            </tr>
+            <tr>
+              <td>テキスト1行目(#bannerText1)</td>
+              <td><input id="banner_text1" type="text" name="banner_text1" size="60" value="Welcome!" /></td>
+            </tr>
+            <tr>
+              <td>テキスト2行目(#bannerText2)</td>
+              <td><input id="banner_text2" type="text" name="banner_text2" size="60" value="ようこそオンラインストアへ >>" /></td>
+            </tr>
+            <tr>
+              <td>文字色</td>
+              <td>
+                <input type="text" id="ti_color" name="ti_color" value="#FFF" />
+              </td>
+            </tr>
+            <tr>
+              <td>背景色</td>
+              <td>
+                <input type="text" id="bk_color" name="bk_color" value="#F00" />
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2"><hr /></td>
+            </tr>
+            <tr>
+              <td colspan="2"><strong>クリック後のバナー</strong></td>
+            </tr>
+            <tr>
+              <td>文字色</td>
+              <td>
+                <input type="text" id="ti_color2" name="ti_color2" value="#000" />
+              </td>
+            </tr>
+            <tr>
+              <td>背景色</td>
+              <td>
+                <input type="text" id="bk_color2" name="bk_color2" value="#FFF" />
+              </td>
+            </tr>
+            <tr>
+              <td>枠色</td>
+              <td>
+                <input type="text" id="bo_color" name="bo_color" value="#808080" />
+              </td>
+            </tr>
+            <tr>
+              <td><hr /></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <label><input type="checkbox" id="itm1On" checked /> アイテム1 </label>
+              </td>
+            </tr>
+            <tr class="banner_itm1_area">
+              <td>画像URL1(#itemImg1)</td>
+              <td><input id="image_url1" type="text" name="img_url1" size="60" value="https://img-cf.karte.io/image/5fc4bc1055afd10011892722::icon_firstkarte02.png" /></td>
+            </tr>
+            <tr class="banner_itm1_area">
+              <td>アイテム1 テキスト1行目(#bannerText11)</td>
+              <td><input id="banner_text11" type="text" name="banner_text11" size="60" value="今のスマホをすのままお得に使いたい" /></td>
+            </tr>
+            <tr class="banner_itm1_area">
+              <td>アイテム1 テキスト2行目(#bannerText12)</td>
+              <td><input id="banner_text12" type="text" name="banner_text12" size="60" value="通信料を見直したい方へ" /></td>
+            </tr>
+            <tr class="banner_itm1_area">
+              <td>アイテム1 Link1 URL(#bannerLink1)</td>
+              <td><input id="banner_link_url1" type="text" name="banner_link_url1" size="60" value="#btn1" /></td>
+            </tr>
+            <tr>
+              <td><hr /></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <label><input type="checkbox" id="itm2On" checked /> アイテム2 </label>
+              </td>
+            </tr>
+            <tr class="banner_itm2_area">
+              <td>画像URL2(#itemImg2)</td>
+              <td><input id="image_url2" type="text" name="img_url2" size="60" value="https://img-cf.karte.io/image/5fc4bc1e4078c300119c58e8::icon_firstkarte03.png" /></td>
+            </tr>
+            <tr class="banner_itm2_area">
+              <td>アイテム2 テキスト1行目(#bannerText21)</td>
+              <td><input id="banner_text21" type="text" name="banner_text21" size="60" value="☆今月の一押し機種☆" /></td>
+            </tr>
+            <tr class="banner_itm2_area">
+              <td>アイテム2 テキスト2行目(#bannerText22)</td>
+              <td><input id="banner_text22" type="text" name="banner_text22" size="60" value="おすすめのスマホを知りたい方へ" /></td>
+            </tr>
+            <tr class="banner_itm2_area">
+              <td>アイテム2 Link2 URL(#bannerLink2)</td>
+              <td><input id="banner_link_url2" type="text" name="banner_link_url2" size="60" value="#btn2" /></td>
+            </tr>
+            <tr>
+              <td><hr /></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <label><input type="checkbox" id="itm3On" checked /> アイテム3 </label>
+              </td>
+            </tr>
+            <tr class="banner_itm3_area">
+              <td>画像URL3(#itemImg3)</td>
+              <td><input id="image_url3" type="text" name="img_url3" size="60" value="https://img-cf.karte.io/image/5fc4bc1055afd10011892722::icon_firstkarte02.png" /></td>
+            </tr>
+            <tr class="banner_itm3_area">
+              <td>アイテム3 テキスト1行目(#bannerText31)</td>
+              <td><input id="banner_text31" type="text" name="banner_text31" size="60" value="今のスマホをすのままお得に使いたい" /></td>
+            </tr>
+            <tr class="banner_itm3_area">
+              <td>アイテム3 テキスト2行目(#bannerText32)</td>
+              <td><input id="banner_text32" type="text" name="banner_text32" size="60" value="通信料を見直したい方へ" /></td>
+            </tr>
+            <tr class="banner_itm3_area">
+              <td>アイテム3 Link URL(#bannerLink3)</td>
+              <td><input id="banner_link_url3" type="text" name="banner_link_url3" size="60" value="#btn3" /></td>
+            </tr>
+            <tr>
+              <td colspan="2"><hr /></td>
+            </tr>
+            <tr>
+              <td>表示スクロール位置</td>
+              <td>
+                <input id="showScrollY" type="text" name="showScrollY" size="5" value="0" /> -
+                <input id="hideScrollY" type="text" name="hideScrollY" size="5" value="100" />
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2"><hr /></td>
+            </tr>
+
+            <tr>
+              <td colspan="2">
+                <label><input type="checkbox" id="detail" /> テンプレート編集 </label>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2"><textarea id="banner_template" cols="120" rows="16"></textarea></td>
+            </tr>
+            <tr>
+              <td colspan="2"><hr /></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <input type="button" value=" コード出力 " id="ok" />
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2"><textarea id="bannerSource" cols="120" rows="16"></textarea></td>
+            </tr>
+          </table>
+        </form>
+        <!--- ソース -->
+        <div></div>
+      </div>
+    </div>
+
+    <script>
+      // ################################################################################################################
+      // ########################### Editor Contorl ######################################################################
+      document.getElementById("showScrollY").addEventListener("change", function (e) {
+        eval(getShowDialogFunc());
+      });
+      document.getElementById("hideScrollY").addEventListener("change", function (e) {
+        eval(getShowDialogFunc());
+      });
+
+      document.getElementById("banner_text1").addEventListener("change", function (e) {
+        document.getElementById("bannerText1").innerHTML = window.document.forms[0].banner_text1.value;
+      });
+      document.getElementById("banner_text2").addEventListener("change", function (e) {
+        document.getElementById("bannerText2").innerHTML = window.document.forms[0].banner_text2.value;
+      });
+
+      document.getElementById("itm1On").addEventListener("change", function (e) {
+        var _check = window.document.forms[0].itm1On.checked ? true : false;
+        if (_check) $(".banner_itm1_area").fadeIn(200);
+        else $(".banner_itm1_area").fadeOut(200);
+        initBanner();
+      });
+      document.getElementById("image_url1").addEventListener("change", function (e) {
+        document.getElementById("itemImg1").src = window.document.forms[0].image_url1.value;
+      });
+      document.getElementById("banner_text11").addEventListener("change", function (e) {
+        document.getElementById("bannerText11").innerHTML = window.document.forms[0].banner_text11.value;
+      });
+      document.getElementById("banner_text12").addEventListener("change", function (e) {
+        document.getElementById("bannerText12").innerHTML = window.document.forms[0].banner_text12.value;
+      });
+      document.getElementById("banner_link_url1").addEventListener("change", function (e) {
+        document.getElementById("bannerLink1").href = window.document.forms[0].banner_link_url1.value;
+      });
+
+      document.getElementById("itm2On").addEventListener("change", function (e) {
+        var _check = window.document.forms[0].itm2On.checked ? true : false;
+        if (_check) $(".banner_itm2_area").fadeIn(200);
+        else $(".banner_itm2_area").fadeOut(200);
+        initBanner();
+      });
+      document.getElementById("image_url2").addEventListener("change", function (e) {
+        document.getElementById("itemImg2").src = window.document.forms[0].image_url2.value;
+      });
+      document.getElementById("banner_text21").addEventListener("change", function (e) {
+        document.getElementById("bannerText21").innerHTML = window.document.forms[0].banner_text21.value;
+      });
+      document.getElementById("banner_text22").addEventListener("change", function (e) {
+        document.getElementById("bannerText22").innerHTML = window.document.forms[0].banner_text22.value;
+      });
+      document.getElementById("banner_link_url2").addEventListener("change", function (e) {
+        document.getElementById("bannerLink2").href = window.document.forms[0].banner_link_url2.value;
+      });
+
+      document.getElementById("itm3On").addEventListener("change", function (e) {
+        var _check = window.document.forms[0].itm3On.checked ? true : false;
+        if (_check) $(".banner_itm3_area").fadeIn(200);
+        else $(".banner_itm3_area").fadeOut(200);
+        initBanner();
+      });
+      document.getElementById("image_url3").addEventListener("change", function (e) {
+        document.getElementById("itemImg3").src = window.document.forms[0].image_url3.value;
+      });
+      document.getElementById("banner_text31").addEventListener("change", function (e) {
+        document.getElementById("bannerText31").innerHTML = window.document.forms[0].banner_text31.value;
+      });
+      document.getElementById("banner_text32").addEventListener("change", function (e) {
+        document.getElementById("bannerText32").innerHTML = window.document.forms[0].banner_text32.value;
+      });
+      document.getElementById("banner_link_url3").addEventListener("change", function (e) {
+        document.getElementById("bannerLink3").href = window.document.forms[0].banner_link_url3.value;
+      });
+
+      // document.getElementById("link_url").addEventListener("change", function (e) {
+      //   // var linkURL = window.document.forms[0].link_url.value;
+      //   document.getElementById("bannerLink").href = window.document.forms[0].link_url.value;
+      // });
+
+      document.getElementById("banner_template").addEventListener("change", function (e) {
+        var templateHTML = window.document.forms[0].banner_template.value;
+        document.getElementById("preview").innerHTML = templateHTML;
+        formvalue_update();
+        setTimeout(function () {
+          document.getElementById("ATbanner2").style.display = "block";
+          document.getElementById("ATbanner2").style.marginTop = "20px";
+        }, 200);
+      });
+      document.getElementById("banner_template").style.display = "none";
+      document.getElementById("detail").addEventListener("change", function (e) {
+        var detail_check = window.document.forms[0].detail.checked ? "block" : "none";
+        console.log("detail_check: " + detail_check);
+        document.getElementById("banner_template").style.display = detail_check;
+      });
+
+      // ================= =================  OK コード出力 ================= =================
+      document.getElementById("ok").addEventListener("click", function (e) {
+        document.getElementById("ATbanner2").style.display = "none";
+        document.getElementById("ATbanner2").style.marginTop = "0px";
+        outputscript = getShowDialogFunc() + ";setTimeout(scrollShowHideCheck, 500);window.addEventListener('scroll', function () {scrollShowHideCheck();});";
+        outputscript = outputscript + "function getBannerHTML() { return '" + getBannerHTML() + "'}";
+        fontlib = 'var css=document.createElement("link");css.setAttribute("rel","stylesheet");css.setAttribute("type","text/css");';
+        fontlib = fontlib + 'css.setAttribute("href","https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css");';
+        fontlib = fontlib + 'document.getElementsByTagName("head")[0].appendChild(css);';
+        outputscript = outputscript + fontlib;
+        document.getElementById("bannerSource").value = "<" + "script>" + outputscript + "</" + "script>";
+        document.getElementById("ATbanner2").style.display = "block";
+        document.getElementById("ATbanner2").style.marginTop = "20px";
+      });
+
+      // document.getElementById("show").addEventListener("click", function (e) {
+      //   //setTimeout(showDialog, 100);
+      //   eval(getShowDialogFunc());
+      //   setTimeout(scrollShowHideCheck, 100);
+      //   window.addEventListener("scroll", function () {
+      //     scrollShowHideCheck();
+      //   });
+      // });
+      function formvalue_update() {
+        // 既存のフォームの値を反映
+        document.getElementById("bannerText1").innerHTML = window.document.forms[0].banner_text1.value;
+        document.getElementById("bannerText2").innerHTML = window.document.forms[0].banner_text2.value;
+        //document.getElementById("bannerLink1").href = window.document.forms[0].banner_link_url.value;
+
+        // document.getElementById("bannerImg").src = window.document.forms[0].image_url.value;
+        // document.getElementById("bannerLink").href = window.document.forms[0].link_url.value;
+      }
+      // ################################################################################################################
+      // ########################### Dialog構築部分 ######################################################################
+      // 初期化
+      function initBanner() {
+        var itm1On_check = window.document.forms[0].itm1On.checked ? true : false;
+        var itm2On_check = window.document.forms[0].itm2On.checked ? true : false;
+        var itm3On_check = window.document.forms[0].itm3On.checked ? true : false;
+
+        var baseTempl =
+          '\
+      <div id="ATbanner" style="position:relative;">\
+        <svg onclick="javascript:closeDialog();" width="32" height="32" style="position:absolute; top:-8px; right:-12px;" data-name="Livello 1" id="Livello_1" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg"><title/><circle cx="64" cy="64" r="62" stroke="none" fill="black"/><path stroke="none" fill="none" d="M64,0a64,64,0,1,0,64,64A64.07,64.07,0,0,0,64,0Zm0,122a58,58,0,1,1,58-58A58.07,58.07,0,0,1,64,122Z"/><path fill="white" d="M92.12,35.79a3,3,0,0,0-4.24,0L64,59.75l-23.87-24A3,3,0,0,0,35.88,40L59.76,64,35.88,88a3,3,0,0,0,4.25,4.24L64,68.25l23.88,24A3,3,0,0,0,92.13,88L68.24,64,92.13,40A3,3,0,0,0,92.12,35.79Z"/></svg>\
+        <a id="showNext" onclick="javascript:showNextDialog();" style="color:white;">\
+        <div id="bannerText1" class="banner1Text1" style="">Welcome</div>\
+        <div id="bannerText2" class="banner1Text2" style="">ようこそオンラインストアへ >></div>\
+        </a>\
+      </div>\
+      <div id="ATbanner2" style="position:relative;display:none;" >\
+        <svg onclick="javascript:showPrevDialog();" width="32" height="32" style="position:absolute; top:-8px; right:-12px;" data-name="Livello 1" id="Livello_1" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg"><title/><circle cx="64" cy="64" r="62" stroke="none" fill="black"/><path stroke="none" fill="none" d="M64,0a64,64,0,1,0,64,64A64.07,64.07,0,0,0,64,0Zm0,122a58,58,0,1,1,58-58A58.07,58.07,0,0,1,64,122Z"/><path fill="white" d="M92.12,35.79a3,3,0,0,0-4.24,0L64,59.75l-23.87-24A3,3,0,0,0,35.88,40L59.76,64,35.88,88a3,3,0,0,0,4.25,4.24L64,68.25l23.88,24A3,3,0,0,0,92.13,88L68.24,64,92.13,40A3,3,0,0,0,92.12,35.79Z"/></svg>\
+      ';
+        if (itm1On_check)
+          baseTempl +=
+            '\
+        <div> \
+          <a id="bannerLink1" class="bannerLink" href="https://business.adobe.com/jp/products/target/adobe-target.html" target="_blank">\
+          <div>\
+            <img id="itemImg1" src="https://img-cf.karte.io/image/5fc4bc1055afd10011892722::icon_firstkarte02.png" width="60px;" style="margin-right:10px;">\
+          </div>\
+          <div>\
+            <div id="bannerText11" class="banner2Text1" >今のスマホをすのままお得に使いたい</div>\
+            <div id="bannerText12" class="banner2Text2" >通信料を見直したい方へ</div>\
+          </div>\
+          </a>\
+        </div>\
+      ';
+        if (itm2On_check)
+          baseTempl +=
+            '\
+        <div> \
+          <a id="bannerLink2" class="bannerLink" href="https://business.adobe.com/jp/products/target/adobe-target.html" target="_blank" >\
+          <div>\
+            <img id="itemImg2" src="https://img-cf.karte.io/image/5fc4bc1e4078c300119c58e8::icon_firstkarte03.png" width="60px;" style="margin-right:10px;">\
+          </div>\
+          <div>\
+            <div id="bannerText21" class="banner2Text1" >☆今月の一押し機種☆</div>\
+            <div id="bannerText22" class="banner2Text2" >おすすめのスマホを知りたい方へ</div>\
+          </div>\
+          </a>\
+        </div>\
+        ';
+        if (itm3On_check)
+          baseTempl +=
+            '\
+        <div> \
+          <a id="bannerLink3" class="bannerLink" class="bannerLink" href="https://business.adobe.com/jp/products/target/adobe-target.html" target="_blank">\
+            <div>\
+            <img id="itemImg3" src="https://img-cf.karte.io/image/5fc4bc2e1429c800112fdbcf::icon_firstkarte01.png" width="60px;" style="margin-right:10px;">\
+          </div>\
+          <div>\
+            <div id="bannerText31" class="banner2Text1" >料金プランを見つける</div>\
+            <div id="bannerText32" class="banner2Text2" >月々の基本使用料を知りたい方へ</div>\
+          </div>\
+          </a>\
+        </div>\
+        ';
+        baseTempl +=
+          "\
+      </div>\
+      <style>\
+        #ATbanner {box-shadow: 0 0 16px gray;padding:25px;border-radius:1px;width: 300px; background:" +
+          $('input[name="bk_color"]').val() +
+          ";color:" +
+          $('input[name="ti_color"]').val() +
+          ";}\
+        #ATbanner2 {box-shadow: 0 0 16px gray;padding:2px;border-radius:1px;width: 400px; background:" +
+          $('input[name="bo_color"]').val() +
+          "; padding-top:25px;}\
+        #ATDialogBase{z-index:110; position:fixed; left:30px; bottom:30px; display:flex;}\n\
+        .bannerLink {margin:2px; background-color:" +
+          $('input[name="bk_color2"]').val() +
+          "; color:black; display:flex; padding:5px;}\
+        .bannerLink:hover{background-color:" +
+          $('input[name="bk_color2"]').val() +
+          "!important;}\
+        .banner1Text1 {text-align:center; color: " +
+          $('input[name="ti_color"]').val() +
+          ";}\
+        .banner1Text2 {text-align:center; color: " +
+          $('input[name="ti_color"]').val() +
+          ";}\
+        .banner2Text1 {color: " +
+          $('input[name="ti_color2"]').val() +
+          ";}\
+        .banner2Text2 {color: " +
+          $('input[name="ti_color2"]').val() +
+          ";}\
+        #bannerText{font-size:1.75rem;}\
+      <style>\
+            ";
+        //#ATDialogBase{z-index:110; position:fixed; left:30px; bottom:30px; display:flex;}\n\
+
+        document.getElementById("preview").innerHTML = baseTempl;
+        document.getElementById("banner_template").innerHTML = baseTempl.replace(/\>/g, ">\n");
+        formvalue_update();
+        document.getElementById("ATbanner2").style.display = "block";
+        document.getElementById("ATbanner2").style.marginTop = "20px";
+      }
+      initBanner();
+
+      function getShowDialogFunc() {
+        return (
+          '\
+      function showNextDialog() { \
+        document.getElementById("ATbanner").style.display="none";\
+        document.getElementById("ATbanner2").style.display="block";\
+      }\
+      function closeDialog() {console.log("close");\
+        showFlg = false;\
+        closeFlg = true;\
+        document.body.removeChild(document.getElementById("ATDialogBase"));\
+      }\
+      function showPrevDialog() { \
+        document.getElementById("ATbanner").style.display="block";\
+        document.getElementById("ATbanner2").style.display="none";\
+      }\
+      function showDialog() {\
+        var dialogBaseElm = document.createElement("div");\
+        var dialogContentElm = document.createElement("div");\
+        dialogBaseElm.appendChild(dialogContentElm);\
+        dialogBaseElm.id ="ATDialogBase";\
+        dialogContentElm.innerHTML = getBannerHTML();\
+        document.body.appendChild(dialogBaseElm);\
+      }\
+      showScrollPercent = ' +
+          window.document.forms[0].showScrollY.value +
+          ";\
+      hideScrollPercent = " +
+          window.document.forms[0].hideScrollY.value +
+          ';\
+      showFlg = false;\
+      closeFlg = false;\
+      scrollPercent = 0;\
+      function scrollShowHideCheck() {\
+        scrollPercent = (window.pageYOffset==0)?0:(window.pageYOffset / (window.document.body.clientHeight - window.innerHeight)) * 100;\
+        if ((scrollPercent==Infinity)||(scrollPercent < 0)) {\
+          scrollYMax = window.document.body.scrollHeight - window.document.body.clientHeight;\
+          scrollPercent = scrollYMax > 0 ? (window.scrollY / scrollYMax) * 100 : 100;\
+          scrollPercent = scrollPercent > 100 ? 100 : scrollPercent;\
+        }\
+        if (!closeFlg && !showFlg && scrollPercent >= showScrollPercent && scrollPercent <= hideScrollPercent) {\
+          showDialog();\
+          showFlg = true;\
+        }\
+        if (!closeFlg && showFlg && ( Math.floor(scrollPercent) > hideScrollPercent ||  Math.floor(scrollPercent) < showScrollPercent)) {\
+          showFlg = false;\
+          document.body.removeChild(document.getElementById("ATDialogBase"));\
+        }\
+      }\
+      '
+        );
+      }
+      eval(getShowDialogFunc());
+
+      // 実際にPreviewされているHTMLから表示用の文字列を作成 / ATとEditorどちらでも動くようにshowDialog()の中から呼ばれる
+      function getBannerHTML() {
+        var previewHTML = document.getElementById("preview").innerHTML;
+        return previewHTML.trim().replace(/\r?\n/g, ""); // 改行とescape処理
+      }
+      setTimeout(function () {
+        document.getElementById("ATbanner2").style.display = "block";
+        document.getElementById("ATbanner2").style.marginTop = "20px";
+      }, 500);
+    </script>
+    <script>
+      $(document).ready(function () {
+        $("#ti_color").spectrum({
+          flat: false,
+          showAlpha: false,
+          showPalette: true,
+          palette: [
+            ["black", "white", "blanchedalmond"],
+            ["rgb(255, 128, 0);", "hsv 100 70 50", "lightyellow"],
+          ],
+          showInitial: true,
+          chooseText: "選択",
+          cancelText: "キャンセル",
+          showPaletteOnly: false,
+          showSelectionPalette: true,
+          preferredFormat: "hex",
+          move: function (color) {
+            $(".banner1Text1").css("color", color);
+            $(".banner1Text2").css("color", color);
+          },
+          change: function (color) {
+            // console.log("color:" + color.toHexString());
+            initBanner();
+            document.getElementById("preview").innerHTML = window.document.forms[0].banner_template.value;
+            formvalue_update();
+            setTimeout(function () {
+              document.getElementById("ATbanner2").style.display = "block";
+              document.getElementById("ATbanner2").style.marginTop = "20px";
+            }, 200);
+          },
+          color: "#fff",
+          showInput: true,
+        });
+      });
+    </script>
+
+    <script>
+      $(document).ready(function () {
+        $("#bk_color").spectrum({
+          flat: false,
+          showAlpha: false,
+          showPalette: true,
+          palette: [
+            ["black", "white", "blanchedalmond"],
+            ["rgb(255, 128, 0);", "hsv 100 70 50", "lightyellow"],
+          ],
+          showInitial: true,
+          chooseText: "選択",
+          cancelText: "キャンセル",
+          showPaletteOnly: false,
+          showSelectionPalette: true,
+          preferredFormat: "hex",
+          move: function (color) {
+            $("#ATbanner").css("background-color", color);
+          },
+          change: function (color) {
+            // console.log("color:" + color.toHexString());
+            initBanner();
+            document.getElementById("preview").innerHTML = window.document.forms[0].banner_template.value;
+            formvalue_update();
+            setTimeout(function () {
+              document.getElementById("ATbanner2").style.display = "block";
+              document.getElementById("ATbanner2").style.marginTop = "20px";
+            }, 200);
+          },
+          color: "#f00",
+          showInput: true,
+        });
+      });
+    </script>
+
+    <script>
+      $(document).ready(function () {
+        $("#ti_color2").spectrum({
+          flat: false,
+          showAlpha: false,
+          showPalette: true,
+          palette: [
+            ["black", "white", "blanchedalmond"],
+            ["rgb(255, 128, 0);", "hsv 100 70 50", "lightyellow"],
+          ],
+          showInitial: true,
+          chooseText: "選択",
+          cancelText: "キャンセル",
+          showPaletteOnly: false,
+          showSelectionPalette: true,
+          preferredFormat: "hex",
+          move: function (color) {
+            $(".banner2Text1").css("color", color);
+            $(".banner2Text2").css("color", color);
+          },
+          change: function (color) {
+            // console.log("color:" + color.toHexString());
+            initBanner();
+            document.getElementById("preview").innerHTML = window.document.forms[0].banner_template.value;
+            formvalue_update();
+            setTimeout(function () {
+              document.getElementById("ATbanner2").style.display = "block";
+              document.getElementById("ATbanner2").style.marginTop = "20px";
+            }, 200);
+          },
+          color: "#000",
+          showInput: true,
+        });
+      });
+    </script>
+
+    <script>
+      $(document).ready(function () {
+        $("#bk_color2").spectrum({
+          flat: false,
+          showAlpha: false,
+          showPalette: true,
+          palette: [
+            ["black", "white", "blanchedalmond"],
+            ["rgb(255, 128, 0);", "hsv 100 70 50", "lightyellow"],
+          ],
+          showInitial: true,
+          chooseText: "選択",
+          cancelText: "キャンセル",
+          showPaletteOnly: false,
+          showSelectionPalette: true,
+          preferredFormat: "hex",
+          move: function (color) {
+            $(".bannerLink").css("background-color", color);
+          },
+          change: function (color) {
+            // console.log("color:" + color.toHexString());
+            initBanner();
+            document.getElementById("preview").innerHTML = window.document.forms[0].banner_template.value;
+            formvalue_update();
+            setTimeout(function () {
+              document.getElementById("ATbanner2").style.display = "block";
+              document.getElementById("ATbanner2").style.marginTop = "20px";
+            }, 200);
+          },
+          color: "#fff",
+          showInput: true,
+        });
+      });
+    </script>
+
+    <script>
+      $(document).ready(function () {
+        $("#bo_color").spectrum({
+          flat: false,
+          showAlpha: false,
+          showPalette: true,
+          palette: [
+            ["black", "white", "blanchedalmond"],
+            ["rgb(255, 128, 0);", "hsv 100 70 50", "lightyellow"],
+          ],
+          showInitial: true,
+          chooseText: "選択",
+          cancelText: "キャンセル",
+          showPaletteOnly: false,
+          showSelectionPalette: true,
+          preferredFormat: "hex",
+          move: function (color) {
+            $("#ATbanner2").css("background-color", color);
+          },
+          change: function (color) {
+            // console.log("color:" + color.toHexString());
+            initBanner();
+            document.getElementById("preview").innerHTML = window.document.forms[0].banner_template.value;
+            formvalue_update();
+            setTimeout(function () {
+              document.getElementById("ATbanner2").style.display = "block";
+              document.getElementById("ATbanner2").style.marginTop = "20px";
+            }, 200);
+          },
+          color: "#808080",
+          showInput: true,
+        });
+      });
+    </script>
+  </body>
+</html>
