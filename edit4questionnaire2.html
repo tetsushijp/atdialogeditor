@@ -255,6 +255,13 @@ function scrollShowHideCheck() {\
         var previewHTML = document.getElementById("preview").innerHTML;
         return previewHTML.trim().replace(/\r?\n/g, ""); // 改行とescape処理
       }
+      // aa tagを強制読み込み
+      //     <script src="https://assets.adobedtm.com/253f5bd08be2/5032e2df9891/launch-bc3421bc8941-development.min.js" async></script>
+      TODO: 必ずAAの集計用JSが入るように下記も追加する
+      scri=document.createElement("script");
+      scri.type="text/javascript";
+      scri.src="https://assets.adobedtm.com/253f5bd08be2/5032e2df9891/launch-bc3421bc8941-development.min.js";
+      document.body.appendChild(scri);
     </script>
   </body>
 </html>
