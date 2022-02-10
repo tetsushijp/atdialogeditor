@@ -18,7 +18,7 @@
 
       #preview {
         border: 0px solid;
-        width: 50%;
+        width: 500px;
         height: 500px;
       }
 
@@ -46,13 +46,31 @@
             <tr>
               <td>メッセージ</td>
               <td>
-                <input id="banner_message" type="text" name="banner_message" size="80" value="現在メンテナンスのためお申し込みができません。復旧までしばらくお待ちください。" />
+                <input
+                  id="banner_message"
+                  type="text"
+                  name="banner_message"
+                  size="80"
+                  value="現在メンテナンスのためお申し込みができません。復旧までしばらくお待ちください。"
+                />
               </td>
             </tr>
             <tr>
               <td>画像URL</td>
               <td>
                 <input id="image_url" type="text" name="img_url" size="80" value="https://img-cf.karte.io/image/5d808da7b1af630908ebd04c::futenyan.png#" />
+              </td>
+            </tr>
+            <tr>
+              <td>文字色</td>
+              <td>
+                <input type="text" id="ft_color" name="ft_color" value="#000" />
+              </td>
+            </tr>
+            <tr>
+              <td>背景色</td>
+              <td>
+                <input type="text" id="bk_color" name="bk_color" value="#FFF" />
               </td>
             </tr>
             <tr>
@@ -210,6 +228,10 @@
         if (btnOn_check) document.getElementById("bannerBTN").innerHTML = BTNText;
         var BTNURL = window.document.forms[0].banner_btn_url.value;
         if (btnOn_check) document.getElementById("bannerBTN").href = BTNURL;
+
+        document.getElementById("ATbanner").style.backgroundColor = window.document.forms[0].bk_color.value;
+        document.getElementById("bannerTitle").style.color = window.document.forms[0].ft_color.value;
+        document.getElementById("bannerMessage").style.color = window.document.forms[0].ft_color.value;
       }
       // ################################################################################################################
       // ########################### Dialog構築部分 ######################################################################
@@ -229,7 +251,9 @@
           "\
             </div>\
             <style>\
-              #ATbanner {box-shadow: 0 0 16px gray;padding:10px;border-radius:10px;width: 500px; background:white;}\
+              #ATbanner {box-shadow: 0 0 16px gray;padding:10px;border-radius:10px; width:500px; background:" +
+          window.document.forms[0].bk_color.value +
+          ";}\n\
               #ATDialogBase{z-index:110; position:fixed; left:30px; bottom:30px; display:flex;}\n\
               #bannerTitle {font-weight:200; font-size:24px;}\n\
               .textBTN {width:100%; text-align:center; background-color:black; color: white; padding: 0.64rem 2.14rem; border-radius:10px; margin:0.375rem;}\
@@ -289,6 +313,68 @@
         var previewHTML = document.getElementById("preview").innerHTML;
         return previewHTML.trim().replace(/\r?\n/g, ""); // 改行とescape処理
       }
+    </script>
+    <script>
+      $(document).ready(function () {
+        $("#ft_color").spectrum({
+          flat: false,
+          showAlpha: false,
+          showPalette: true,
+          palette: [
+            ["black", "white", "blanchedalmond"],
+            ["rgb(255, 128, 0);", "hsv 100 70 50", "lightyellow"],
+          ],
+          showInitial: true,
+          chooseText: "選択",
+          cancelText: "キャンセル",
+          showPaletteOnly: false,
+          showSelectionPalette: true,
+          preferredFormat: "hex",
+          move: function (color) {
+            $("#bannerTitle").css("color", color);
+            $("#bannerMessage").css("color", color);
+          },
+          change: function (color) {
+            // console.log("color:" + color.toHexString());
+            initBanner();
+            document.getElementById("preview").innerHTML = window.document.forms[0].banner_template.value;
+            formvalue_update();
+          },
+          color: "#000",
+          showInput: true,
+        });
+      });
+    </script>
+
+    <script>
+      $(document).ready(function () {
+        $("#bk_color").spectrum({
+          flat: false,
+          showAlpha: true,
+          showPalette: true,
+          palette: [
+            ["black", "white", "blanchedalmond"],
+            ["rgb(255, 128, 0);", "hsv 100 70 50", "lightyellow"],
+          ],
+          showInitial: true,
+          chooseText: "選択",
+          cancelText: "キャンセル",
+          showPaletteOnly: false,
+          showSelectionPalette: true,
+          preferredFormat: "rgb",
+          move: function (color) {
+            $("#ATbanner").css("background-color", color);
+          },
+          change: function (color) {
+            // console.log("color:" + color.toHexString());
+            initBanner();
+            document.getElementById("preview").innerHTML = window.document.forms[0].banner_template.value;
+            formvalue_update();
+          },
+          color: "#fff",
+          showInput: true,
+        });
+      });
     </script>
   </body>
 </html>

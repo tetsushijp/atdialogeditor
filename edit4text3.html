@@ -127,7 +127,10 @@
             </tr>
             <tr>
               <td>表示スクロール位置</td>
-              <td><input id="showScrollY" type="text" name="showScrollY" size="6" value="0" /> % - <input id="hideScrollY" type="text" name="hideScrollY" size="6" value="100" /> %</td>
+              <td>
+                <input id="showScrollY" type="text" name="showScrollY" size="6" value="0" /> % -
+                <input id="hideScrollY" type="text" name="hideScrollY" size="6" value="100" /> %
+              </td>
             </tr>
             <tr>
               <td></td>
@@ -135,7 +138,10 @@
             </tr>
             <tr>
               <td>表示開始-終了時間(ミリ秒)</td>
-              <td><input id="showStartTime" type="text" name="showStartTime" size="6" value="500" /> ms - <input id="showEndTime" type="text" name="showEndTime" size="6" value="" /> ms</td>
+              <td>
+                <input id="showStartTime" type="text" name="showStartTime" size="6" value="500" /> ms -
+                <input id="showEndTime" type="text" name="showEndTime" size="6" value="" /> ms
+              </td>
             </tr>
             <tr>
               <td colspan="2"><hr /></td>
@@ -421,7 +427,8 @@
             <svg width="32" height="32" style="position:absolute; top:-8px; right:-12px;" data-name="Livello 1" id="Livello_1" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg"><title/><circle cx="64" cy="64" r="62" stroke="none" fill="black"/><path stroke="none" fill="none" d="M64,0a64,64,0,1,0,64,64A64.07,64.07,0,0,0,64,0Zm0,122a58,58,0,1,1,58-58A58.07,58.07,0,0,1,64,122Z"/><path fill="white" d="M92.12,35.79a3,3,0,0,0-4.24,0L64,59.75l-23.87-24A3,3,0,0,0,35.88,40L59.76,64,35.88,88a3,3,0,0,0,4.25,4.24L64,68.25l23.88,24A3,3,0,0,0,92.13,88L68.24,64,92.13,40A3,3,0,0,0,92.12,35.79Z"/></svg>\
             <h3 id="bannerText" style="text-align:center;">人気のXperia8がプライスダウン!</h3>\
             ';
-        if (bannerImgOn) baseTempl += '<img id="bannerImg" width="100%;" max-height="200px" src="https://tetsushijp.github.io/atdialogeditor/img/image-yoko.png">';
+        if (bannerImgOn)
+          baseTempl += '<img id="bannerImg" width="100%;" max-height="200px" src="https://tetsushijp.github.io/atdialogeditor/img/image-yoko.png">';
         baseTempl += '<div id="btnBox" style="display:flex;justify-content:space-between;">';
         if (btn1On_check) baseTempl += '<a id="bannerBTN1" class="textBTN" href="#">新規</a>';
         if (btn2On_check) baseTempl += '<a id="bannerBTN2" class="textBTN" href="#">のりかえ</a>';
@@ -608,7 +615,7 @@
       $(document).ready(function () {
         $("#bk_color").spectrum({
           flat: false,
-          showAlpha: false,
+          showAlpha: true,
           showPalette: true,
           palette: [
             ["black", "white", "blanchedalmond"],
@@ -619,7 +626,7 @@
           cancelText: "キャンセル",
           showPaletteOnly: false,
           showSelectionPalette: true,
-          preferredFormat: "hex",
+          preferredFormat: "rgb",
           move: function (color) {
             $("#ATbanner").css("background-color", color);
           },

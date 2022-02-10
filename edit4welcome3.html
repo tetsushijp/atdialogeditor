@@ -100,7 +100,15 @@
             </tr>
             <tr class="banner_itm1_area">
               <td>画像URL1(#itemImg1)</td>
-              <td><input id="image_url1" type="text" name="img_url1" size="60" value="https://img-cf.karte.io/image/5fc4bc1055afd10011892722::icon_firstkarte02.png" /></td>
+              <td>
+                <input
+                  id="image_url1"
+                  type="text"
+                  name="img_url1"
+                  size="60"
+                  value="https://img-cf.karte.io/image/5fc4bc1055afd10011892722::icon_firstkarte02.png"
+                />
+              </td>
             </tr>
             <tr class="banner_itm1_area">
               <td>アイテム1 テキスト1行目(#bannerText11)</td>
@@ -125,7 +133,15 @@
             </tr>
             <tr class="banner_itm2_area">
               <td>画像URL2(#itemImg2)</td>
-              <td><input id="image_url2" type="text" name="img_url2" size="60" value="https://img-cf.karte.io/image/5fc4bc1e4078c300119c58e8::icon_firstkarte03.png" /></td>
+              <td>
+                <input
+                  id="image_url2"
+                  type="text"
+                  name="img_url2"
+                  size="60"
+                  value="https://img-cf.karte.io/image/5fc4bc1e4078c300119c58e8::icon_firstkarte03.png"
+                />
+              </td>
             </tr>
             <tr class="banner_itm2_area">
               <td>アイテム2 テキスト1行目(#bannerText21)</td>
@@ -150,7 +166,15 @@
             </tr>
             <tr class="banner_itm3_area">
               <td>画像URL3(#itemImg3)</td>
-              <td><input id="image_url3" type="text" name="img_url3" size="60" value="https://img-cf.karte.io/image/5fc4bc1055afd10011892722::icon_firstkarte02.png" /></td>
+              <td>
+                <input
+                  id="image_url3"
+                  type="text"
+                  name="img_url3"
+                  size="60"
+                  value="https://img-cf.karte.io/image/5fc4bc1055afd10011892722::icon_firstkarte02.png"
+                />
+              </td>
             </tr>
             <tr class="banner_itm3_area">
               <td>アイテム3 テキスト1行目(#bannerText31)</td>
@@ -544,7 +568,7 @@
       $(document).ready(function () {
         $("#bk_color").spectrum({
           flat: false,
-          showAlpha: false,
+          showAlpha: true,
           showPalette: true,
           palette: [
             ["black", "white", "blanchedalmond"],
@@ -555,7 +579,7 @@
           cancelText: "キャンセル",
           showPaletteOnly: false,
           showSelectionPalette: true,
-          preferredFormat: "hex",
+          preferredFormat: "rgb",
           move: function (color) {
             $("#ATbanner").css("background-color", color);
           },
@@ -615,7 +639,7 @@
       $(document).ready(function () {
         $("#bk_color2").spectrum({
           flat: false,
-          showAlpha: false,
+          showAlpha: true,
           showPalette: true,
           palette: [
             ["black", "white", "blanchedalmond"],
@@ -626,7 +650,7 @@
           cancelText: "キャンセル",
           showPaletteOnly: false,
           showSelectionPalette: true,
-          preferredFormat: "hex",
+          preferredFormat: "rgb",
           move: function (color) {
             $(".bannerLink").css("background-color", color);
           },
@@ -650,7 +674,7 @@
       $(document).ready(function () {
         $("#bo_color").spectrum({
           flat: false,
-          showAlpha: false,
+          showAlpha: true,
           showPalette: true,
           palette: [
             ["black", "white", "blanchedalmond"],
@@ -661,7 +685,7 @@
           cancelText: "キャンセル",
           showPaletteOnly: false,
           showSelectionPalette: true,
-          preferredFormat: "hex",
+          preferredFormat: "rgb",
           move: function (color) {
             $("#ATbanner2").css("background-color", color);
           },
