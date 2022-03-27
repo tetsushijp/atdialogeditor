@@ -264,9 +264,9 @@
         lc: "left:30px;top:50%; margin-top:-80px;",
         cc: "left:50%;margin-left:-180px;top:50%;margin-top:-80px;",
         rc: "right:30px;top:50%; margin-top:-80px;",
-        lb: "left:30px;bottom:30px;",
-        cb: "left:50%;margin-left:-180px;bottom:30px;",
-        rb: "right:30px;bottom:30px;",
+        lb: "left:30px;bottom:70px;",
+        cb: "left:50%;margin-left:-180px;bottom:70px;",
+        rb: "right:30px;bottom:70px;",
       };
       // 初期化
       function initBanner() {
@@ -286,16 +286,16 @@
           window.document.forms[0].bk_color.value +
           ";}\n\
       @media screen and (min-width:769px) {\n\
-      #ATDialogBase{z-index:110; position:fixed; " +
+      #ATDialogBase{z-index:9998; position:fixed; " +
           positionCSSString +
           " display:flex;}\n\
 #ATbanner {width: 400px;}\n\
       }\n\
       @media screen and (max-width:768px) {\n\
-      #ATDialogBase{z-index:110; position:fixed; " +
+      #ATDialogBase{z-index:9998; position:fixed; " +
           SPpositionCSSString +
           " display:flex;}\n\
-#ATbanner {width: 360px;}\n\
+#ATbanner {width: 350px;}\n\
       } \n\
       </style>\
                   ";
