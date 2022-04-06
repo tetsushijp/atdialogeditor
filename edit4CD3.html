@@ -28,7 +28,7 @@
   </head>
 
   <body>
-    <h1>Dialog Editor for カウントダウン</h1>
+    <h1>Dialog Editor for カウントダウン v.0406-1</h1>
     <input type="button" id="show" value="show" />
     <hr />
 
@@ -48,7 +48,7 @@
             </tr>
             <tr>
               <td>カウントダウンDate(#bannerCD)</td>
-              <td><input id="banner_CD_date" type="text" name="banner_CD_date" value="2022/02/24 23:00" /></td>
+              <td><input id="banner_CD_date" type="text" name="banner_CD_date" value="2022/04/24 23:00" /></td>
             </tr>
             <tr>
               <td>文字色</td>
@@ -233,10 +233,10 @@
         // outputscript = getShowDialogFunc() + ";setTimeout(scrollShowHideCheck, 500);window.addEventListener('scroll', function () {scrollShowHideCheck();});";
         // outputscript = getShowDialogFunc() + ";showDialog();setTimeout(scrollShowHideCheck, 500);window.addEventListener('scroll', function () {scrollShowHideCheck();});";
         outputscript = outputscript + "function getBannerHTML() { return '" + getBannerHTML() + "'}";
-        fontlib = 'var css=document.createElement("link");css.setAttribute("rel","stylesheet");css.setAttribute("type","text/css");';
-        fontlib = fontlib + 'css.setAttribute("href","https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css");';
-        fontlib = fontlib + 'document.getElementsByTagName("head")[0].appendChild(css);';
-        outputscript = outputscript + fontlib;
+        // fontlib = 'var css=document.createElement("link");css.setAttribute("rel","stylesheet");css.setAttribute("type","text/css");';
+        // fontlib = fontlib + 'css.setAttribute("href","https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css");';
+        // fontlib = fontlib + 'document.getElementsByTagName("head")[0].appendChild(css);';
+        // outputscript = outputscript + fontlib;
         outputscript = outputscript + getCDFunc();
         document.getElementById("bannerSource").value = "<" + "script>" + outputscript + "</" + "script>";
       });
@@ -379,7 +379,7 @@
       var bannerCDTargetDate = new Date("' +
           document.getElementById("banner_CD_date").value +
           '");\
-      var showFlg=true;\
+      var showFlg=false;\
       var initFlg = false;\
       function showCountDown() {\
         var diff2Dates = (bannerCDTargetDate - new Date());\
