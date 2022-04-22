@@ -1,0 +1,379 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <script src="https://assets.adobedtm.com/253f5bd08be2/5032e2df9891/launch-bc3421bc8941-development.min.js" async></script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.6.0/mdb.min.css" rel="stylesheet" />
+    <script type="text/javascript" src="colorpicker/js/jquery-1.9.1.js"></script>
+    <link rel="stylesheet" href="colorpicker/css/custom-spectrum.css" />
+    <script src="colorpicker/js/spectrum.js"></script>
+
+    <style>
+      body {
+        margin: 20px;
+      }
+
+      #preview {
+        border: 0px solid;
+        width: 50%;
+        height: 500px;
+      }
+
+      #setting {
+        margin: 20px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Dialog Editor for Standard Banner v.0422-2022</h1>
+    <input type="button" id="show" value="show" />
+    <hr />
+
+    <div style="display: flex">
+      <!------------------------ ------------->
+      <div id="preview"></div>
+      <div id="setting">
+        <form>
+          <table>
+            <tr>
+              <td>画像URL(#bannerImg)</td>
+              <td>
+                <input id="image_url" type="text" name="img_url" size="60" value="https://www.ymobile.jp/common_c/images/bnr/bnr_oyakowari22_b.png" />
+              </td>
+            </tr>
+            <tr>
+              <td>リンクURL(#bannerLink)</td>
+              <td>
+                <input id="link_url" type="text" name="link_url" size="60" value="https://www.ymobile.jp/sp/ymoyakowari/" />
+              </td>
+            </tr>
+            <tr>
+              <td>背景色</td>
+              <td>
+                <input type="text" id="bk_color" name="bk_color" value="#FFF" />
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2"><hr /></td>
+            </tr>
+            <tr>
+              <td>表示スクロール位置</td>
+              <td><input id="showScrollY" type="text" name="showScrollY" size="6" value="0" /> % - <input id="hideScrollY" type="text" name="hideScrollY" size="6" value="100" /> %</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>&</td>
+            </tr>
+            <tr>
+              <td>表示開始-終了時間(ミリ秒)</td>
+              <td><input id="showStartTime" type="text" name="showStartTime" size="6" value="500" /> ms - <input id="showEndTime" type="text" name="showEndTime" size="6" value="" /> ms</td>
+            </tr>
+            <tr>
+              <td colspan="2"><hr /></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <label>PCの表示位置 </label>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <style>
+                  .banner-position {
+                    display: flex;
+                    width: 360px;
+                    flex-wrap: wrap;
+                    background-color: #eee;
+                  }
+                  .position-item {
+                    width: 80px;
+                    height: 50px;
+                    background-color: #aaa;
+                    margin: 20px;
+                    border-radius: 8px;
+                  }
+                  .position-item:hover {
+                    background-color: pink;
+                  }
+                  input:checked + label {
+                    background-color: red;
+                  }
+                  .radiobtn {
+                    display: none;
+                  }
+                </style>
+                <div class="banner-position">
+                  <input class="radiobtn" type="radio" id="SPlt" name="posLRTB" value="lt" /><label for="SPlt" class="position-item"></label>
+                  <input class="radiobtn" type="radio" id="SPct" name="posLRTB" value="ct" /><label for="SPct" class="position-item"></label>
+                  <input class="radiobtn" type="radio" id="SPrt" name="posLRTB" value="rt" /><label for="SPrt" class="position-item"></label>
+                  <input class="radiobtn" type="radio" id="SPlc" name="posLRTB" value="lc" /><label for="SPlc" class="position-item"></label>
+                  <input class="radiobtn" type="radio" id="SPcc" name="posLRTB" value="cc" /><label for="SPcc" class="position-item"></label>
+                  <input class="radiobtn" type="radio" id="SPrc" name="posLRTB" value="rc" /><label for="SPrc" class="position-item"></label>
+                  <input class="radiobtn" type="radio" id="SPlb" name="posLRTB" value="lb" checked /><label for="SPlb" class="position-item"></label>
+                  <input class="radiobtn" type="radio" id="SPcb" name="posLRTB" value="cb" /><label for="SPcb" class="position-item"></label>
+                  <input class="radiobtn" type="radio" id="SPrb" name="posLRTB" value="rb" /><label for="SPrb" class="position-item"></label>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <br />
+                <label>スマホの表示位置 </label>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <div class="banner-position">
+                  <input class="radiobtn" type="radio" id="lt" name="SPposLRTB" value="lt" /><label for="lt" class="position-item"></label>
+                  <input class="radiobtn" type="radio" id="ct" name="SPposLRTB" value="ct" /><label for="ct" class="position-item"></label>
+                  <input class="radiobtn" type="radio" id="rt" name="SPposLRTB" value="rt" /><label for="rt" class="position-item"></label>
+                  <input class="radiobtn" type="radio" id="lc" name="SPposLRTB" value="lc" /><label for="lc" class="position-item"></label>
+                  <input class="radiobtn" type="radio" id="cc" name="SPposLRTB" value="cc" /><label for="cc" class="position-item"></label>
+                  <input class="radiobtn" type="radio" id="rc" name="SPposLRTB" value="rc" /><label for="rc" class="position-item"></label>
+                  <input class="radiobtn" type="radio" id="lb" name="SPposLRTB" value="lb" /><label for="lb" class="position-item"></label>
+                  <input class="radiobtn" type="radio" id="cb" name="SPposLRTB" value="cb" checked /><label for="cb" class="position-item"></label>
+                  <input class="radiobtn" type="radio" id="rb" name="SPposLRTB" value="rb" /><label for="rb" class="position-item"></label>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2"><hr /></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <label><input type="checkbox" id="detail" /> テンプレート編集 </label>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2"><textarea id="banner_template" cols="120" rows="16"></textarea></td>
+            </tr>
+            <tr>
+              <td colspan="2"><hr /></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <input type="button" value=" コード出力 " id="ok" />
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2"><textarea id="bannerSource" cols="120" rows="16"></textarea></td>
+            </tr>
+          </table>
+        </form>
+        <!--- ソース -->
+        <div></div>
+      </div>
+    </div>
+
+    <script>
+      // ################################################################################################################
+      // ########################### Editor Contorl ######################################################################
+      document.getElementById("showScrollY").addEventListener("change", function (e) {
+        eval(getShowDialogFunc());
+      });
+      document.getElementById("hideScrollY").addEventListener("change", function (e) {
+        eval(getShowDialogFunc());
+      });
+      $(".position-item").on("click", function () {
+        var PCposition = $('input:radio[name="posLRTB"]:checked').val();
+        var SPposition = $('input:radio[name="SPposLRTB"]:checked').val();
+        // left:30px; bottom:30px;
+        console.log("pc:" + PCposition + " SP:" + SPposition);
+        initBanner();
+      });
+
+      document.getElementById("image_url").addEventListener("change", function (e) {
+        // var imageURL = window.document.forms[0].image_url.value;
+        document.getElementById("bannerImg").src = window.document.forms[0].image_url.value;
+      });
+      document.getElementById("link_url").addEventListener("change", function (e) {
+        // var linkURL = window.document.forms[0].link_url.value;
+        document.getElementById("bannerLink").href = window.document.forms[0].link_url.value;
+      });
+      document.getElementById("bk_color").addEventListener("change", function (e) {});
+
+      document.getElementById("banner_template").addEventListener("change", function (e) {
+        var templateHTML = window.document.forms[0].banner_template.value;
+        document.getElementById("preview").innerHTML = templateHTML;
+        formvalue_update();
+      });
+      document.getElementById("banner_template").style.display = "none";
+      document.getElementById("detail").addEventListener("change", function (e) {
+        var detail_check = window.document.forms[0].detail.checked ? "block" : "none";
+        console.log("detail_check: " + detail_check);
+        document.getElementById("banner_template").style.display = detail_check;
+      });
+
+      // ================= =================  OK コード出力 ================= =================
+      document.getElementById("ok").addEventListener("click", function (e) {
+        initBanner();
+        var _startTime = window.document.forms[0].showStartTime.value;
+        outputscript = getShowDialogFunc() + ";setTimeout(scrollShowHideCheck, " + _startTime + ");";
+        outputscript += "var _endTime = '" + window.document.forms[0].showEndTime.value + "';";
+        outputscript += "if(_endTime){setTimeout(function(){document.body.removeChild(document.getElementById('ATDialogBase'));}, _endTime);}";
+        outputscript += "window.addEventListener('scroll', function () {scrollShowHideCheck();});";
+        outputscript += "function getBannerHTML() { return '" + getBannerHTML() + "'}";
+        document.getElementById("bannerSource").value = "<" + "script>" + outputscript + "</" + "script>";
+      });
+      // showのロジックはOKコードと同期させる必要あり todo:実装をもう少しスマートに、、
+      document.getElementById("show").addEventListener("click", function (e) {
+        initBanner();
+        eval(getShowDialogFunc());
+        setTimeout(scrollShowHideCheck, window.document.forms[0].showStartTime.value);
+        var _endTime = "" + window.document.forms[0].showEndTime.value;
+        if (_endTime) {
+          setTimeout(function () {
+            document.body.removeChild(document.getElementById("ATDialogBase"));
+          }, _endTime);
+        }
+
+        window.addEventListener("scroll", function () {
+          scrollShowHideCheck();
+        });
+      });
+      function formvalue_update() {
+        // 既存のフォームの値を反映
+        document.getElementById("bannerImg").src = window.document.forms[0].image_url.value;
+        document.getElementById("bannerLink").href = window.document.forms[0].link_url.value;
+        document.getElementById("ATbanner").style.backgroundColor = window.document.forms[0].bk_color.value;
+      }
+      // ################################################################################################################
+      // ########################### Dialog構築部分 ######################################################################
+      var positionCSS = {
+        lt: "left:30px;top:30px;",
+        ct: "left:50%;margin-left:-200px;top:30px;",
+        rt: "right:30px;top:30px;",
+        lc: "left:30px;top:50%; margin-top:-80px;",
+        cc: "left:50%;margin-left:-200px;top:50%;margin-top:-80px;",
+        rc: "right:30px;top:50%; margin-top:-80px;",
+        lb: "left:30px;bottom:30px;",
+        cb: "left:50%;margin-left:-200px;bottom:30px;",
+        rb: "right:30px;bottom:30px;",
+      };
+      var SPpositionCSS = {
+        lt: "left:30px;top:30px;",
+        ct: "left:50%;margin-left:-180px;top:30px;",
+        rt: "right:30px;top:30px;",
+        lc: "left:30px;top:50%; margin-top:-80px;",
+        cc: "left:50%;margin-left:-180px;top:50%;margin-top:-80px;",
+        rc: "right:30px;top:50%; margin-top:-80px;",
+        lb: "left:30px;bottom:70px;",
+        cb: "left:50%;margin-left:-180px;bottom:70px;",
+        rb: "right:30px;bottom:70px;",
+      };
+      // 初期化
+      function initBanner() {
+        var positionCSSString = positionCSS[$('input:radio[name="posLRTB"]:checked').val()];
+        var SPpositionCSSString = SPpositionCSS[$('input:radio[name="SPposLRTB"]:checked').val()];
+        console.log("***** " + positionCSSString + " -- SP:" + SPpositionCSSString);
+        var baseTempl =
+          '\
+      <div id="ATbanner" style="position:relative;">\
+        <svg width="32" height="32" style="position:absolute; top:-8px;z-index: 9999; right:-12px;" data-name="Livello 1" id="Livello_1" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg"><title/><circle cx="64" cy="64" r="62" stroke="none" fill="black"/><path stroke="none" fill="none" d="M64,0a64,64,0,1,0,64,64A64.07,64.07,0,0,0,64,0Zm0,122a58,58,0,1,1,58-58A58.07,58.07,0,0,1,64,122Z"/><path fill="white" d="M92.12,35.79a3,3,0,0,0-4.24,0L64,59.75l-23.87-24A3,3,0,0,0,35.88,40L59.76,64,35.88,88a3,3,0,0,0,4.25,4.24L64,68.25l23.88,24A3,3,0,0,0,92.13,88L68.24,64,92.13,40A3,3,0,0,0,92.12,35.79Z"/></svg>\
+        <a id="bannerLink" href="https://business.adobe.com/jp/products/target/adobe-target.html" target="_blank">\
+          <img id="bannerImg" width="100%;" max-height="200px" src="https://tetsushijp.github.io/atdialogeditor/img/image-yoko.png">\
+        </a>\
+      </div>\
+      <style>\
+      #ATbanner {box-shadow: 0 0 16px gray;padding:10px;border-radius:10px; background:' +
+          window.document.forms[0].bk_color.value +
+          ";}\n\
+      @media screen and (min-width:769px) {\n\
+      #ATDialogBase{z-index:9998; position:fixed; " +
+          positionCSSString +
+          " display:flex;}\n\
+#ATbanner {width: 400px;}\n\
+      }\n\
+      @media screen and (max-width:768px) {\n\
+      #ATDialogBase{z-index:9998; position:fixed; " +
+          SPpositionCSSString +
+          " display:flex;}\n\
+#ATbanner {width: 350px;}\n\
+      } \n\
+      </style>\
+                  ";
+        document.getElementById("preview").innerHTML = baseTempl;
+        document.getElementById("banner_template").innerHTML = baseTempl.replace(/\>/g, ">\n");
+        formvalue_update();
+      }
+      initBanner();
+
+      function getShowDialogFunc() {
+        return (
+          '\
+            function showDialog() {\
+              var dialogBaseElm = document.createElement("div");\
+              var dialogContentElm = document.createElement("div");\
+              dialogBaseElm.appendChild(dialogContentElm);\
+              dialogBaseElm.addEventListener("click",function() {document.body.removeChild(this);});\
+              dialogBaseElm.id ="ATDialogBase";\
+              dialogContentElm.innerHTML = getBannerHTML();\
+              document.body.appendChild(dialogBaseElm);\
+            }\
+            showScrollPercent = ' +
+          window.document.forms[0].showScrollY.value +
+          ";\
+            hideScrollPercent = " +
+          window.document.forms[0].hideScrollY.value +
+          ';\
+            showFlg = false;\
+            function scrollShowHideCheck() {\
+              scrollPercent = (window.pageYOffset==0)?0:(window.pageYOffset / (window.document.body.clientHeight - window.innerHeight)) * 100;\
+              if ((scrollPercent==Infinity)||(scrollPercent < 0)) {\
+                scrollYMax = window.document.body.scrollHeight - window.document.body.clientHeight;\
+                scrollPercent = scrollYMax > 0 ? (window.scrollY / scrollYMax) * 100 : 100;\
+                scrollPercent = scrollPercent > 100 ? 100 : scrollPercent;\
+              }\
+              if (!showFlg && scrollPercent >= showScrollPercent && scrollPercent <= hideScrollPercent) {\
+                showDialog();\
+                showFlg = true;\
+              }\
+              if (showFlg && ( Math.floor(scrollPercent) > hideScrollPercent ||  Math.floor(scrollPercent) < showScrollPercent)) {\
+                showFlg = false;\
+                document.body.removeChild(document.getElementById("ATDialogBase"));\
+              }\
+            }\
+            '
+        );
+      }
+      // eval(getShowDialogFunc());
+
+      // 実際にPreviewされているHTMLから表示用の文字列を作成 / ATとEditorどちらでも動くようにshowDialog()の中から呼ばれる
+      function getBannerHTML() {
+        var previewHTML = document.getElementById("preview").innerHTML;
+        return previewHTML.trim().replace(/\r?\n/g, ""); // 改行とescape処理
+      }
+    </script>
+    <script>
+      $(document).ready(function () {
+        $("#bk_color").spectrum({
+          flat: false,
+          showAlpha: true,
+          showPalette: true,
+          palette: [
+            ["black", "white", "blanchedalmond"],
+            ["rgb(255, 128, 0);", "hsv 100 70 50", "lightyellow"],
+          ],
+          showInitial: true,
+          chooseText: "選択",
+          cancelText: "キャンセル",
+          showPaletteOnly: false,
+          showSelectionPalette: true,
+          preferredFormat: "rgb",
+          move: function (color) {
+            $("#ATbanner").css("background-color", color);
+          },
+          change: function (color) {
+            // console.log("color:" + color.toHexString());
+            initBanner();
+            document.getElementById("preview").innerHTML = window.document.forms[0].banner_template.value;
+            formvalue_update();
+          },
+          color: "#fff",
+          showInput: true,
+        });
+      });
+    </script>
+  </body>
+</html>
