@@ -26,7 +26,7 @@
   </head>
 
   <body>
-    <h1>Dialog Editor for Standard Banner v.0422-2022</h1>
+    <h1>Dialog Editor for Count Down Banner v.0422-2022</h1>
     <input type="button" id="show" value="show" />
     <hr />
 
@@ -38,20 +38,26 @@
           <table>
             <tr>
               <td>Image URL(#bannerImg)</td>
-              <td>
-                <input id="image_url" type="text" name="img_url" size="60" value="https://www.ymobile.jp/common_c/images/bnr/bnr_oyakowari22_b.png" />
-              </td>
+              <td><input id="image_url" type="text" name="img_url" size="60" value="https://www.ymobile.jp/common_c/images/index/kv_oyakowari22.png" /></td>
             </tr>
             <tr>
               <td>Link URL(#bannerLink)</td>
+              <td><input id="link_url" type="text" name="link_url" size="60" value="https://www.ymobile.jp/sp/ymoyakowari/" /></td>
+            </tr>
+            <tr>
+              <td>Count Down Target Date(#bannerCD)</td>
+              <td><input id="banner_CD_date" type="text" name="banner_CD_date" value="2022/07/28 06:00" /></td>
+            </tr>
+            <tr>
+              <td>Text Color</td>
               <td>
-                <input id="link_url" type="text" name="link_url" size="60" value="https://www.ymobile.jp/sp/ymoyakowari/" />
+                <input type="text" id="ft_color" name="ft_color" value="#FFF" />
               </td>
             </tr>
             <tr>
               <td>Background Color</td>
               <td>
-                <input type="text" id="bk_color" name="bk_color" value="#FFF" />
+                <input type="text" id="bk_color" name="bk_color" value="#F00" />
               </td>
             </tr>
             <tr>
@@ -74,7 +80,7 @@
             </tr>
             <tr>
               <td colspan="2">
-                <label>Display Location for PC </label>
+                <label>Display Location for PC</label>
               </td>
             </tr>
             <tr>
@@ -119,7 +125,7 @@
             <tr>
               <td colspan="2">
                 <br />
-                <label>Display Location for Smart Phone </label>
+                <label>Display Location for Smart Phone</label>
               </td>
             </tr>
             <tr>
@@ -182,17 +188,19 @@
         console.log("pc:" + PCposition + " SP:" + SPposition);
         initBanner();
       });
-
+      // ===================================================================
       document.getElementById("image_url").addEventListener("change", function (e) {
-        // var imageURL = window.document.forms[0].image_url.value;
-        document.getElementById("bannerImg").src = window.document.forms[0].image_url.value;
+        var imageURL = window.document.forms[0].image_url.value;
+        document.getElementById("bannerImg").src = imageURL;
       });
       document.getElementById("link_url").addEventListener("change", function (e) {
-        // var linkURL = window.document.forms[0].link_url.value;
-        document.getElementById("bannerLink").href = window.document.forms[0].link_url.value;
+        var linkURL = window.document.forms[0].link_url.value;
+        document.getElementById("bannerLink").href = linkURL;
       });
-      document.getElementById("bk_color").addEventListener("change", function (e) {});
-
+      document.getElementById("banner_CD_date").addEventListener("change", function (e) {
+        bannerCDTargetDate = new Date(document.getElementById("banner_CD_date").value);
+      });
+      // ========================
       document.getElementById("banner_template").addEventListener("change", function (e) {
         var templateHTML = window.document.forms[0].banner_template.value;
         document.getElementById("preview").innerHTML = templateHTML;
@@ -213,13 +221,16 @@
         outputscript += "var _endTime = '" + window.document.forms[0].showEndTime.value + "';";
         outputscript += "if(_endTime){setTimeout(function(){document.body.removeChild(document.getElementById('ATDialogBase'));}, _endTime);}";
         outputscript += "window.addEventListener('scroll', function () {scrollShowHideCheck();});";
-        outputscript += "function getBannerHTML() { return '" + getBannerHTML() + "'}";
+
+        outputscript = outputscript + "function getBannerHTML() { return '" + getBannerHTML() + "'}";
+        outputscript = outputscript + getCDFunc();
         document.getElementById("bannerSource").value = "<" + "script>" + outputscript + "</" + "script>";
       });
       // showのロジックはOKコードと同期させる必要あり todo:実装をもう少しスマートに、、
       document.getElementById("show").addEventListener("click", function (e) {
         initBanner();
         eval(getShowDialogFunc());
+        // setTimeout(scrollShowHideCheck, 100);
         setTimeout(scrollShowHideCheck, window.document.forms[0].showStartTime.value);
         var _endTime = "" + window.document.forms[0].showEndTime.value;
         if (_endTime) {
@@ -231,24 +242,29 @@
         window.addEventListener("scroll", function () {
           scrollShowHideCheck();
         });
+        showCountDown();
       });
       function formvalue_update() {
         // 既存のフォームの値を反映
+        var imageURL = window.document.forms[0].image_url.value;
         document.getElementById("bannerImg").src = window.document.forms[0].image_url.value;
+        var linkURL = window.document.forms[0].link_url.value;
         document.getElementById("bannerLink").href = window.document.forms[0].link_url.value;
+        bannerCDTargetDate = new Date(document.getElementById("banner_CD_date").value);
         document.getElementById("ATbanner").style.backgroundColor = window.document.forms[0].bk_color.value;
+        document.getElementById("bannerCD").style.color = window.document.forms[0].ft_color.value;
       }
       // ################################################################################################################
       // ########################### Dialog構築部分 ######################################################################
       var positionCSS = {
         lt: "left:30px;top:30px;",
-        ct: "left:50%;margin-left:-200px;top:30px;",
+        ct: "left:50%;margin-left:-250px;top:30px;",
         rt: "right:30px;top:30px;",
-        lc: "left:30px;top:50%; margin-top:-80px;",
-        cc: "left:50%;margin-left:-200px;top:50%;margin-top:-80px;",
-        rc: "right:30px;top:50%; margin-top:-80px;",
+        lc: "left:30px;top:50%; margin-top:-144px;",
+        cc: "left:50%;margin-left:-250px;top:50%;margin-top:-144px;",
+        rc: "right:30px;top:50%; margin-top:-144px;",
         lb: "left:30px;bottom:30px;",
-        cb: "left:50%;margin-left:-200px;bottom:30px;",
+        cb: "left:50%;margin-left:-250px;bottom:30px;",
         rb: "right:30px;bottom:30px;",
       };
       var SPpositionCSS = {
@@ -258,39 +274,41 @@
         lc: "left:30px;top:50%; margin-top:-80px;",
         cc: "left:50%;margin-left:-180px;top:50%;margin-top:-80px;",
         rc: "right:30px;top:50%; margin-top:-80px;",
-        lb: "left:30px;bottom:70px;",
-        cb: "left:50%;margin-left:-180px;bottom:70px;",
-        rb: "right:30px;bottom:70px;",
+        lb: "left:30px;bottom:30px;",
+        cb: "left:50%;margin-left:-180px;bottom:30px;",
+        rb: "right:30px;bottom:30px;",
       };
+
       // 初期化
       function initBanner() {
         var positionCSSString = positionCSS[$('input:radio[name="posLRTB"]:checked').val()];
         var SPpositionCSSString = SPpositionCSS[$('input:radio[name="SPposLRTB"]:checked').val()];
         console.log("***** " + positionCSSString + " -- SP:" + SPpositionCSSString);
         var baseTempl =
-          `\
+          `
 <div id="ATbanner" style="position:relative;">
-  <svg width="32" height="32" style="position:absolute; top:-8px;z-index: 9999; right:-12px;" data-name="Livello 1" id="Livello_1" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg"><circle cx="64" cy="64" r="62" stroke="none" fill="black"/><path stroke="none" fill="none" d="M64,0a64,64,0,1,0,64,64A64.07,64.07,0,0,0,64,0Zm0,122a58,58,0,1,1,58-58A58.07,58.07,0,0,1,64,122Z"/><path fill="white" d="M92.12,35.79a3,3,0,0,0-4.24,0L64,59.75l-23.87-24A3,3,0,0,0,35.88,40L59.76,64,35.88,88a3,3,0,0,0,4.25,4.24L64,68.25l23.88,24A3,3,0,0,0,92.13,88L68.24,64,92.13,40A3,3,0,0,0,92.12,35.79Z"/></svg>
+  <svg width="32" height="32" style="position:absolute; top:-8px; right:-12px;z-index:9999;" data-name="Livello 1" id="Livello_1" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg"><circle cx="64" cy="64" r="62" stroke="none" fill="black"/><path stroke="none" fill="none" d="M64,0a64,64,0,1,0,64,64A64.07,64.07,0,0,0,64,0Zm0,122a58,58,0,1,1,58-58A58.07,58.07,0,0,1,64,122Z"/><path fill="white" d="M92.12,35.79a3,3,0,0,0-4.24,0L64,59.75l-23.87-24A3,3,0,0,0,35.88,40L59.76,64,35.88,88a3,3,0,0,0,4.25,4.24L64,68.25l23.88,24A3,3,0,0,0,92.13,88L68.24,64,92.13,40A3,3,0,0,0,92.12,35.79Z"/></svg>
   <a id="bannerLink" href="https://business.adobe.com/jp/products/target/adobe-target.html" target="_blank">
-    <img id="bannerImg" width="100%;" max-height="200px" src="https://tetsushijp.github.io/atdialogeditor/img/image-yoko.png">
+    <img id="bannerImg" width="100%;" max-height="200px" src="http://vizl.chu.jp/www/poc/image-yoko.png">
   </a>
+  <div id="bannerCD" style="color: rgb(255, 255, 255);"><div class="_atdialogHMSDiv"><div class="_atdialogHMS"><div>0</div><div class="_atdialogHMSUnit">days</div></div><div class="_atdialogHMS"><div>0</div><div class="_atdialogHMSUnit">hours</div></div><div class="_atdialogHMS"><div>0</div><div class="_atdialogHMSUnit">mins</div></div><div class="_atdialogHMS"><div>0</div><div class="_atdialogHMSUnit">secs</div></div></div><style>._atdialogHMSDiv{display:flex;justify-content: center;}._atdialogHMS{margin-bottom:-5px;margin-right:10px;}._atdialogHMSUnit{margin-top:-10px;font-size:0.1rem;} </style></div>
 </div>
 <style>
-#ATbanner {box-shadow: 0 0 16px gray;padding:10px;border-radius:10px; background:` +
+  #ATbanner {box-shadow: 0 0 16px gray;padding:10px;border-radius:10px;width: 500px; background:` +
           window.document.forms[0].bk_color.value +
           `;}
-@media screen and (min-width:769px) {
-  #ATDialogBase{z-index:9998; position:fixed; ` +
+  @media screen and (min-width:769px) {
+    #ATDialogBase{z-index:110; position:fixed; ` +
           positionCSSString +
           ` display:flex;}
-  #ATbanner {width: 400px;}
-}
-@media screen and (max-width:768px) {
-  #ATDialogBase{z-index:9998; position:fixed; ` +
+  }
+  @media screen and (max-width:768px) {
+    #ATDialogBase{z-index:110; position:fixed; ` +
           SPpositionCSSString +
           ` display:flex;}
-  #ATbanner {width: 350px;}
-}
+    #ATbanner {width: 360px;}
+  }
+    #bannerCD {text-align:center; color:white; font-size:24px;margin-top:10px;}
 </style>`;
         document.getElementById("preview").innerHTML = baseTempl;
         document.getElementById("banner_template").innerHTML = baseTempl; //.replace(/\>/g, ">\n");
@@ -326,23 +344,94 @@ function scrollShowHideCheck() {
   }
   if (!showFlg && scrollPercent >= showScrollPercent && scrollPercent <= hideScrollPercent) {
     showDialog();
+    initFlg=true;
     showFlg = true;
   }
   if (showFlg && ( Math.floor(scrollPercent) > hideScrollPercent ||  Math.floor(scrollPercent) < showScrollPercent)) {
     showFlg = false;
     document.body.removeChild(document.getElementById("ATDialogBase"));
   }
-}
-`
+}`
         ).replace(/\r?\n/g, "");
       }
       // eval(getShowDialogFunc());
+
+      // カウントダウン実行用のJS構築 Editor DialogからもAdobe Targetからも同一コードが動作するように文字列から作成できるように。
+      function getCDFunc() {
+        return (
+          `
+var bannerCDTargetDate = new Date("` +
+          document.getElementById("banner_CD_date").value +
+          `");
+var showFlg=false;
+var initFlg = false;
+function showCountDown() {
+  var diff2Dates = (bannerCDTargetDate - new Date());
+  var dDays = diff2Dates / (1000 * 60 * 60 * 24);
+  diff2Dates = diff2Dates % (1000 * 60 * 60 * 24);
+  var dHour = diff2Dates / (1000 * 60 * 60);
+  diff2Dates = diff2Dates % (1000 * 60 * 60);
+  var dMin = diff2Dates / (1000 * 60);
+  diff2Dates = diff2Dates % (1000 * 60);
+  var dSec = diff2Dates / 1000;
+  var NokoriDays,NokoriHours;
+  if((false)&&(dDays*24>48)) CDmsg="" + Math.floor(dDays)+"Days "+Math.floor(dHour)+"Hours "+Math.floor(dMin) + "Minutes " + Math.floor(dSec) + "Seconds";
+  if(dDays*24>48) {
+    NokoriDays='<div class="_atdialogHMS"><div>'+Math.floor(dDays)+'</div><div class="_atdialogHMSUnit">days</div></div>';
+    NokoriHours='<div class="_atdialogHMS"><div>'+Math.floor(dHour)+'</div><div class="_atdialogHMSUnit">hours</div></div>';
+  }else{
+    NokoriDays='';
+    NokoriHours='<div class="_atdialogHMS"><div>'+(Math.floor(dDays)*24+Math.floor(dHour))+'</div><div class="_atdialogHMSUnit">hours</div></div>';
+  }
+  var NokoriMinutes='<div class="_atdialogHMS"><div>'+Math.floor(dMin)+'</div><div class="_atdialogHMSUnit">mins</div></div>';
+  var NokoriSeconds='<div class="_atdialogHMS"><div>'+Math.floor(dSec)+'</div><div class="_atdialogHMSUnit">secs</div></div>';
+  var CDmsg = '<div class="_atdialogHMSDiv">'+NokoriDays+NokoriHours+NokoriMinutes+NokoriSeconds+'</div>';
+  CDmsg +='<style>._atdialogHMSDiv{display:flex;justify-content: center;}._atdialogHMS{margin-bottom:-5px;margin-right:10px;}._atdialogHMSUnit{margin-top:-10px;font-size:0.1rem;} </style>';
+  if(diff2Dates<=0) CDmsg="End";
+  if(showFlg&&initFlg) document.getElementById("bannerCD").innerHTML = CDmsg;
+  if(false)console.log("" + diff2Dates);
+  if (diff2Dates > 0) setTimeout(showCountDown, 1000);
+}
+setTimeout(showCountDown, 1000);`
+        ).replace(/\r?\n/g, ""); // remove new lines
+      }
+      eval(getCDFunc());
 
       // 実際にPreviewされているHTMLから表示用の文字列を作成 / ATとEditorどちらでも動くようにshowDialog()の中から呼ばれる
       function getBannerHTML() {
         var previewHTML = document.getElementById("preview").innerHTML;
         return previewHTML.trim().replace(/\r?\n/g, ""); // 改行とescape処理
       }
+    </script>
+    <script>
+      $(document).ready(function () {
+        $("#ft_color").spectrum({
+          flat: false,
+          showAlpha: false,
+          showPalette: true,
+          palette: [
+            ["black", "white", "blanchedalmond"],
+            ["rgb(255, 128, 0);", "hsv 100 70 50", "lightyellow"],
+          ],
+          showInitial: true,
+          chooseText: "Select",
+          cancelText: "Cancel",
+          showPaletteOnly: false,
+          showSelectionPalette: true,
+          preferredFormat: "hex",
+          move: function (color) {
+            $("#bannerCD").css("color", color);
+          },
+          change: function (color) {
+            // console.log("color:" + color.toHexString());
+            initBanner();
+            document.getElementById("preview").innerHTML = window.document.forms[0].banner_template.value;
+            formvalue_update();
+          },
+          color: "#fff",
+          showInput: true,
+        });
+      });
     </script>
     <script>
       $(document).ready(function () {
@@ -369,7 +458,7 @@ function scrollShowHideCheck() {
             document.getElementById("preview").innerHTML = window.document.forms[0].banner_template.value;
             formvalue_update();
           },
-          color: "#fff",
+          color: "#f00",
           showInput: true,
         });
       });
