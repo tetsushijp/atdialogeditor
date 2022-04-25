@@ -39,19 +39,19 @@
             <tr>
               <td>Image URL(#bannerImg)</td>
               <td>
-                <input id="image_url" type="text" name="img_url" size="60" value="https://www.ymobile.jp/common_c/images/bnr/bnr_oyakowari22_b.png" />
+                <input id="image_url" type="text" name="img_url" size="60" value="../img/AdobeStock_487161198xsmall.jpeg" />
               </td>
             </tr>
             <tr>
               <td>Link URL(#bannerLink)</td>
               <td>
-                <input id="link_url" type="text" name="link_url" size="60" value="https://www.ymobile.jp/sp/ymoyakowari/" />
+                <input id="link_url" type="text" name="link_url" size="60" value="https://www.adobe.com/" />
               </td>
             </tr>
             <tr>
               <td>Background Color</td>
               <td>
-                <input type="text" id="bk_color" name="bk_color" value="#FFF" />
+                <input type="text" id="bk_color" name="bk_color" value="#D6563A" />
               </td>
             </tr>
             <tr>
@@ -352,7 +352,7 @@ function scrollShowHideCheck() {
           showPalette: true,
           palette: [
             ["black", "white", "blanchedalmond"],
-            ["rgb(255, 128, 0);", "hsv 100 70 50", "lightyellow"],
+            ["rgb(255, 128, 0);", "hsv 100 70 50", "D6563A"],
           ],
           showInitial: true,
           chooseText: "Select",
@@ -369,7 +369,7 @@ function scrollShowHideCheck() {
             document.getElementById("preview").innerHTML = window.document.forms[0].banner_template.value;
             formvalue_update();
           },
-          color: "#fff",
+          color: "#D6563A",
           showInput: true,
         });
       });

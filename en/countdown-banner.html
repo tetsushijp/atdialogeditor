@@ -38,11 +38,11 @@
           <table>
             <tr>
               <td>Image URL(#bannerImg)</td>
-              <td><input id="image_url" type="text" name="img_url" size="60" value="https://www.ymobile.jp/common_c/images/index/kv_oyakowari22.png" /></td>
+              <td><input id="image_url" type="text" name="img_url" size="60" value="../img/AdobeStock_487161198xsmall.jpeg" /></td>
             </tr>
             <tr>
               <td>Link URL(#bannerLink)</td>
-              <td><input id="link_url" type="text" name="link_url" size="60" value="https://www.ymobile.jp/sp/ymoyakowari/" /></td>
+              <td><input id="link_url" type="text" name="link_url" size="60" value="https://www.adobe.com/" /></td>
             </tr>
             <tr>
               <td>Count Down Target Date(#bannerCD)</td>
@@ -57,7 +57,7 @@
             <tr>
               <td>Background Color</td>
               <td>
-                <input type="text" id="bk_color" name="bk_color" value="#F00" />
+                <input type="text" id="bk_color" name="bk_color" value="#D6563A" />
               </td>
             </tr>
             <tr>
@@ -374,18 +374,18 @@ function showCountDown() {
   var dMin = diff2Dates / (1000 * 60);
   diff2Dates = diff2Dates % (1000 * 60);
   var dSec = diff2Dates / 1000;
-  var NokoriDays,NokoriHours;
+  var RemainingDays,RemainingHours;
   if((false)&&(dDays*24>48)) CDmsg="" + Math.floor(dDays)+"Days "+Math.floor(dHour)+"Hours "+Math.floor(dMin) + "Minutes " + Math.floor(dSec) + "Seconds";
   if(dDays*24>48) {
-    NokoriDays='<div class="_atdialogHMS"><div>'+Math.floor(dDays)+'</div><div class="_atdialogHMSUnit">days</div></div>';
-    NokoriHours='<div class="_atdialogHMS"><div>'+Math.floor(dHour)+'</div><div class="_atdialogHMSUnit">hours</div></div>';
+    RemainingDays='<div class="_atdialogHMS"><div>'+Math.floor(dDays)+'</div><div class="_atdialogHMSUnit">days</div></div>';
+    RemainingHours='<div class="_atdialogHMS"><div>'+Math.floor(dHour)+'</div><div class="_atdialogHMSUnit">hours</div></div>';
   }else{
-    NokoriDays='';
-    NokoriHours='<div class="_atdialogHMS"><div>'+(Math.floor(dDays)*24+Math.floor(dHour))+'</div><div class="_atdialogHMSUnit">hours</div></div>';
+    RemainingDays='';
+    RemainingHours='<div class="_atdialogHMS"><div>'+(Math.floor(dDays)*24+Math.floor(dHour))+'</div><div class="_atdialogHMSUnit">hours</div></div>';
   }
-  var NokoriMinutes='<div class="_atdialogHMS"><div>'+Math.floor(dMin)+'</div><div class="_atdialogHMSUnit">mins</div></div>';
-  var NokoriSeconds='<div class="_atdialogHMS"><div>'+Math.floor(dSec)+'</div><div class="_atdialogHMSUnit">secs</div></div>';
-  var CDmsg = '<div class="_atdialogHMSDiv">'+NokoriDays+NokoriHours+NokoriMinutes+NokoriSeconds+'</div>';
+  var RemainingMinutes='<div class="_atdialogHMS"><div>'+Math.floor(dMin)+'</div><div class="_atdialogHMSUnit">mins</div></div>';
+  var RemainingSeconds='<div class="_atdialogHMS"><div>'+Math.floor(dSec)+'</div><div class="_atdialogHMSUnit">secs</div></div>';
+  var CDmsg = '<div class="_atdialogHMSDiv">'+RemainingDays+RemainingHours+RemainingMinutes+RemainingSeconds+'</div>';
   CDmsg +='<style>._atdialogHMSDiv{display:flex;justify-content: center;}._atdialogHMS{margin-bottom:-5px;margin-right:10px;}._atdialogHMSUnit{margin-top:-10px;font-size:0.1rem;} </style>';
   if(diff2Dates<=0) CDmsg="End";
   if(showFlg&&initFlg) document.getElementById("bannerCD").innerHTML = CDmsg;
@@ -441,7 +441,7 @@ setTimeout(showCountDown, 1000);`
           showPalette: true,
           palette: [
             ["black", "white", "blanchedalmond"],
-            ["rgb(255, 128, 0);", "hsv 100 70 50", "lightyellow"],
+            ["rgb(255, 128, 0);", "hsv 100 70 50", "#D6563A"],
           ],
           showInitial: true,
           chooseText: "Select",
@@ -458,7 +458,7 @@ setTimeout(showCountDown, 1000);`
             document.getElementById("preview").innerHTML = window.document.forms[0].banner_template.value;
             formvalue_update();
           },
-          color: "#f00",
+          color: "#D6563A",
           showInput: true,
         });
       });
