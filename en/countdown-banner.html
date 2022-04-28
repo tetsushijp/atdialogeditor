@@ -305,7 +305,7 @@
   <a id="bannerLink" href="https://business.adobe.com/jp/products/target/adobe-target.html" target="_blank">
     <img id="bannerImg" width="100%;" max-height="200px" src="http://vizl.chu.jp/www/poc/image-yoko.png">
   </a>
-  <div id="bannerCD" style="color: rgb(255, 255, 255);"><div class="_atdialogHMSDiv"><div class="_atdialogHMS"><div>0</div><div class="_atdialogHMSUnit">days</div></div><div class="_atdialogHMS"><div>0</div><div class="_atdialogHMSUnit">hours</div></div><div class="_atdialogHMS"><div>0</div><div class="_atdialogHMSUnit">mins</div></div><div class="_atdialogHMS"><div>0</div><div class="_atdialogHMSUnit">secs</div></div></div><style>._atdialogHMSDiv{display:flex;justify-content: center;}._atdialogHMS{margin-bottom:-5px;margin-right:10px;}._atdialogHMSUnit{margin-top:-10px;font-size:0.1rem;} </style></div>
+  <div id="bannerCD" style="color: rgb(255, 255, 255);"><div class="_atdialogHMSDiv"><div class="_atdialogHMS"><div>0</div><div class="_atdialogHMSUnit">days</div></div><div class="_atdialogHMS"><div>0</div><div class="_atdialogHMSUnit">hours</div></div><div class="_atdialogHMS"><div>0</div><div class="_atdialogHMSUnit">mins</div></div><div class="_atdialogHMS"><div>0</div><div class="_atdialogHMSUnit">secs</div></div></div><style>._atdialogHMSDiv{display:flex;justify-content: center;}._atdialogHMS{margin-bottom:-5px;margin-right:10px;}._atdialogHMSUnit{margin-top:-10px;font-size:10px;} </style></div>
 </div>
 <style>
   #ATbanner {box-shadow: 0 0 16px gray;padding:10px;border-radius:10px;width: 500px; background:` +
@@ -400,7 +400,7 @@ function showCountDown() {
   var RemainingMinutes='<div class="_atdialogHMS"><div>'+Math.floor(dMin)+'</div><div class="_atdialogHMSUnit">mins</div></div>';
   var RemainingSeconds='<div class="_atdialogHMS"><div>'+Math.floor(dSec)+'</div><div class="_atdialogHMSUnit">secs</div></div>';
   var CDmsg = '<div class="_atdialogHMSDiv">'+RemainingDays+RemainingHours+RemainingMinutes+RemainingSeconds+'</div>';
-  CDmsg +='<style>._atdialogHMSDiv{display:flex;justify-content: center;}._atdialogHMS{margin-bottom:-5px;margin-right:10px;}._atdialogHMSUnit{margin-top:-10px;font-size:0.1rem;} </style>';
+  CDmsg +='<style>._atdialogHMSDiv{display:flex;justify-content: center;}._atdialogHMS{margin-bottom:-5px;margin-right:10px;}._atdialogHMSUnit{margin-top:-10px;font-size:10px;} </style>';
   if(diff2Dates<=0) CDmsg="End";
   if(showFlg&&initFlg) document.getElementById("bannerCD").innerHTML = CDmsg;
   if(false)console.log("" + diff2Dates);
