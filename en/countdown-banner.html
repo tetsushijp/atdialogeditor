@@ -26,7 +26,7 @@
   </head>
 
   <body>
-    <h1>Modal Dialog Editor for Count Down Banner v.0428-2022</h1>
+    <h1>Modal Dialog Editor for Count Down Banner v.0509-2022</h1>
     <input type="button" id="show" value="show" />
     <hr />
 
@@ -54,7 +54,7 @@
             </tr>
             <tr>
               <td>Count Down Target Date(#bannerCD)</td>
-              <td><input id="banner_CD_date" type="text" name="banner_CD_date" value="2022/05/05 06:00" /></td>
+              <td><input id="banner_CD_date" type="text" name="banner_CD_date" value="2022/05/12 06:00" /></td>
             </tr>
             <tr>
               <td>Text Color</td>
@@ -333,11 +333,12 @@
       function getShowDialogFunc() {
         return (
           `
+permanentClose=false;
 function showDialog() {
   var dialogBaseElm = document.createElement("div");
   var dialogContentElm = document.createElement("div");
   dialogBaseElm.appendChild(dialogContentElm);
-  dialogBaseElm.addEventListener("click",function() {document.body.removeChild(this);});
+  dialogBaseElm.addEventListener("click",function() {document.body.removeChild(this);permanentClose=true;});
   dialogBaseElm.id ="ATDialogBase";
   dialogContentElm.innerHTML = getBannerHTML();
   document.body.appendChild(dialogBaseElm);
@@ -356,7 +357,7 @@ function scrollShowHideCheck() {
     scrollPercent = scrollYMax > 0 ? (window.scrollY / scrollYMax) * 100 : 100;
     scrollPercent = scrollPercent > 100 ? 100 : scrollPercent;
   }
-  if (!showFlg && scrollPercent >= showScrollPercent && scrollPercent <= hideScrollPercent) {
+  if (!permanentClose &&!showFlg && scrollPercent >= showScrollPercent && scrollPercent <= hideScrollPercent) {
     showDialog();
     initFlg=true;
     showFlg = true;
