@@ -26,7 +26,7 @@
   </head>
 
   <body>
-    <h1>Modal Dialog Editor for Count Down Banner v.0509-2022</h1>
+    <h1>Modal Dialog Editor for Count Down Banner v.0616-2022</h1>
     <input type="button" id="show" value="show" />
     <hr />
 
@@ -37,24 +37,18 @@
         <form>
           <table>
             <tr>
-              <td>Image URL(#bannerImg)</td>
+              <td>Image URL</td>
               <td>
-                <input
-                  id="image_url"
-                  type="text"
-                  name="img_url"
-                  size="60"
-                  value="https://tetsushijp.github.io/atdialogeditor/img/AdobeStock_487161198xsmall.jpeg"
-                />
+                <input id="image_url" type="text" name="img_url" size="60" value="https://tetsushijp.github.io/atdialogeditor/img/AdobeStock_487161198xsmall.jpeg" />
               </td>
             </tr>
             <tr>
-              <td>Link URL(#bannerLink)</td>
+              <td>Link URL</td>
               <td><input id="link_url" type="text" name="link_url" size="60" value="https://www.adobe.com/" /></td>
             </tr>
             <tr>
-              <td>Count Down Target Date(#bannerCD)</td>
-              <td><input id="banner_CD_date" type="text" name="banner_CD_date" value="2022/05/12 06:00" /></td>
+              <td>Count Down Target Date</td>
+              <td><input id="banner_CD_date" type="text" name="banner_CD_date" value="2022/06/23 12:00" /></td>
             </tr>
             <tr>
               <td>Text Color</td>
@@ -73,10 +67,7 @@
             </tr>
             <tr>
               <td>Scroll range to display</td>
-              <td>
-                <input id="showScrollY" type="text" name="showScrollY" size="6" value="0" /> % -
-                <input id="hideScrollY" type="text" name="hideScrollY" size="6" value="100" /> %
-              </td>
+              <td><input id="showScrollY" type="text" name="showScrollY" size="6" value="0" /> % - <input id="hideScrollY" type="text" name="hideScrollY" size="6" value="100" /> %</td>
             </tr>
             <tr>
               <td></td>
@@ -84,10 +75,7 @@
             </tr>
             <tr>
               <td>Display start - end time (milliseconds)</td>
-              <td>
-                <input id="showStartTime" type="text" name="showStartTime" size="6" value="500" /> ms -
-                <input id="showEndTime" type="text" name="showEndTime" size="6" value="" /> ms
-              </td>
+              <td><input id="showStartTime" type="text" name="showStartTime" size="6" value="500" /> ms - <input id="showEndTime" type="text" name="showEndTime" size="6" value="" /> ms</td>
             </tr>
             <tr>
               <td colspan="2"><hr /></td>
@@ -157,14 +145,14 @@
                 </div>
               </td>
             </tr>
-            <tr>
+            <!--/* <tr>
               <td colspan="2"><hr /></td>
-            </tr>
-            <tr>
+            </tr> */-->
+            <!--/* <tr>
               <td colspan="2">
                 <label><input type="checkbox" id="detail" /> Template Editor </label>
               </td>
-            </tr>
+            </tr> */-->
             <tr>
               <td colspan="2"><textarea id="banner_template" cols="120" rows="16"></textarea></td>
             </tr>
@@ -221,11 +209,11 @@
         formvalue_update();
       });
       document.getElementById("banner_template").style.display = "none";
-      document.getElementById("detail").addEventListener("change", function (e) {
-        var detail_check = window.document.forms[0].detail.checked ? "block" : "none";
-        console.log("detail_check: " + detail_check);
-        document.getElementById("banner_template").style.display = detail_check;
-      });
+      //document.getElementById("detail").addEventListener("change", function (e) {
+      //  var detail_check = window.document.forms[0].detail.checked ? "block" : "none";
+      //  console.log("detail_check: " + detail_check);
+      //  document.getElementById("banner_template").style.display = detail_check;
+      //});
 
       // ================= =================  OK コード出力 ================= =================
       document.getElementById("ok").addEventListener("click", function (e) {
@@ -401,7 +389,7 @@ function showCountDown() {
   var RemainingMinutes='<div class="_atdialogHMS"><div>'+Math.floor(dMin)+'</div><div class="_atdialogHMSUnit">mins</div></div>';
   var RemainingSeconds='<div class="_atdialogHMS"><div>'+Math.floor(dSec)+'</div><div class="_atdialogHMSUnit">secs</div></div>';
   var CDmsg = '<div class="_atdialogHMSDiv">'+RemainingDays+RemainingHours+RemainingMinutes+RemainingSeconds+'</div>';
-  CDmsg +='<style>._atdialogHMSDiv{display:flex;justify-content: center;}._atdialogHMS{margin-bottom:-5px;margin-right:10px;}._atdialogHMSUnit{margin-top:-10px;font-size:10px;} </style>';
+  CDmsg +='<style>._atdialogHMSDiv{display:flex;justify-content: center;}._atdialogHMS{margin-bottom:-5px;margin-right:10px;}._atdialogHMSUnit{margin-top:1px;font-size:10px;} </style>';
   if(diff2Dates<=0) CDmsg="End";
   if(showFlg&&initFlg) document.getElementById("bannerCD").innerHTML = CDmsg;
   if(false)console.log("" + diff2Dates);

@@ -26,7 +26,7 @@
   </head>
 
   <body>
-    <h1>Modal Dialog Editor for Standard Banner v.0509-2022</h1>
+    <h1>Modal Dialog Editor for Standard Banner v.0616-2022</h1>
     <input type="button" id="show" value="show" />
     <hr />
 
@@ -39,13 +39,7 @@
             <tr>
               <td>Image URL(#bannerImg)</td>
               <td>
-                <input
-                  id="image_url"
-                  type="text"
-                  name="img_url"
-                  size="60"
-                  value="https://tetsushijp.github.io/atdialogeditor/img/AdobeStock_487161198xsmall.jpeg"
-                />
+                <input id="image_url" type="text" name="img_url" size="60" value="https://tetsushijp.github.io/atdialogeditor/img/AdobeStock_487161198xsmall.jpeg" />
               </td>
             </tr>
             <tr>
@@ -65,10 +59,7 @@
             </tr>
             <tr>
               <td>Scroll range to display</td>
-              <td>
-                <input id="showScrollY" type="text" name="showScrollY" size="6" value="0" /> % -
-                <input id="hideScrollY" type="text" name="hideScrollY" size="6" value="100" /> %
-              </td>
+              <td><input id="showScrollY" type="text" name="showScrollY" size="6" value="0" /> % - <input id="hideScrollY" type="text" name="hideScrollY" size="6" value="100" /> %</td>
             </tr>
             <tr>
               <td></td>
@@ -76,10 +67,7 @@
             </tr>
             <tr>
               <td>Display start - end time (milliseconds)</td>
-              <td>
-                <input id="showStartTime" type="text" name="showStartTime" size="6" value="500" /> ms -
-                <input id="showEndTime" type="text" name="showEndTime" size="6" value="" /> ms
-              </td>
+              <td><input id="showStartTime" type="text" name="showStartTime" size="6" value="500" /> ms - <input id="showEndTime" type="text" name="showEndTime" size="6" value="" /> ms</td>
             </tr>
             <tr>
               <td colspan="2"><hr /></td>
@@ -149,14 +137,14 @@
                 </div>
               </td>
             </tr>
-            <tr>
+            <!--/* <tr>
               <td colspan="2"><hr /></td>
-            </tr>
-            <tr>
+            </tr> */-->
+            <!--/* <tr>
               <td colspan="2">
                 <label><input type="checkbox" id="detail" /> Template Editor </label>
               </td>
-            </tr>
+            </tr> */-->
             <tr>
               <td colspan="2"><textarea id="banner_template" cols="120" rows="16"></textarea></td>
             </tr>
@@ -211,11 +199,11 @@
         formvalue_update();
       });
       document.getElementById("banner_template").style.display = "none";
-      document.getElementById("detail").addEventListener("change", function (e) {
-        var detail_check = window.document.forms[0].detail.checked ? "block" : "none";
-        console.log("detail_check: " + detail_check);
-        document.getElementById("banner_template").style.display = detail_check;
-      });
+      //document.getElementById("detail").addEventListener("change", function (e) {
+      //  var detail_check = window.document.forms[0].detail.checked ? "block" : "none";
+      //  console.log("detail_check: " + detail_check);
+      //  document.getElementById("banner_template").style.display = detail_check;
+      //});
 
       // ================= =================  OK コード出力 ================= =================
       document.getElementById("ok").addEventListener("click", function (e) {
